@@ -7,7 +7,6 @@
     <title>성경 및 깊은 주석 뷰어</title>
     <style>
         :root {
-            /* 전보다 약간 더 진하고 고급스러운 크림 베이지 톤 */
             --bg-color: #EDE8DD;
             --panel-bg: #F9F6F0;
             --text-main: #2C2A29;
@@ -22,80 +21,158 @@
             box-sizing: border-box;
             margin: 0;
             padding: 0;
-            font-family: 'Pretendard', -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif;
+            font-family: 'Pretendard', -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
         }
 
         body {
             background-color: var(--bg-color);
             color: var(--text-main);
-            display: flex;
             height: 100vh;
+            display: flex;
+            flex-direction: column;
             overflow: hidden;
         }
 
-        /* 사이드바 (성경 목록) */
+        /* 공통 헤더 */
+        header {
+            background-color: var(--panel-bg);
+            border-bottom: 1px solid var(--border-color);
+            padding: 15px 25px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            box-shadow: 0 2px 4px var(--shadow);
+            z-index: 100;
+        }
+
+        .logo {
+            font-size: 1.1rem;
+            font-weight: 700;
+            color: var(--accent);
+            cursor: pointer;
+            text-decoration: none;
+        }
+
+        /* 1. 메인 홈 화면 스타일 */
+        #homeScreen {
+            flex: 1;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            padding: 20px;
+            text-align: center;
+            overflow-y: auto;
+        }
+
+        .home-card {
+            background: var(--panel-bg);
+            border: 1px solid var(--border-color);
+            padding: 40px 30px;
+            border-radius: 12px;
+            max-width: 500px;
+            width: 100%;
+            box-shadow: 0 4px 12px var(--shadow);
+        }
+
+        .home-card h1 {
+            font-size: 1.8rem;
+            margin-bottom: 12px;
+            color: var(--text-main);
+        }
+
+        .home-card p {
+            color: var(--text-muted);
+            margin-bottom: 30px;
+            font-size: 1rem;
+            line-height: 1.5;
+        }
+
+        .start-btn {
+            background-color: var(--accent);
+            color: white;
+            border: none;
+            padding: 14px 28px;
+            font-size: 1.1rem;
+            font-weight: 600;
+            border-radius: 8px;
+            cursor: pointer;
+            transition: background 0.2s;
+            width: 100%;
+        }
+
+        .start-btn:hover {
+            background-color: var(--accent-hover);
+        }
+
+        /* 2. 성경 뷰어 화면 스타일 (기본 숨김) */
+        #viewerScreen {
+            flex: 1;
+            display: none;
+            flex-direction: row;
+            overflow: hidden;
+        }
+
+        /* 사이드바 */
         aside {
-            width: 320px;
+            width: 280px;
             background-color: var(--panel-bg);
             border-right: 1px solid var(--border-color);
             display: flex;
             flex-direction: column;
-            box-shadow: 2px 0 8px var(--shadow);
             z-index: 10;
         }
 
         .sidebar-header {
-            padding: 20px;
+            padding: 15px;
             border-bottom: 1px solid var(--border-color);
             background-color: #F4EFE6;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
         }
 
-        .sidebar-header h1 {
-            font-size: 1.2rem;
-            color: var(--text-main);
-            font-weight: 700;
+        .sidebar-header h2 {
+            font-size: 1rem;
         }
 
         .testament-tabs {
             display: flex;
             background-color: #EBE5DB;
-            padding: 6px;
-            gap: 6px;
+            padding: 4px;
+            gap: 4px;
             border-bottom: 1px solid var(--border-color);
         }
 
         .tab-btn {
             flex: 1;
-            padding: 8px;
+            padding: 6px;
             border: none;
             background: transparent;
-            font-size: 0.9rem;
+            font-size: 0.85rem;
             font-weight: 600;
             color: var(--text-muted);
             cursor: pointer;
             border-radius: 4px;
-            transition: all 0.2s;
         }
 
         .tab-btn.active {
             background-color: var(--panel-bg);
             color: var(--accent);
-            box-shadow: 0 1px 3px var(--shadow);
         }
 
         .book-list {
             flex: 1;
             overflow-y: auto;
-            padding: 10px;
+            padding: 8px;
         }
 
         .book-item {
-            padding: 10px 14px;
-            margin-bottom: 4px;
+            padding: 10px 12px;
+            margin-bottom: 3px;
             border-radius: 6px;
             cursor: pointer;
-            font-size: 0.95rem;
-            transition: background 0.15s;
+            font-size: 0.9rem;
         }
 
         .book-item:hover {
@@ -108,7 +185,7 @@
             font-weight: 600;
         }
 
-        /* 메인 콘텐츠 영역 */
+        /* 메인 읽기 영역 */
         main {
             flex: 1;
             display: flex;
@@ -118,39 +195,40 @@
         }
 
         .main-header {
-            padding: 20px 30px;
+            padding: 15px 20px;
             background-color: var(--panel-bg);
             border-bottom: 1px solid var(--border-color);
+            display: flex;
+            flex-direction: column;
+            gap: 10px;
+        }
+
+        .main-header-top {
             display: flex;
             justify-content: space-between;
             align-items: center;
         }
 
-        .main-header h2 {
-            font-size: 1.4rem;
-            color: var(--text-main);
+        .main-header h3 {
+            font-size: 1.2rem;
         }
 
         .chapter-selector {
             display: flex;
-            gap: 8px;
+            gap: 6px;
             overflow-x: auto;
-            max-width: 60%;
             padding-bottom: 4px;
+            max-width: 100%;
         }
 
         .chapter-btn {
-            padding: 6px 12px;
+            padding: 5px 10px;
             border: 1px solid var(--border-color);
             background: var(--panel-bg);
             border-radius: 4px;
             cursor: pointer;
-            font-size: 0.9rem;
-            transition: all 0.2s;
-        }
-
-        .chapter-btn:hover {
-            background-color: #EFE9DC;
+            font-size: 0.85rem;
+            white-space: nowrap;
         }
 
         .chapter-btn.active {
@@ -162,33 +240,33 @@
         .content-body {
             flex: 1;
             display: flex;
-            gap: 20px;
-            padding: 30px;
+            gap: 15px;
+            padding: 20px;
             overflow-y: auto;
         }
 
-        .verse-panel {
-            flex: 1.2;
+        .panel {
+            flex: 1;
             background: var(--panel-bg);
             border: 1px solid var(--border-color);
             border-radius: 8px;
-            padding: 24px;
+            padding: 20px;
             overflow-y: auto;
             box-shadow: 0 2px 6px var(--shadow);
         }
 
-        .verse-panel h3 {
-            margin-bottom: 16px;
-            font-size: 1.1rem;
+        .panel h4 {
+            margin-bottom: 12px;
+            font-size: 1rem;
             color: var(--accent);
             border-bottom: 2px solid var(--border-color);
-            padding-bottom: 8px;
+            padding-bottom: 6px;
         }
 
         .verse-item {
-            margin-bottom: 12px;
+            margin-bottom: 10px;
             line-height: 1.6;
-            font-size: 1rem;
+            font-size: 0.95rem;
         }
 
         .verse-num {
@@ -197,103 +275,119 @@
             margin-right: 6px;
         }
 
-        .commentary-panel {
-            flex: 1;
-            background: var(--panel-bg);
-            border: 1px solid var(--border-color);
-            border-radius: 8px;
-            padding: 24px;
-            overflow-y: auto;
-            box-shadow: 0 2px 6px var(--shadow);
-        }
-
-        .commentary-panel h3 {
-            margin-bottom: 16px;
-            font-size: 1.1rem;
-            color: var(--text-main);
-            border-bottom: 2px solid var(--border-color);
-            padding-bottom: 8px;
-        }
-
         .commentary-content {
-            line-height: 1.7;
-            font-size: 0.95rem;
+            line-height: 1.6;
+            font-size: 0.9rem;
             color: var(--text-muted);
+        }
+
+        /* 📱 모바일 화면 대응 (반응형 미디어 쿼리) */
+        @media (max-width: 768px) {
+            #viewerScreen {
+                flex-direction: column;
+                /* 모바일에서는 위아래로 배치 */
+            }
+
+            aside {
+                width: 100%;
+                height: 160px;
+                /* 모바일에서는 사이드바 높이 고정 후 스크롤 */
+            }
+
+            .content-body {
+                flex-direction: column;
+                padding: 10px;
+                gap: 10px;
+            }
+
+            .panel {
+                max-height: 300px;
+                /* 모바일에서 각 패널 높이 제한 */
+            }
         }
     </style>
 </head>
 
 <body>
 
-    <aside>
-        <div class="sidebar-header">
-            <h1>성경 및 깊은 주석</h1>
-        </div>
-        <div class="testament-tabs">
-            <button class="tab-btn active" onclick="switchTestament('ot')">구약 (39권)</button>
-            <button class="tab-btn" onclick="switchTestament('nt')">신약 (27권)</button>
-        </div>
-        <div class="book-list" id="bookList">
-            <!-- 성경 목록이 자바스크립트로 동적 생성됩니다 -->
-        </div>
-    </aside>
+    <!-- 공통 상단 네비게이션 -->
+    <header>
+        <a class="logo" onclick="goHome()">📖 성경 및 깊은 주석 서재</a>
+        <span id="homeIndicator" style="font-size: 0.85rem; color: var(--text-muted);">홈 화면</span>
+    </header>
 
-    <main>
-        <div class="main-header">
-            <h2 id="currentTitle">창세기 1장</h2>
-            <div class="chapter-selector" id="chapterSelector">
-                <!-- 장 번호 버튼들이 생성됩니다 -->
-            </div>
+    <!-- 1. 메인 홈 화면 -->
+    <div id="homeScreen">
+        <div class="home-card">
+            <h1>성경 및 깊은 주석</h1>
+            <p>구약 39권과 신약 27권 전체 성경 본문과<br>깊이 있는 주석 및 강해를 편리하게 읽어보세요.</p>
+            <button class="start-btn" onclick="startViewer()">성경 읽기 시작하기</button>
         </div>
-        <div class="content-body">
-            <div class="verse-panel">
-                <h3>성경 본문</h3>
-                <div id="verseContainer">
-                    <!-- 본문이 표시됩니다 -->
+    </div>
+
+    <!-- 2. 성경 뷰어 화면 -->
+    <div id="viewerScreen">
+        <aside>
+            <div class="sidebar-header">
+                <h2>성경 목록</h2>
+                <button onclick="goHome()"
+                    style="background:none; border:none; color:var(--accent); cursor:pointer; font-size:0.85rem; font-weight:600;">홈으로</button>
+            </div>
+            <div class="testament-tabs">
+                <button class="tab-btn active" onclick="switchTestament('ot')">구약 (39)</button>
+                <button class="tab-btn" onclick="switchTestament('nt')">신약 (27)</button>
+            </div>
+            <div class="book-list" id="bookList"></div>
+        </aside>
+
+        <main>
+            <div class="main-header">
+                <div class="main-header-top">
+                    <h3 id="currentTitle">창세기 1장</h3>
+                </div>
+                <div class="chapter-selector" id="chapterSelector"></div>
+            </div>
+            <div class="content-body">
+                <div class="panel">
+                    <h4>성경 본문</h4>
+                    <div id="verseContainer"></div>
+                </div>
+                <div class="panel">
+                    <h4>깊은 주석 및 해설</h4>
+                    <div class="commentary-content" id="commentaryContainer"></div>
                 </div>
             </div>
-            <div class="commentary-panel">
-                <h3>깊은 주석 및 해설</h3>
-                <div class="commentary-content" id="commentaryContainer">
-                    <!-- 주석이 표시됩니다 -->
-                </div>
-            </div>
-        </div>
-    </main>
+        </main>
+    </div>
 
     <script>
-        // 구약 성경 목록 (39권)
-        const otBooks = [
-            "창세기", "출애굽기", "레위기", "민수기", "신명기", "여호수아", "사사기", "룻기",
-            "사무엘상", "사무엘하", "열왕기상", "열왕기하", "역대상", "역대하", "에스라",
-            "느헤미야", "에스더", "욥기", "시편", "잠언", "전도서", "아가", "이사야",
-            "예레미야", "예레미야애가", "에스겔", "다니엘", "호세아", "요엘", "아모스",
-            "오바댜", "요나", "미가", "나훔", "하박국", "스바냐", "학개", "스가랴", "말라기"
-        ];
-
-        // 신약 성경 목록 (27권)
-        const ntBooks = [
-            "마태복음", "마가복음", "누가복음", "요한복음", "사도행전", "로마서", "고린도전서",
-            "고린도후서", "갈라디아서", "에베소서", "빌립보서", "골로새서", "데살로니가전서",
-            "데살로니가후서", "디모데전서", "디모데후서", "디도서", "빌레몬서", "히브리서",
-            "야고보서", "베드로전서", "베드로후서", "요한일서", "요한이서", "요한삼서",
-            "유다서", "요한계시록"
-        ];
+        const otBooks = ["창세기", "출애굽기", "레위기", "민수기", "신명기", "여호수아", "사사기", "룻기", "사무엘상", "사무엘하", "열왕기상", "열왕기하", "역대상", "역대하", "에스라", "느헤미야", "에스더", "욥기", "시편", "잠언", "전도서", "아가", "이사야", "예레미야", "예레미야애가", "에스겔", "다니엘", "호세아", "요엘", "아모스", "오바댜", "요나", "미가", "나훔", "하박국", "스바냐", "학개", "스가랴", "말라기"];
+        const ntBooks = ["마태복음", "마가복음", "누가복음", "요한복음", "사도행전", "로마서", "고린도전서", "고린도후서", "갈라디아서", "에베소서", "빌립보서", "골로새서", "데살로니가전서", "데살로니가후서", "디모데전서", "디모데후서", "디도서", "빌레몬서", "히브리서", "야고보서", "베드로전서", "베드로후서", "요한일서", "요한이서", "요한삼서", "유다서", "요한계시록"];
 
         let currentTestament = 'ot';
         let currentBook = '창세기';
         let currentChapter = 1;
 
+        function goHome() {
+            document.getElementById('homeScreen').style.display = 'flex';
+            document.getElementById('viewerScreen').style.display = 'none';
+            document.getElementById('homeIndicator').innerText = '홈 화면';
+        }
+
+        function startViewer() {
+            document.getElementById('homeScreen').style.display = 'none';
+            document.getElementById('viewerScreen').style.display = 'flex';
+            document.getElementById('homeIndicator').innerText = '성경 뷰어 모드';
+            renderBooks();
+            renderChapters();
+            renderContent();
+        }
+
         function switchTestament(testament) {
             currentTestament = testament;
             document.querySelectorAll('.tab-btn').forEach(btn => btn.classList.remove('active'));
             event.target.classList.add('active');
-
-            if (testament === 'ot') {
-                currentBook = otBooks[0];
-            } else {
-                currentBook = ntBooks[0];
-            }
+            currentBook = testament === 'ot' ? otBooks[0] : ntBooks[0];
             currentChapter = 1;
             renderBooks();
             renderChapters();
@@ -323,10 +417,7 @@
         function renderChapters() {
             const selectorEl = document.getElementById('chapterSelector');
             selectorEl.innerHTML = '';
-
-            // 임의로 각 권마다 5장까지 있다고 가정하여 생성 (전체 구동 보장)
-            const maxChapters = 10;
-            for (let i = 1; i <= maxChapters; i++) {
+            for (let i = 1; i <= 10; i++) {
                 const btn = document.createElement('button');
                 btn.className = `chapter-btn ${i === currentChapter ? 'active' : ''}`;
                 btn.innerText = `${i}장`;
@@ -342,30 +433,22 @@
         function renderContent() {
             document.getElementById('currentTitle').innerText = `${currentBook} ${currentChapter}장`;
 
-            // 본문 샘플 생성
             const verseContainer = document.getElementById('verseContainer');
             verseContainer.innerHTML = '';
             for (let i = 1; i <= 5; i++) {
                 const p = document.createElement('div');
                 p.className = 'verse-item';
-                p.innerHTML = `<span class="verse-num">${i}</span>${currentBook} ${currentChapter}장 ${i}절의 말씀 내용입니다. 하나님의 신실하신 뜻과 은혜가 담겨 있습니다.`;
+                p.innerHTML = `<span class="verse-num">${i}</span>${currentBook} ${currentChapter}장 ${i}절의 말씀 내용입니다. 하나님의 은혜와 진리의 말씀이 선포됩니다.`;
                 verseContainer.appendChild(p);
             }
 
-            // 주석 샘플 생성
             const commentaryContainer = document.getElementById('commentaryContainer');
             commentaryContainer.innerHTML = `
-                <p><strong>[${currentBook} ${currentChapter}장 주석 및 강해]</strong></p><br>
-                <p>1. <strong>역사적 배경:</strong> 본 장은 하나님의 구속 경륜 안에서 기록된 중요한 본문으로, 당시 독자들과 오늘날 성도들에게 깊은 영적 교훈을 줍니다.</p><br>
-                <p>2. <strong>신학적 의미:</strong> 말씀 속에 나타난 하나님의 공의와 사랑은 시대를 초월하여 변함없이 우리 삶에 적용됩니다. 본문은 믿음의 순종과 그에 따르는 축복을 조명하고 있습니다.</p><br>
-                <p>3. <strong>적용:</strong> 일상 속에서 하나님의 말씀을 깊이 묵상하고 그 뜻에 순종하는 삶을 살아가도록 도전합니다.</p>
+                <p><strong>[${currentBook} ${currentChapter}장 깊은 주석]</strong></p><br>
+                <p>1. <strong>문맥적 이해:</strong> 본 장은 전체 구속사 속에서 중요한 위치를 차지하며, 독자들에게 큰 영적 통찰을 제공합니다.</p><br>
+                <p>2. <strong>신학적 메시지:</strong> 하나님의 신실하심과 언약 성취의 역사를 보여줍니다.</p>
             `;
         }
-
-        // 초기 실행
-        renderBooks();
-        renderChapters();
-        renderContent();
     </script>
 </body>
 
