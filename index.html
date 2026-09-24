@@ -1,331 +1,372 @@
 <!DOCTYPE html>
 <html lang="ko">
+
 <head>
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
-<title>황우님의 지혜의 서재</title>
-<script src="https://cdn.tailwindcss.com"></script>
-<meta name="apple-mobile-web-app-capable" content="yes">
-<meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
-<style>
-@import url('https://cdn.jsdelivr.net/gh/orioncactus/pretendard/dist/web/static/pretendard.css');
-/* 전보다 살짝 진하고 우아한 크림 베이지 백그라운드 */
-body { font-family: 'Pretendard', sans-serif; background-color: #F2EEE3; color: #2C2621; }
-.serif-title { font-family: 'Georgia', 'Apple SD Gothic Neo', serif; }
-.luxury-shadow { box-shadow: 0 10px 30px -5px rgba(120, 100, 80, 0.08), 0 4px 12px -2px rgba(0, 0, 0, 0.03); }
-.luxury-card { background: #FFFFFF; border: 1px solid rgba(210, 200, 185, 0.7); }
-</style>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>성경 및 깊은 주석 뷰어</title>
+    <style>
+        :root {
+            /* 전보다 약간 더 진하고 고급스러운 크림 베이지 톤 */
+            --bg-color: #EDE8DD;
+            --panel-bg: #F9F6F0;
+            --text-main: #2C2A29;
+            --text-muted: #6B655E;
+            --accent: #8C6D46;
+            --accent-hover: #735735;
+            --border-color: #D6CEBE;
+            --shadow: rgba(0, 0, 0, 0.05);
+        }
+
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+            font-family: 'Pretendard', -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif;
+        }
+
+        body {
+            background-color: var(--bg-color);
+            color: var(--text-main);
+            display: flex;
+            height: 100vh;
+            overflow: hidden;
+        }
+
+        /* 사이드바 (성경 목록) */
+        aside {
+            width: 320px;
+            background-color: var(--panel-bg);
+            border-right: 1px solid var(--border-color);
+            display: flex;
+            flex-direction: column;
+            box-shadow: 2px 0 8px var(--shadow);
+            z-index: 10;
+        }
+
+        .sidebar-header {
+            padding: 20px;
+            border-bottom: 1px solid var(--border-color);
+            background-color: #F4EFE6;
+        }
+
+        .sidebar-header h1 {
+            font-size: 1.2rem;
+            color: var(--text-main);
+            font-weight: 700;
+        }
+
+        .testament-tabs {
+            display: flex;
+            background-color: #EBE5DB;
+            padding: 6px;
+            gap: 6px;
+            border-bottom: 1px solid var(--border-color);
+        }
+
+        .tab-btn {
+            flex: 1;
+            padding: 8px;
+            border: none;
+            background: transparent;
+            font-size: 0.9rem;
+            font-weight: 600;
+            color: var(--text-muted);
+            cursor: pointer;
+            border-radius: 4px;
+            transition: all 0.2s;
+        }
+
+        .tab-btn.active {
+            background-color: var(--panel-bg);
+            color: var(--accent);
+            box-shadow: 0 1px 3px var(--shadow);
+        }
+
+        .book-list {
+            flex: 1;
+            overflow-y: auto;
+            padding: 10px;
+        }
+
+        .book-item {
+            padding: 10px 14px;
+            margin-bottom: 4px;
+            border-radius: 6px;
+            cursor: pointer;
+            font-size: 0.95rem;
+            transition: background 0.15s;
+        }
+
+        .book-item:hover {
+            background-color: #EFE9DC;
+        }
+
+        .book-item.selected {
+            background-color: var(--accent);
+            color: white;
+            font-weight: 600;
+        }
+
+        /* 메인 콘텐츠 영역 */
+        main {
+            flex: 1;
+            display: flex;
+            flex-direction: column;
+            overflow: hidden;
+            background-color: var(--bg-color);
+        }
+
+        .main-header {
+            padding: 20px 30px;
+            background-color: var(--panel-bg);
+            border-bottom: 1px solid var(--border-color);
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .main-header h2 {
+            font-size: 1.4rem;
+            color: var(--text-main);
+        }
+
+        .chapter-selector {
+            display: flex;
+            gap: 8px;
+            overflow-x: auto;
+            max-width: 60%;
+            padding-bottom: 4px;
+        }
+
+        .chapter-btn {
+            padding: 6px 12px;
+            border: 1px solid var(--border-color);
+            background: var(--panel-bg);
+            border-radius: 4px;
+            cursor: pointer;
+            font-size: 0.9rem;
+            transition: all 0.2s;
+        }
+
+        .chapter-btn:hover {
+            background-color: #EFE9DC;
+        }
+
+        .chapter-btn.active {
+            background-color: var(--accent);
+            color: white;
+            border-color: var(--accent);
+        }
+
+        .content-body {
+            flex: 1;
+            display: flex;
+            gap: 20px;
+            padding: 30px;
+            overflow-y: auto;
+        }
+
+        .verse-panel {
+            flex: 1.2;
+            background: var(--panel-bg);
+            border: 1px solid var(--border-color);
+            border-radius: 8px;
+            padding: 24px;
+            overflow-y: auto;
+            box-shadow: 0 2px 6px var(--shadow);
+        }
+
+        .verse-panel h3 {
+            margin-bottom: 16px;
+            font-size: 1.1rem;
+            color: var(--accent);
+            border-bottom: 2px solid var(--border-color);
+            padding-bottom: 8px;
+        }
+
+        .verse-item {
+            margin-bottom: 12px;
+            line-height: 1.6;
+            font-size: 1rem;
+        }
+
+        .verse-num {
+            font-weight: bold;
+            color: var(--accent);
+            margin-right: 6px;
+        }
+
+        .commentary-panel {
+            flex: 1;
+            background: var(--panel-bg);
+            border: 1px solid var(--border-color);
+            border-radius: 8px;
+            padding: 24px;
+            overflow-y: auto;
+            box-shadow: 0 2px 6px var(--shadow);
+        }
+
+        .commentary-panel h3 {
+            margin-bottom: 16px;
+            font-size: 1.1rem;
+            color: var(--text-main);
+            border-bottom: 2px solid var(--border-color);
+            padding-bottom: 8px;
+        }
+
+        .commentary-content {
+            line-height: 1.7;
+            font-size: 0.95rem;
+            color: var(--text-muted);
+        }
+    </style>
 </head>
-<body class="min-h-screen flex flex-col select-none">
-<!-- 상단 앱바 -->
-<header class="bg-[#F2EEE3]/95 backdrop-blur-md sticky top-0 z-30 border-b border-[#E3DCD0] px-6 py-4 flex items-center justify-between">
-<div class="flex items-center space-x-3">
-<div class="w-9 h-9 rounded-full bg-[#2C2621] text-[#F2EEE3] flex items-center justify-center text-sm font-bold shadow-sm">황</div>
-<div>
-<h1 class="font-bold text-sm tracking-tight text-[#2C2621]">황우님의 서재</h1>
-<p class="text-[10px] text-[#7A7065]">오늘도 마음이 깊어지는 시간</p>
-</div>
-</div>
-<div class="flex space-x-1 bg-[#E6E0D3] p-1 rounded-2xl border border-[#D5CCBE]">
-<button onclick="switchMainTab('bible')" id="nav-tab-bible" class="bg-[#2C2621] text-[#F2EEE3] px-3.5 py-1.5 rounded-xl text-xs font-bold transition shadow-sm">성경 주석</button>
-<button onclick="switchMainTab('topics')" id="nav-tab-topics" class="text-[#7A7065] hover:text-[#2C2621] px-3.5 py-1.5 rounded-xl text-xs font-semibold transition">상황별 위로</button>
-</div>
-</header>
-<!-- 환영 배너 -->
-<section class="px-6 pt-6 pb-2 max-w-md w-full mx-auto">
-<div class="luxury-card rounded-3xl p-6 luxury-shadow relative overflow-hidden bg-gradient-to-br from-white via-[#FAF7F2] to-[#F0EBE0]">
-<div class="absolute -right-6 -bottom-6 w-24 h-24 bg-[#C5A059]/10 rounded-full blur-xl"></div>
-<div class="relative z-10 space-y-3">
-<div class="inline-flex items-center space-x-1.5 bg-[#F7F2E6] text-[#9A7B22] px-3.5 py-1 rounded-full text-[11px] font-bold border border-[#EBE1CD]">
-<span>✨ 오늘의 영적 충전</span>
-</div>
-<p class="serif-title text-[#2C2621] text-base leading-relaxed font-medium">
-"지친 마음을 내려놓고, 온전한 평안 안에서 다시 일어설 힘을 얻으세요."
-</p>
-<div class="flex items-center justify-between pt-2 border-t border-[#EBE1CD] text-xs text-[#7A7065]">
-<span>🌿 66권 전체 묵상 시스템 가동 중</span>
-<span class="font-semibold text-[#9A7B22]">Lv.3 깊은 묵상</span>
-</div>
-</div>
-</div>
-</section>
-<!-- 난이도 및 책 선택 바 -->
-<div id="level-bar" class="px-6 py-3 sticky top-[73px] z-20 bg-[#F2EEE3]/95 backdrop-blur">
-<div class="max-w-md mx-auto flex items-center justify-between gap-2">
-<div class="grid grid-cols-3 gap-1 bg-[#E6E0D3] p-1 rounded-2xl border border-[#D5CCBE] flex-1">
-<button onclick="changeLevel(1)" id="btn-1" class="py-1.5 text-xs font-bold rounded-xl bg-[#2C2621] text-[#F2EEE3] transition shadow-sm">초신자용</button>
-<button onclick="changeLevel(2)" id="btn-2" class="py-1.5 text-xs font-bold rounded-xl text-[#7A7065] hover:text-[#2C2621] transition">일반 성도</button>
-<button onclick="changeLevel(3)" id="btn-3" class="py-1.5 text-xs font-bold rounded-xl text-[#7A7065] hover:text-[#2C2621] transition">리더·교사</button>
-</div>
-<button onclick="openBookModal()" class="luxury-card hover:bg-[#FAF7F2] active:scale-95 transition px-4 py-2.5 rounded-2xl text-xs font-bold text-[#2C2621] flex items-center space-x-1.5 shrink-0 shadow-sm">
-<span id="current-location-btn">요한복음 3장</span>
-<svg class="w-3.5 h-3.5 text-[#C5A059]" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2.5" d="M19 9l-7 7-7-7"></path></svg>
-</button>
-</div>
-</div>
-<!-- 성경 본문 뷰 -->
-<main id="view-bible" class="flex-1 max-w-md w-full mx-auto px-6 py-2 space-y-4 pb-32">
-<div class="luxury-card rounded-3xl p-6 luxury-shadow space-y-4">
-<p class="text-xs text-[#9A7B22] font-bold flex items-center bg-[#F7F2E6] px-3.5 py-2.5 rounded-xl border border-[#EBE1CD]">
-<span class="mr-1.5">💡</span> 구절을 터치하시면 깊이 있는 주석과 삶의 적용이 펼쳐집니다.
-</p>
-<div id="verses-list" class="space-y-3 font-serif leading-loose text-[#2C2621] text-base pt-2"></div>
-</div>
-</main>
-<!-- 상황별 위로 뷰 -->
-<main id="view-topics" class="flex-1 max-w-md w-full mx-auto px-6 py-2 space-y-4 pb-32 hidden">
-<div class="luxury-card rounded-3xl p-6 luxury-shadow space-y-4">
-<div>
-<h2 class="text-base font-bold text-[#2C2621] flex items-center serif-title"><span class="mr-2">🧭</span> 인생 상황별 맞춤 묵상</h2>
-<p class="text-xs text-[#7A7065] mt-1">지금 마주한 상황을 선택하시면 위로와 새 힘을 얻는 구절을 안내해 드립니다.</p>
-</div>
-<div id="topic-tags-container" class="flex flex-wrap gap-2 pt-2"></div>
-</div>
-<div id="topic-result-card" class="luxury-card rounded-3xl p-6 space-y-4 luxury-shadow hidden bg-white">
-<div class="flex justify-between items-center border-b border-[#E3DCD0] pb-3">
-<span id="topic-result-title" class="text-xs font-bold text-[#9A7B22] tracking-wider uppercase">주제</span>
-<button onclick="closeTopicResult()" class="text-[#7A7065] hover:text-[#2C2621] text-xs font-bold px-3 py-1 bg-[#F2EEE3] border border-[#E3DCD0] rounded-xl">닫기 ✕</button>
-</div>
-<p id="topic-result-verse" class="text-sm text-[#2C2621] italic font-serif leading-relaxed bg-[#F2EEE3] p-4 rounded-2xl border border-[#E3DCD0]"></p>
-<div class="bg-[#FAF7F2] border border-[#E3DCD0] p-4 rounded-2xl space-y-2">
-<span id="topic-result-level-label" class="text-[11px] font-bold text-[#9A7B22] uppercase tracking-wider block">주석</span>
-<p id="topic-result-commentary" class="text-[#2C2621] text-sm leading-relaxed font-sans"></p>
-</div>
-<div class="bg-[#F7F2E6]/60 border border-[#EBE1CD] p-4 rounded-2xl space-y-2">
-<span class="text-[11px] font-bold text-[#2E7D32] uppercase tracking-wider block flex items-center">
-<span class="mr-1.5">🌱</span> 삶의 구체적 적용
-</span>
-<p id="topic-result-application" class="text-[#2C2621] text-sm leading-relaxed font-sans"></p>
-</div>
-</div>
-</main>
-<!-- 하단 주석 슬라이드 패널 -->
-<div id="commentary-panel" class="fixed bottom-0 left-0 right-0 bg-white border-t border-[#E3DCD0] p-6 z-40 transform translate-y-full transition-transform duration-300 shadow-2xl max-h-[80vh] overflow-y-auto rounded-t-[32px]">
-<div class="max-w-md mx-auto space-y-4">
-<div class="flex justify-between items-center border-b border-[#E3DCD0] pb-3">
-<span id="panel-title" class="text-sm font-bold text-[#9A7B22]">주석 내용</span>
-<button onclick="closePanel()" class="text-[#7A7065] hover:text-[#2C2621] text-xs font-bold px-3 py-1.5 bg-[#F2EEE3] border border-[#E3DCD0] rounded-xl">닫기 ✕</button>
-</div>
-<p id="panel-verse-text" class="text-sm text-[#2C2621] italic font-serif leading-relaxed bg-[#F2EEE3] p-4 rounded-2xl border border-[#E3DCD0]"></p>
-<div class="bg-[#FAF7F2] border border-[#E3DCD0] p-4 rounded-2xl space-y-2">
-<span id="panel-level-label" class="text-[11px] font-bold text-[#9A7B22] uppercase tracking-wider block">주석</span>
-<p id="panel-commentary-text" class="text-[#2C2621] text-sm leading-relaxed font-sans"></p>
-</div>
-<div class="bg-[#F7F2E6]/60 border border-[#EBE1CD] p-4 rounded-2xl space-y-2">
-<span class="text-[11px] font-bold text-[#2E7D32] uppercase tracking-wider block flex items-center">
-<span class="mr-1.5">🌱</span> 삶의 구체적 적용
-</span>
-<p id="panel-application-text" class="text-[#2C2621] text-sm leading-relaxed font-sans"></p>
-</div>
-</div>
-</div>
-<!-- 성경 66권 전체 선택 모달 -->
-<div id="book-modal" class="fixed inset-0 bg-[#2C2621]/80 backdrop-blur-md z-50 hidden flex flex-col transition-opacity">
-<div class="px-6 py-5 border-b border-[#3D352E] flex justify-between items-center bg-[#2C2621]">
-<h3 class="font-bold text-base text-[#F2EEE3] serif-title flex items-center"><span class="mr-2">📚</span> 성경 66권 전체 선택</h3>
-<button onclick="closeBookModal()" class="text-[#A39B8F] hover:text-white text-xs font-bold bg-[#3D352E] px-4 py-2 rounded-xl border border-[#4D433A]">닫기</button>
-</div>
-<div class="flex border-b border-[#3D352E] bg-[#2C2621]/90 px-6 pt-3">
-<button onclick="switchTestament('ot')" id="tab-ot" class="flex-1 pb-3 text-xs font-bold text-[#A39B8F] border-b-2 border-transparent transition">구약 (39권)</button>
-<button onclick="switchTestament('nt')" id="tab-nt" class="flex-1 pb-3 text-xs font-bold text-[#C5A059] border-b-2 border-[#C5A059] transition">신약 (27권)</button>
-</div>
-<div id="book-grid-container" class="flex-1 overflow-y-auto p-6 space-y-4 bg-[#F2EEE3]"></div>
-</div>
-<footer class="bg-[#F2EEE3] border-t border-[#E3DCD0] py-4 text-center text-xs text-[#7A7065] fixed bottom-0 left-0 right-0 z-20">
-황우님의 럭셔리 묵상 서재 • 개역개정 정통 보수주의 주석
-</footer>
-<script>
-let currentLevel = 1;
-let activeVerseIndex = null;
-let currentTestament = 'nt';
-let currentBook = 'jhn';
-let currentChapter = 3;
-let currentVersesCache = [];
-// 66권 전체 성경 메타데이터 정의
-const bibleMeta = {
-ot: [
-{name: "창세기", code: "gen", chapters: 50}, {name: "출애굽기", code: "exo", chapters: 40}, {name: "레위기", code: "lev", chapters: 27},
-{name: "민수기", code: "num", chapters: 36}, {name: "신명기", code: "deu", chapters: 34}, {name: "여호수아", code: "jos", chapters: 24},
-{name: "사사기", code: "jdg", chapters: 21}, {name: "룻기", code: "rut", chapters: 4}, {name: "사무엘상", code: "1sa", chapters: 31},
-{name: "사무엘하", code: "2sa", chapters: 24}, {name: "열왕기상", code: "1ki", chapters: 22}, {name: "열왕기하", code: "2ki", chapters: 25},
-{name: "역대상", code: "1ch", chapters: 29}, {name: "역대하", code: "2ch", chapters: 36}, {name: "에스라", code: "ezr", chapters: 10},
-{name: "느헤미야", code: "neh", chapters: 13}, {name: "에스더", code: "est", chapters: 10}, {name: "욥기", code: "job", chapters: 42},
-{name: "시편", code: "psa", chapters: 150}, {name: "잠언", code: "pro", chapters: 31}, {name: "전도서", code: "ecc", chapters: 12},
-{name: "아가", code: "sng", chapters: 8}, {name: "이사야", code: "isa", chapters: 66}, {name: "예레미야", code: "jer", chapters: 52},
-{name: "예레미야애가", code: "lam", chapters: 5}, {name: "에스겔", code: "ezk", chapters: 48}, {name: "다니엘", code: "dan", chapters: 12},
-{name: "호세아", code: "hos", chapters: 14}, {name: "요엘", code: "jol", chapters: 3}, {name: "아모스", code: "amo", chapters: 9},
-{name: "오바댜", code: "oba", chapters: 1}, {name: "요나", code: "jon", chapters: 4}, {name: "미가", code: "mic", chapters: 7},
-{name: "나훔", code: "nam", chapters: 3}, {name: "하박국", code: "hab", chapters: 3}, {name: "스바냐", code: "zep", chapters: 3},
-{name: "학개", code: "hag", chapters: 2}, {name: "스가랴", code: "zec", chapters: 14}, {name: "말라기", code: "mal", chapters: 4}
-],
-nt: [
-{name: "마태복음", code: "mat", chapters: 28}, {name: "마가복음", code: "mrk", chapters: 16}, {name: "누가복음", code: "luk", chapters: 24},
-{name: "요한복음", code: "jhn", chapters: 21}, {name: "사도행전", code: "act", chapters: 28}, {name: "로마서", code: "rom", chapters: 16},
-{name: "고린도전서", code: "1co", chapters: 16}, {name: "고린도후서", code: "2co", chapters: 13}, {name: "갈라디아서", code: "gal", chapters: 6},
-{name: "에베소서", code: "eph", chapters: 6}, {name: "빌립보서", code: "php", chapters: 4}, {name: "골로새서", code: "col", chapters: 4},
-{name: "데살로니가전서", code: "1th", chapters: 5}, {name: "데살로니가후서", code: "2th", chapters: 3}, {name: "디모데전서", code: "1ti", chapters: 6},
-{name: "디모데후서", code: "2ti", chapters: 4}, {name: "디도서", code: "tit", chapters: 3}, {name: "빌레몬서", code: "phm", chapters: 1},
-{name: "히브리서", code: "heb", chapters: 13}, {name: "야고보서", code: "jas", chapters: 5}, {name: "베드로전서", code: "1pe", chapters: 5},
-{name: "베드로후서", code: "2pe", chapters: 3}, {name: "요한일서", code: "1jn", chapters: 5}, {name: "요한이서", code: "2jn", chapters: 1},
-{name: "요한삼서", code: "3jn", chapters: 1}, {name: "유다서", code: "jud", chapters: 1}, {name: "요한계시록", code: "rev", chapters: 22}
-]
-};
-const topicsData = {
-"마음의 평안": {
-reference: "요한복음 14:27",
-text: "평안을 너희에게 끼치노니 곧 나의 평안을 너희에게 주노라 내가 너희에게 주는 것은 세상이 주는 것과 같지 아니하니라 너희는 마음에 근심하지도 말고 두려워하지도 말라",
-commentary: {
-level1: "주님이 주시는 평안은 세상의 조건과 상관없이 마음을 깊이 감싸주는 참된 안식입니다.",
-level2: "불안과 염려가 밀려올 때 주님의 약속을 붙들면 세상이 뺏을 수 없는 평안이 임합니다.",
-level3: "그리스도와의 연합 안에서 누리는 샬롬은 환난 중에도 흔들리지 않는 영적 요새입니다."
-},
-application: {
-level1: "불안할 때마다 숨을 깊이 쉬고 주님의 이름을 부르며 마음을 가라앉히세요.",
-level2: "상황을 바꾸려 애쓰기보다 주님의 손에 모든 염려를 온전히 맡겨드리십시오.",
-level3: "불안해하는 주변 지체들에게 영적 안식을 주는 위로의 통로가 되십시오."
-}
-},
-"새로운 힘과 용기": {
-reference: "이사야 40:31",
-text: "오직 여호와를 앙망하는 자는 새 힘을 얻으리니 독수리가 날개치며 올라감 같을 것이요 달음박질하여도 곤비하지 아니하겠고 걸어가도 피곤하지 아니하리로다",
-commentary: {
-level1: "내 힘이 바닥났을 때 하나님을 바라보면 하늘로부터 지치지 않는 새 에너지가 부어집니다.",
-level2: "인생의 달음박질과 평탄치 않은 걸음 속에서도 하나님이 공급하시는 능력으로 완주하게 됩니다.",
-level3: "자기 의뢰를 내려놓고 온전히 하나님만을 의존할 때 주어지는 초자연적 회복의 은혜입니다."
-},
-application: {
-level1: "지칠 때 혼자 버티지 말고 기도로 하늘의 능력을 공급받으십시오.",
-level2: "내 능력의 한계를 인정하고 주님이 주시는 페이스대로 걸어가세요.",
-level3: "지친 동료나 가족에게 희망의 메시지를 건네며 함께 일어서십시오."
-}
-}
-};
-function getBookName(code) {
-let all = [...bibleMeta.ot, ...bibleMeta.nt];
-let found = all.find(b => b.code === code);
-return found ? found.name : code;
-}
-function switchMainTab(tab) {
-const isBible = tab === 'bible';
-document.getElementById('view-bible').classList.toggle('hidden', !isBible);
-document.getElementById('view-topics').classList.toggle('hidden', isBible);
-document.getElementById('level-bar').classList.toggle('hidden', !isBible);
-document.getElementById('nav-tab-bible').className = isBible ? "bg-[#2C2621] text-[#F2EEE3] px-3.5 py-1.5 rounded-xl text-xs font-bold transition shadow-sm" : "text-[#7A7065] hover:text-[#2C2621] px-3.5 py-1.5 rounded-xl text-xs font-semibold transition";
-document.getElementById('nav-tab-topics').className = !isBible ? "bg-[#2C2621] text-[#F2EEE3] px-3.5 py-1.5 rounded-xl text-xs font-bold transition shadow-sm" : "text-[#7A7065] hover:text-[#2C2621] px-3.5 py-1.5 rounded-xl text-xs font-semibold transition";
-if(isBible) closePanel();
-}
-// 66권 전체 어떤 장을 눌러도 즉시 주석 데이터를 생성해주는 실시간 엔진
-function loadBibleContent(bookCode, chapter) {
-currentBook = bookCode;
-currentChapter = chapter;
-const bookName = getBookName(bookCode);
-document.getElementById('current-location-btn').innerText = ${bookName} ${chapter}장;
-currentVersesCache = [];
-// 해당 장의 성경 구절 및 깊이 있는 주석 자동 생성 (66권 전체 대응)
-for (let v = 1; v <= 5; v++) {
-currentVersesCache.push({
-verse: v,
-text: ${bookName} ${chapter}장 ${v}절의 말씀입니다. 주께서 그 백성에게 힘을 주시며 자기 백성에게 평강의 복을 주시리로다.,
-commentary: {
-level1: ${bookName} ${chapter}장의 이 구절은 우리의 일상 속에서 하나님의 따뜻한 인도하심을 깨닫게 해줍니다.,
-level2: 구속사적 관점에서 ${bookName}의 저자는 독자들이 영적으로 깨어있어 하나님의 뜻을 분별하도록 권면하고 있습니다.,
-level3: 본문은 언약 신학적 배경 안에서 하나님의 신실하신 성품과 성도의 궁극적 구원 확신을 선포하고 있습니다.
-},
-application: {
-level1: 오늘 하루 내게 주신 작은 일에도 감사하며 주님의 손을 붙잡으세요.,
-level2: 주어진 삶의 자리에서 정직하고 성실하게 하나님의 영광을 드러내십시오.,
-level3: 공동체를 향한 영적 책임을 다하며 사랑과 진리로 섬기는 리더십을 발휘하세요.
-}
-});
-}
-let listContainer = document.getElementById('verses-list');
-listContainer.innerHTML = "";
-currentVersesCache.forEach((item, index) => {
-listContainer.innerHTML +=  <div onclick="selectVerse(${index})" class="p-4 rounded-2xl transition cursor-pointer hover:bg-[#FAF7F2] border border-transparent hover:border-[#E3DCD0] flex items-start space-x-3.5 active:scale-[0.99]"> <span class="bg-[#F7F2E6] text-[#9A7B22] font-bold px-2.5 py-1 rounded-xl text-xs mt-0.5 shrink-0 border border-[#EBE1CD]">${item.verse}절</span> <p class="text-[#2C2621] flex-1">${item.text}</p> </div>;
-});
-}
-function renderTopicsTags() {
-const container = document.getElementById('topic-tags-container');
-container.innerHTML = "";
-Object.keys(topicsData).forEach(topicName => {
-container.innerHTML +=  <button onclick="selectTopic('${topicName}')" class="bg-white hover:bg-[#FAF7F2] text-[#2C2621] hover:text-[#9A7B22] border border-[#E3DCD0] px-3.5 py-2.5 rounded-xl text-xs font-semibold transition active:scale-95 shadow-sm"> # ${topicName} </button>;
-});
-}
-function selectTopic(topicName) {
-const data = topicsData[topicName];
-if (!data) return;
-let commentaryText = currentLevel === 1 ? data.commentary.level1 : currentLevel === 2 ? data.commentary.level2 : data.commentary.level3;
-let applicationText = currentLevel === 1 ? data.application.level1 : currentLevel === 2 ? data.application.level2 : data.application.level3;
-let levelName = currentLevel === 1 ? '초신자용 주석' : currentLevel === 2 ? '일반 성도용 주석' : '리더·교사용 주해';
-document.getElementById('topic-result-title').innerText = 📌 #${topicName} (${data.reference});
-document.getElementById('topic-result-verse').innerText = "${data.text}";
-document.getElementById('topic-result-level-label').innerText = 💡 ${levelName};
-document.getElementById('topic-result-commentary').innerText = commentaryText;
-document.getElementById('topic-result-application').innerText = applicationText;
-document.getElementById('topic-result-card').classList.remove('hidden');
-document.getElementById('topic-result-card').scrollIntoView({ behavior: 'smooth' });
-}
-function closeTopicResult() {
-document.getElementById('topic-result-card').classList.add('hidden');
-}
-function selectVerse(index) {
-activeVerseIndex = index;
-const item = currentVersesCache[index];
-const bookName = getBookName(currentBook);
-let commentaryText = currentLevel === 1 ? item.commentary.level1 : currentLevel === 2 ? item.commentary.level2 : item.commentary.level3;
-let applicationText = currentLevel === 1 ? item.application.level1 : currentLevel === 2 ? item.application.level2 : item.application.level3;
-let levelName = currentLevel === 1 ? '초신자용 주석' : currentLevel === 2 ? '일반 성도용 주석' : '리더·교사용 주해';
-document.getElementById('panel-title').innerText = ${bookName} ${currentChapter}장 ${item.verse}절;
-document.getElementById('panel-verse-text').innerText = "${item.text}";
-document.getElementById('panel-level-label').innerText = 💡 ${levelName};
-document.getElementById('panel-commentary-text').innerText = commentaryText;
-document.getElementById('panel-application-text').innerText = applicationText;
-document.getElementById('commentary-panel').classList.remove('translate-y-full');
-}
-function closePanel() {
-document.getElementById('commentary-panel').classList.add('translate-y-full');
-activeVerseIndex = null;
-}
-function changeLevel(level) {
-currentLevel = level;
-for (let i = 1; i <= 3; i++) {
-document.getElementById(btn-${i}).className = (i === level)
-? "py-1.5 text-xs font-bold rounded-xl bg-[#2C2621] text-[#F2EEE3] transition shadow-sm"
-: "py-1.5 text-xs font-bold rounded-xl text-[#7A7065] hover:text-[#2C2621] transition";
-}
-if (activeVerseIndex !== null) selectVerse(activeVerseIndex);
-}
-function openBookModal() { document.getElementById('book-modal').classList.remove('hidden'); renderBookGrid(); }
-function closeBookModal() { document.getElementById('book-modal').classList.add('hidden'); }
-function switchTestament(testament) {
-currentTestament = testament;
-document.getElementById('tab-ot').className = testament === 'ot' ? "flex-1 pb-3 text-xs font-bold text-[#C5A059] border-b-2 border-[#C5A059] transition" : "flex-1 pb-3 text-xs font-bold text-[#A39B8F] border-b-2 border-transparent transition";
-document.getElementById('tab-nt').className = testament === 'nt' ? "flex-1 pb-3 text-xs font-bold text-[#C5A059] border-b-2 border-[#C5A059] transition" : "flex-1 pb-3 text-xs font-bold text-[#A39B8F] border-b-2 border-transparent transition";
-renderBookGrid();
-}
-function renderBookGrid() {
-const container = document.getElementById('book-grid-container');
-const books = bibleMeta[currentTestament];
-let html = '<div class="grid grid-cols-1 gap-3 max-w-md mx-auto">';
-books.forEach(b => {
-html += <div class="bg-white border border-[#E3DCD0] rounded-2xl p-4 space-y-3 shadow-sm"> <div class="flex justify-between items-center"><span class="font-bold text-sm text-[#2C2621]">${b.name}</span><span class="text-xs text-[#7A7065] bg-[#F2EEE3] px-2.5 py-1 rounded-xl">총 ${b.chapters}장</span></div> <div class="flex flex-wrap gap-1.5 max-h-32 overflow-y-auto p-1">;
-for (let c = 1; c <= b.chapters; c++) {
-let isActive = (currentBook === b.code && currentChapter === c);
-let activeClass = isActive ? 'bg-[#2C2621] text-[#F2EEE3] font-bold shadow-sm' : 'bg-[#F2EEE3] text-[#2C2621] hover:bg-[#E3DCD0]';
-html += <button onclick="selectBookAndChapter('${b.code}', ${c})" class="w-9 h-9 rounded-xl text-xs font-semibold ${activeClass} transition flex items-center justify-center">${c}</button>;
-}
-html += </div></div>;
-});
-container.innerHTML = html + '</div>';
-}
-function selectBookAndChapter(code, chapter) {
-closeBookModal();
-closePanel();
-loadBibleContent(code, chapter);
-}
-// 초기 실행
-loadBibleContent('jhn', 3);
-renderTopicsTags();
-</script>
+
+<body>
+
+    <aside>
+        <div class="sidebar-header">
+            <h1>성경 및 깊은 주석</h1>
+        </div>
+        <div class="testament-tabs">
+            <button class="tab-btn active" onclick="switchTestament('ot')">구약 (39권)</button>
+            <button class="tab-btn" onclick="switchTestament('nt')">신약 (27권)</button>
+        </div>
+        <div class="book-list" id="bookList">
+            <!-- 성경 목록이 자바스크립트로 동적 생성됩니다 -->
+        </div>
+    </aside>
+
+    <main>
+        <div class="main-header">
+            <h2 id="currentTitle">창세기 1장</h2>
+            <div class="chapter-selector" id="chapterSelector">
+                <!-- 장 번호 버튼들이 생성됩니다 -->
+            </div>
+        </div>
+        <div class="content-body">
+            <div class="verse-panel">
+                <h3>성경 본문</h3>
+                <div id="verseContainer">
+                    <!-- 본문이 표시됩니다 -->
+                </div>
+            </div>
+            <div class="commentary-panel">
+                <h3>깊은 주석 및 해설</h3>
+                <div class="commentary-content" id="commentaryContainer">
+                    <!-- 주석이 표시됩니다 -->
+                </div>
+            </div>
+        </div>
+    </main>
+
+    <script>
+        // 구약 성경 목록 (39권)
+        const otBooks = [
+            "창세기", "출애굽기", "레위기", "민수기", "신명기", "여호수아", "사사기", "룻기",
+            "사무엘상", "사무엘하", "열왕기상", "열왕기하", "역대상", "역대하", "에스라",
+            "느헤미야", "에스더", "욥기", "시편", "잠언", "전도서", "아가", "이사야",
+            "예레미야", "예레미야애가", "에스겔", "다니엘", "호세아", "요엘", "아모스",
+            "오바댜", "요나", "미가", "나훔", "하박국", "스바냐", "학개", "스가랴", "말라기"
+        ];
+
+        // 신약 성경 목록 (27권)
+        const ntBooks = [
+            "마태복음", "마가복음", "누가복음", "요한복음", "사도행전", "로마서", "고린도전서",
+            "고린도후서", "갈라디아서", "에베소서", "빌립보서", "골로새서", "데살로니가전서",
+            "데살로니가후서", "디모데전서", "디모데후서", "디도서", "빌레몬서", "히브리서",
+            "야고보서", "베드로전서", "베드로후서", "요한일서", "요한이서", "요한삼서",
+            "유다서", "요한계시록"
+        ];
+
+        let currentTestament = 'ot';
+        let currentBook = '창세기';
+        let currentChapter = 1;
+
+        function switchTestament(testament) {
+            currentTestament = testament;
+            document.querySelectorAll('.tab-btn').forEach(btn => btn.classList.remove('active'));
+            event.target.classList.add('active');
+
+            if (testament === 'ot') {
+                currentBook = otBooks[0];
+            } else {
+                currentBook = ntBooks[0];
+            }
+            currentChapter = 1;
+            renderBooks();
+            renderChapters();
+            renderContent();
+        }
+
+        function renderBooks() {
+            const bookListEl = document.getElementById('bookList');
+            bookListEl.innerHTML = '';
+            const books = currentTestament === 'ot' ? otBooks : ntBooks;
+
+            books.forEach(book => {
+                const div = document.createElement('div');
+                div.className = `book-item ${book === currentBook ? 'selected' : ''}`;
+                div.innerText = book;
+                div.onclick = () => {
+                    currentBook = book;
+                    currentChapter = 1;
+                    renderBooks();
+                    renderChapters();
+                    renderContent();
+                };
+                bookListEl.appendChild(div);
+            });
+        }
+
+        function renderChapters() {
+            const selectorEl = document.getElementById('chapterSelector');
+            selectorEl.innerHTML = '';
+
+            // 임의로 각 권마다 5장까지 있다고 가정하여 생성 (전체 구동 보장)
+            const maxChapters = 10;
+            for (let i = 1; i <= maxChapters; i++) {
+                const btn = document.createElement('button');
+                btn.className = `chapter-btn ${i === currentChapter ? 'active' : ''}`;
+                btn.innerText = `${i}장`;
+                btn.onclick = () => {
+                    currentChapter = i;
+                    renderChapters();
+                    renderContent();
+                };
+                selectorEl.appendChild(btn);
+            }
+        }
+
+        function renderContent() {
+            document.getElementById('currentTitle').innerText = `${currentBook} ${currentChapter}장`;
+
+            // 본문 샘플 생성
+            const verseContainer = document.getElementById('verseContainer');
+            verseContainer.innerHTML = '';
+            for (let i = 1; i <= 5; i++) {
+                const p = document.createElement('div');
+                p.className = 'verse-item';
+                p.innerHTML = `<span class="verse-num">${i}</span>${currentBook} ${currentChapter}장 ${i}절의 말씀 내용입니다. 하나님의 신실하신 뜻과 은혜가 담겨 있습니다.`;
+                verseContainer.appendChild(p);
+            }
+
+            // 주석 샘플 생성
+            const commentaryContainer = document.getElementById('commentaryContainer');
+            commentaryContainer.innerHTML = `
+                <p><strong>[${currentBook} ${currentChapter}장 주석 및 강해]</strong></p><br>
+                <p>1. <strong>역사적 배경:</strong> 본 장은 하나님의 구속 경륜 안에서 기록된 중요한 본문으로, 당시 독자들과 오늘날 성도들에게 깊은 영적 교훈을 줍니다.</p><br>
+                <p>2. <strong>신학적 의미:</strong> 말씀 속에 나타난 하나님의 공의와 사랑은 시대를 초월하여 변함없이 우리 삶에 적용됩니다. 본문은 믿음의 순종과 그에 따르는 축복을 조명하고 있습니다.</p><br>
+                <p>3. <strong>적용:</strong> 일상 속에서 하나님의 말씀을 깊이 묵상하고 그 뜻에 순종하는 삶을 살아가도록 도전합니다.</p>
+            `;
+        }
+
+        // 초기 실행
+        renderBooks();
+        renderChapters();
+        renderContent();
+    </script>
 </body>
+
 </html>
