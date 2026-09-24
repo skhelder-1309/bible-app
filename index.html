@@ -4,7 +4,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
-    <title>바른 성경 주석</title>
+    <title>바른 성경 주석 & 맞춤 묵상</title>
     <script src="https://cdn.tailwindcss.com"></script>
     <meta name="apple-mobile-web-app-capable" content="yes">
     <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
@@ -26,29 +26,41 @@
             <span class="text-2xl">📖</span>
             <h1 class="font-bold text-lg tracking-tight text-white">바른 성경 주석</h1>
         </div>
-        <button onclick="openBookModal()"
-            class="bg-blue-600/20 hover:bg-blue-600/30 active:scale-95 transition px-4 py-2 rounded-xl text-sm font-bold text-blue-400 border border-blue-500/30 flex items-center space-x-1.5 shadow-sm">
-            <span id="current-location-btn">요한복음 3장</span>
-            <svg class="w-4 h-4 ml-0.5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2.5" d="M19 9l-7 7-7-7"></path>
-            </svg>
-        </button>
+        <div class="flex space-x-2">
+            <button onclick="switchMainTab('bible')" id="nav-tab-bible"
+                class="bg-blue-600 text-white px-3.5 py-1.5 rounded-xl text-xs font-bold transition shadow">성경
+                본문</button>
+            <button onclick="switchMainTab('topics')" id="nav-tab-topics"
+                class="bg-slate-800 text-slate-400 px-3.5 py-1.5 rounded-xl text-xs font-bold transition">상황별
+                묵상</button>
+        </div>
     </header>
 
-    <!-- 난이도 선택 플로팅 바 -->
-    <div class="bg-slate-900/95 backdrop-blur border-b border-slate-800 px-4 py-3 sticky top-[61px] z-20">
-        <div class="max-w-md mx-auto grid grid-cols-3 gap-2 bg-slate-950 p-1.5 rounded-2xl border border-slate-800">
-            <button onclick="changeLevel(1)" id="btn-1"
-                class="py-2 text-xs font-bold rounded-xl bg-blue-600 text-white transition shadow">초신자용</button>
-            <button onclick="changeLevel(2)" id="btn-2"
-                class="py-2 text-xs font-bold rounded-xl text-slate-400 hover:text-white transition">일반 성도</button>
-            <button onclick="changeLevel(3)" id="btn-3"
-                class="py-2 text-xs font-bold rounded-xl text-slate-400 hover:text-white transition">리더·교사</button>
+    <!-- 난이도 선택 플로팅 바 (성경 본문 모드일 때만 표시) -->
+    <div id="level-bar"
+        class="bg-slate-900/95 backdrop-blur border-b border-slate-800 px-4 py-3 sticky top-[61px] z-20">
+        <div class="max-w-md mx-auto flex items-center justify-between">
+            <div class="grid grid-cols-3 gap-1.5 bg-slate-950 p-1 rounded-2xl border border-slate-800 flex-1 mr-2">
+                <button onclick="changeLevel(1)" id="btn-1"
+                    class="py-1.5 text-xs font-bold rounded-xl bg-blue-600 text-white transition shadow">초신자용</button>
+                <button onclick="changeLevel(2)" id="btn-2"
+                    class="py-1.5 text-xs font-bold rounded-xl text-slate-400 hover:text-white transition">일반
+                    성도</button>
+                <button onclick="changeLevel(3)" id="btn-3"
+                    class="py-1.5 text-xs font-bold rounded-xl text-slate-400 hover:text-white transition">리더·교사</button>
+            </div>
+            <button onclick="openBookModal()"
+                class="bg-slate-800 hover:bg-slate-700 active:scale-95 transition px-3.5 py-2 rounded-xl text-xs font-bold text-blue-400 border border-slate-700 flex items-center space-x-1 shrink-0">
+                <span id="current-location-btn">요한복음 3장</span>
+                <svg class="w-3.5 h-3.5 ml-0.5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2.5" d="M19 9l-7 7-7-7"></path>
+                </svg>
+            </button>
         </div>
     </div>
 
-    <!-- 메인 성경 본문 뷰 -->
-    <main class="flex-1 max-w-md w-full mx-auto p-5 space-y-4 pb-32">
+    <!-- 메인 콘텐츠 뷰 (성경 본문) -->
+    <main id="view-bible" class="flex-1 max-w-md w-full mx-auto p-5 space-y-4 pb-32">
         <div class="bg-slate-800/40 border border-slate-800/80 rounded-2xl p-5 shadow-xl">
             <p class="text-xs text-blue-400 font-bold mb-4 flex items-center">
                 <span class="mr-1.5">💡</span> 구절을 터치하시면 정통 주석과 삶의 적용이 나타납니다.
@@ -57,7 +69,44 @@
         </div>
     </main>
 
-    <!-- 선택된 절 주석 및 삶의 적용 표시 패널 -->
+    <!-- 메인 콘텐츠 뷰 (상황별 묵상) -->
+    <main id="view-topics" class="flex-1 max-w-md w-full mx-auto p-5 space-y-4 pb-32 hidden">
+        <div class="bg-slate-800/40 border border-slate-800/80 rounded-2xl p-5 shadow-xl space-y-4">
+            <div>
+                <h2 class="text-base font-bold text-white flex items-center"><span class="mr-2">🧭</span> 인생 상황별 맞춤 묵상
+                </h2>
+                <p class="text-xs text-slate-400 mt-1">마음이 향하는 상황이나 주제를 선택해 위로와 지혜를 얻으세요.</p>
+            </div>
+            <!-- 주제 태그 클라우드 -->
+            <div id="topic-tags-container" class="flex flex-wrap gap-2 pt-2"></div>
+        </div>
+        <!-- 선택된 주제 결과 카드 -->
+        <div id="topic-result-card"
+            class="bg-slate-950 border border-slate-800 rounded-2xl p-5 space-y-4 shadow-2xl hidden">
+            <div class="flex justify-between items-center border-b border-slate-800 pb-3">
+                <span id="topic-result-title" class="text-sm font-bold text-blue-400">주제</span>
+                <button onclick="closeTopicResult()"
+                    class="text-slate-400 hover:text-white text-xs font-bold px-2.5 py-1 bg-slate-900 border border-slate-800 rounded-xl">닫기
+                    ✕</button>
+            </div>
+            <p id="topic-result-verse"
+                class="text-sm text-slate-200 italic font-serif leading-relaxed bg-slate-900/60 p-3.5 rounded-xl border border-slate-800/60">
+            </p>
+            <div class="bg-slate-900 border border-slate-800 p-4 rounded-2xl space-y-2">
+                <span id="topic-result-level-label"
+                    class="text-xs font-bold text-blue-400 uppercase tracking-wider block">주석</span>
+                <p id="topic-result-commentary" class="text-slate-100 text-sm leading-relaxed font-sans"></p>
+            </div>
+            <div class="bg-blue-950/30 border border-blue-900/50 p-4 rounded-2xl space-y-2">
+                <span class="text-xs font-bold text-emerald-400 uppercase tracking-wider block flex items-center">
+                    <span class="mr-1.5">🌱</span> 삶의 구체적 적용
+                </span>
+                <p id="topic-result-application" class="text-slate-200 text-sm leading-relaxed font-sans"></p>
+            </div>
+        </div>
+    </main>
+
+    <!-- 선택된 절 주석 및 삶의 적용 표시 패널 (성경 본문용) -->
     <div id="commentary-panel"
         class="fixed bottom-0 left-0 right-0 bg-slate-950 border-t border-slate-800 p-6 z-40 transform translate-y-full transition-transform duration-300 shadow-2xl max-h-[75vh] overflow-y-auto rounded-t-3xl">
         <div class="max-w-md mx-auto space-y-4">
@@ -70,15 +119,11 @@
             <p id="panel-verse-text"
                 class="text-sm text-slate-300 italic font-serif leading-relaxed bg-slate-900/60 p-3.5 rounded-xl border border-slate-800/60">
             </p>
-
-            <!-- 주석 본문 영역 -->
             <div class="bg-slate-900 border border-slate-800 p-4 rounded-2xl shadow-inner space-y-2">
                 <span id="panel-level-label"
                     class="text-xs font-bold text-blue-400 uppercase tracking-wider block">주석</span>
                 <p id="panel-commentary-text" class="text-slate-100 text-sm leading-relaxed font-sans"></p>
             </div>
-
-            <!-- 🌟 삶의 적용 영역 (이 부분이 추가되어야 합니다) -->
             <div class="bg-blue-950/30 border border-blue-900/50 p-4 rounded-2xl space-y-2">
                 <span class="text-xs font-bold text-emerald-400 uppercase tracking-wider block flex items-center">
                     <span class="mr-1.5">🌱</span> 삶의 구체적 적용
@@ -117,6 +162,7 @@
         let currentLevel = 1;
         let activeVerseIndex = null;
         let currentTestament = 'nt';
+        let topicsData = {};
 
         const bibleDataMap = {
             ot: [
@@ -139,17 +185,38 @@
             try {
                 const response = await fetch(`${bookCode}.json`);
                 currentData = await response.json();
-                render();
+                renderBible();
             } catch (error) {
                 document.getElementById('verses-list').innerHTML = `
                     <div class="text-center py-16 text-slate-400 space-y-3">
                         <p class="text-lg font-bold">🚧 주석 데이터 준비 중</p>
-                        <p class="text-sm text-slate-500">현재 요한복음 3장이 샘플로 완비되어 있습니다</p>
+                        <p class="text-sm text-slate-500">현재 요한복음 3장 및 상황별 묵상이 준비되어 있습니다</p>
                     </div>`;
             }
         }
 
-        function render() {
+        async function loadTopicsData() {
+            try {
+                const response = await fetch('topics.json');
+                topicsData = await response.json();
+                renderTopicsTags();
+            } catch (error) {
+                console.error("Topics load failed", error);
+            }
+        }
+
+        function switchMainTab(tab) {
+            const isBible = tab === 'bible';
+            document.getElementById('view-bible').classList.toggle('hidden', !isBible);
+            document.getElementById('view-topics').classList.toggle('hidden', isBible);
+            document.getElementById('level-bar').classList.toggle('hidden', !isBible);
+
+            document.getElementById('nav-tab-bible').className = isBible ? "bg-blue-600 text-white px-3.5 py-1.5 rounded-xl text-xs font-bold transition shadow" : "bg-slate-800 text-slate-400 px-3.5 py-1.5 rounded-xl text-xs font-bold transition";
+            document.getElementById('nav-tab-topics').className = !isBible ? "bg-blue-600 text-white px-3.5 py-1.5 rounded-xl text-xs font-bold transition shadow" : "bg-slate-800 text-slate-400 px-3.5 py-1.5 rounded-xl text-xs font-bold transition";
+            if (isBible) closePanel();
+        }
+
+        function renderBible() {
             if (!currentData) return;
             document.getElementById('current-location-btn').innerText = `${currentData.book} ${currentData.chapter}장`;
             let listContainer = document.getElementById('verses-list');
@@ -161,6 +228,38 @@
                         <p class="text-slate-100 flex-1">${item.text}</p>
                     </div>`;
             });
+        }
+
+        function renderTopicsTags() {
+            const container = document.getElementById('topic-tags-container');
+            container.innerHTML = "";
+            Object.keys(topicsData).forEach(topicName => {
+                container.innerHTML += `
+                    <button onclick="selectTopic('${topicName}')" class="bg-slate-900 hover:bg-blue-600/20 text-slate-300 hover:text-blue-400 border border-slate-800 hover:border-blue-500/30 px-3 py-2 rounded-xl text-xs font-semibold transition active:scale-95 shadow-sm">
+                        # ${topicName}
+                    </button>`;
+            });
+        }
+
+        function selectTopic(topicName) {
+            const data = topicsData[topicName];
+            if (!data) return;
+            let commentaryText = currentLevel === 1 ? data.commentary.level1 : currentLevel === 2 ? data.commentary.level2 : data.commentary.level3;
+            let applicationText = currentLevel === 1 ? data.application.level1 : currentLevel === 2 ? data.application.level2 : data.application.level3;
+            let levelName = currentLevel === 1 ? '초신자용 주석' : currentLevel === 2 ? '일반 성도용 주석' : '리더·교사용 주해';
+
+            document.getElementById('topic-result-title').innerText = `📌 #${topicName} (${data.reference})`;
+            document.getElementById('topic-result-verse').innerText = `"${data.text}"`;
+            document.getElementById('topic-result-level-label').innerText = `💡 ${levelName}`;
+            document.getElementById('topic-result-commentary').innerText = commentaryText;
+            document.getElementById('topic-result-application').innerText = applicationText;
+
+            document.getElementById('topic-result-card').classList.remove('hidden');
+            document.getElementById('topic-result-card').scrollIntoView({ behavior: 'smooth' });
+        }
+
+        function closeTopicResult() {
+            document.getElementById('topic-result-card').classList.add('hidden');
         }
 
         function selectVerse(index) {
@@ -188,8 +287,8 @@
             currentLevel = level;
             for (let i = 1; i <= 3; i++) {
                 document.getElementById(`btn-${i}`).className = (i === level)
-                    ? "py-2 text-xs font-bold rounded-xl bg-blue-600 text-white transition shadow"
-                    : "py-2 text-xs font-bold rounded-xl text-slate-400 hover:text-white transition";
+                    ? "py-1.5 text-xs font-bold rounded-xl bg-blue-600 text-white transition shadow"
+                    : "py-1.5 text-xs font-bold rounded-xl text-slate-400 hover:text-white transition";
             }
             if (activeVerseIndex !== null) selectVerse(activeVerseIndex);
         }
@@ -235,6 +334,7 @@
         }
 
         loadBookData('jhn');
+        loadTopicsData();
     </script>
 </body>
 
