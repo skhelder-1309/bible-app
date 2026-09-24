@@ -116,17 +116,6 @@
             display: flex;
         }
 
-        .profile-card {
-            background: linear-gradient(135deg, #FFFDF9 0%, #FFF5EB 100%);
-            border: 1px solid #F3E5D8;
-            border-radius: 20px;
-            padding: 18px 20px;
-            box-shadow: var(--shadow);
-            display: flex;
-            align-items: center;
-            justify-content: space-between;
-        }
-
         .content-card {
             background: var(--card-bg);
             border: 1px solid var(--border-color);
@@ -145,26 +134,27 @@
             align-items: center;
         }
 
-        /* 메인 홈 핵심 상황별 카드 2x2 깔끔한 배치 */
-        .home-comfort-grid {
+        /* 메인 홈 퀴즈 및 게임 메뉴 그리드 (2x2) */
+        .home-game-grid {
             display: grid;
             grid-template-columns: repeat(2, 1fr);
-            gap: 10px;
+            gap: 12px;
         }
 
-        .home-comfort-item {
-            background: #FFF7ED;
-            border: 1px solid #FFEDD5;
+        .home-game-item {
+            background: linear-gradient(135deg, #FFFDF9 0%, #FFF5EB 100%);
+            border: 1px solid #F3E5D8;
             border-radius: 14px;
             padding: 16px;
             cursor: pointer;
             transition: all 0.2s;
+            text-align: center;
         }
 
-        .home-comfort-item:hover {
-            background: #FFEDD5;
-            border-color: #F97316;
+        .home-game-item:hover {
+            border-color: var(--accent-warm);
             transform: translateY(-2px);
+            box-shadow: 0 6px 15px rgba(194, 65, 12, 0.08);
         }
 
         /* 66권 그리드 */
@@ -224,7 +214,7 @@
             border-color: var(--accent-warm);
         }
 
-        /* 절 번호만 깔끔하게 나오는 숫자 그리드 */
+        /* 절 번호 숫자 그리드 */
         .verse-number-grid {
             display: grid;
             grid-template-columns: repeat(6, 1fr);
@@ -336,7 +326,7 @@
             background: #FFFBF5;
         }
 
-        /* 전체 상황 목록 선택 그리드 (위로구절 탭 안에서 항목 선택용) */
+        /* 전체 상황 목록 선택 그리드 */
         .all-categories-grid {
             display: grid;
             grid-template-columns: repeat(3, 1fr);
@@ -414,7 +404,7 @@
             <div class="logo-area" onclick="switchTab(0)">
                 <span>📖</span> <strong>황우의 지혜의 서재</strong>
             </div>
-            <div style="font-size: 0.8rem; color: var(--accent-warm); font-weight: 700;">황우님 영성 서재 ✨</div>
+            <div style="font-size: 0.8rem; color: var(--accent-warm); font-weight: 700;">황우님 ✨</div>
         </header>
 
         <div class="tab-menu-bar">
@@ -426,49 +416,30 @@
 
         <div class="scroll-content">
 
-            <!-- 1. 서재 홈 뷰 (깔끔한 대표 카드 4개 구성) -->
+            <!-- 1. 서재 홈 뷰 -->
             <div id="view-home" class="view-section active">
-                <div class="profile-card">
-                    <div>
-                        <h2 style="font-size: 1.1rem; font-weight: 700; color: var(--text-main);">황우님의 영성 서재</h2>
-                        <p style="font-size: 0.78rem; color: var(--text-muted); margin-top:2px;">전체 성경 구절 연동 &amp; 4단계
-                            깊은 묵상</p>
+
+                <!-- 1줄만 깔끔하게 남긴 마음의 위로 구절 바로가기 바 -->
+                <div class="content-card" style="padding: 14px 18px; cursor: pointer;" onclick="switchTab(2)">
+                    <div class="card-title" style="margin-bottom: 0;">
+                        <span>🌿 마음의 위로와 힘을 얻는 구절 보기</span>
+                        <span style="font-size:0.78rem; color:var(--accent-warm); font-weight:600;">전체 항목보기 ▶</span>
                     </div>
-                    <div style="font-size: 1.8rem;">✨</div>
                 </div>
 
-                <!-- 메인 화면 위로/힘을 얻는 주요 항목 아이콘 카드 -->
+                <!-- 성경 퀴즈 및 게임 메뉴 카드 (제안 반영) -->
                 <div class="content-card">
-                    <div class="card-title">
-                        <span>🌿 마음의 위로와 힘을 얻는 구절</span>
-                        <span onclick="switchTab(2)"
-                            style="font-size:0.75rem; color:var(--accent-warm); cursor:pointer; font-weight:600;">전체
-                            항목보기 ▶</span>
-                    </div>
-                    <div class="home-comfort-grid">
-                        <div class="home-comfort-item" onclick="openComfortCategory('comfort')">
-                            <div style="font-size: 1.5rem; margin-bottom: 4px;">🌿</div>
-                            <div style="font-size: 0.9rem; font-weight: 700; color: var(--accent-warm);">위로가 필요할 때</div>
-                            <div style="font-size: 0.75rem; color: var(--text-muted); margin-top:2px;">평안을 주는 구절 4선
-                            </div>
+                    <div class="card-title">🎮 성경 액티비티 &amp; 퀴즈</div>
+                    <div class="home-game-grid">
+                        <div class="home-game-item" onclick="alert('성경 퀴즈 모드로 이동합니다. (준비 중)')">
+                            <div style="font-size: 1.8rem; margin-bottom: 6px;">🎯</div>
+                            <div style="font-size: 0.9rem; font-weight: 700; color: var(--accent-warm);">성경 퀴즈 한판</div>
+                            <div style="font-size: 0.72rem; color: var(--text-muted); margin-top:2px;">말씀 실력 테스트</div>
                         </div>
-                        <div class="home-comfort-item" onclick="openComfortCategory('fear')">
-                            <div style="font-size: 1.5rem; margin-bottom: 4px;">🛡️</div>
-                            <div style="font-size: 0.9rem; font-weight: 700; color: var(--accent-warm);">두려움이 올 때</div>
-                            <div style="font-size: 0.75rem; color: var(--text-muted); margin-top:2px;">담대함을 주는 구절 4선
-                            </div>
-                        </div>
-                        <div class="home-comfort-item" onclick="openComfortCategory('thanks')">
-                            <div style="font-size: 1.5rem; margin-bottom: 4px;">✨</div>
-                            <div style="font-size: 0.9rem; font-weight: 700; color: var(--accent-warm);">감사가 넘칠 때</div>
-                            <div style="font-size: 0.75rem; color: var(--text-muted); margin-top:2px;">찬양과 기쁨의 구절 4선
-                            </div>
-                        </div>
-                        <div class="home-comfort-item" onclick="openComfortCategory('wisdom')">
-                            <div style="font-size: 1.5rem; margin-bottom: 4px;">💡</div>
-                            <div style="font-size: 0.9rem; font-weight: 700; color: var(--accent-warm);">지혜가 필요할 때</div>
-                            <div style="font-size: 0.75rem; color: var(--text-muted); margin-top:2px;">명철과 인도함의 구절 4선
-                            </div>
+                        <div class="home-game-item" onclick="alert('성경 단어 맞추기 게임으로 이동합니다. (준비 중)')">
+                            <div style="font-size: 1.8rem; margin-bottom: 6px;">🧩</div>
+                            <div style="font-size: 0.9rem; font-weight: 700; color: var(--accent-warm);">성경 단어 매칭</div>
+                            <div style="font-size: 0.72rem; color: var(--text-muted); margin-top:2px;">재미있는 암송 게임</div>
                         </div>
                     </div>
                 </div>
@@ -496,17 +467,14 @@
                 </div>
             </div>
 
-            <!-- 3. 상황별 위로 구절 뷰 (모든 세분화된 항목 선택 및 4개 구절 확인) -->
+            <!-- 3. 상황별 위로 구절 뷰 -->
             <div id="view-comfort" class="view-section">
                 <div class="content-card">
                     <div class="card-title" id="comfort-view-header">🎯 상황별 맞춤 은혜의 말씀 (4선)</div>
                     <p style="font-size: 0.82rem; color: var(--text-muted); margin-bottom: 10px;">원하시는 항목을 터치하시면 해당되는 핵심
                         구절 4개가 펼쳐집니다.</p>
 
-                    <!-- 전체 항목 칩 그리드 -->
                     <div class="all-categories-grid" id="all-categories-grid"></div>
-
-                    <!-- 선택된 항목의 4개 구절 리스트 컨테이너 -->
                     <div id="comfort-verses-container"></div>
                 </div>
             </div>
@@ -557,7 +525,6 @@
             "베드로전서", "베드로후서", "요한일서", "요한이서", "요한삼서", "유다서", "요한계시록"
         ];
 
-        // 요청하신 모든 항목 데이터 (항목별 정확히 4개 구절 구성)
         const comfortData = {
             comfort: {
                 name: "위로", icon: "🌿", verses: [
@@ -737,7 +704,6 @@
             }
         };
 
-        // 홈 화면 66권 버튼 생성
         const gridContainer = document.getElementById('home-bible-grid');
         bibleBooks.forEach(book => {
             const btn = document.createElement('button');
@@ -750,7 +716,6 @@
             gridContainer.appendChild(btn);
         });
 
-        // 위로구절 탭의 전체 항목 칩 그리드 생성
         const catGrid = document.getElementById('all-categories-grid');
         Object.keys(comfortData).forEach(key => {
             const item = comfortData[key];
@@ -836,7 +801,6 @@
             renderMeditationArea(bookName, chapterNum, activeVNum);
         }
 
-        // 성경 구절 본문 및 주석 출력 함수 (실제 본문 반영)
         function renderMeditationArea(book, chap, vNum) {
             const area = document.getElementById('active-meditation-area');
             const verseText = getActualVerseText(book, chap, vNum);
@@ -884,9 +848,7 @@
             return `<strong>[4단계: 삶의 적용 (실천 지침)]</strong><br>• <strong>오늘의 실천:</strong> 내 생각과 방법을 내려놓고 주님께 기도로 아뢰기`;
         }
 
-        // 상황별 위로 구절 탭에서 항목 클릭 시 4개 구절 로드
         function loadComfortList(categoryKey) {
-            // 모든 칩 활성 상태 해제 후 선택된 것만 active
             Object.keys(comfortData).forEach(k => {
                 const chip = document.getElementById(`cat-chip-${k}`);
                 if (chip) chip.classList.toggle('active', k === categoryKey);
@@ -907,20 +869,10 @@
                     <div style="font-size: 0.85rem; font-weight: 700; color: var(--accent-warm); margin-bottom: 4px;">📖 ${item.title}</div>
                     <div style="font-size: 0.82rem; color: var(--text-main);">"${item.text}"</div>
                 `;
-                card.onclick = () => {
-                    alert(`[${item.title}] 본문 묵상으로 이동합니다.`);
-                };
                 container.appendChild(card);
             });
         }
 
-        // 홈 화면에서 특정 카테고리로 바로 이동할 때
-        function openComfortCategory(categoryKey) {
-            switchTab(2); // 위로구절 탭으로 이동
-            loadComfortList(categoryKey);
-        }
-
-        // 초기 실행
         selectBookAndChapter("창세기", 1, 1);
         loadComfortList('comfort');
 
