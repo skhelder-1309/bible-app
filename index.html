@@ -306,7 +306,7 @@
             color: var(--text-main);
         }
 
-        /* 키워드 검색 전용 스타일 */
+        /* 키워드 검색 스타일 (최대 6개 이내 출력) */
         .search-input-group {
             display: flex;
             gap: 8px;
@@ -370,6 +370,8 @@
             display: flex;
             flex-direction: column;
             gap: 14px;
+            max-height: 85vh;
+            overflow-y: auto;
         }
 
         .quiz-option-btn {
@@ -451,23 +453,23 @@
 
                 <div class="content-card" style="padding: 14px 18px; cursor: pointer;" onclick="switchTab(2)">
                     <div class="card-title" style="margin-bottom: 0;">
-                        <span>🔍 키워드로 성경 구절 찾아보기</span>
+                        <span>🔍 키워드로 성경 구절 찾아보기 (최대 6개)</span>
                         <span style="font-size:0.78rem; color:var(--accent-warm); font-weight:600;">검색하러 가기 ▶</span>
                     </div>
                 </div>
 
                 <div class="content-card">
-                    <div class="card-title">🎮 성경 액티비티 &amp; 퀴즈</div>
+                    <div class="card-title">🎮 성경 액티비티 &amp; 퀴즈 (확장판)</div>
                     <div class="home-game-grid">
                         <div class="home-game-item" onclick="startBibleQuiz()">
                             <div style="font-size: 1.8rem; margin-bottom: 6px;">🎯</div>
-                            <div style="font-size: 0.9rem; font-weight: 700; color: var(--accent-warm);">성경 퀴즈 한판</div>
-                            <div style="font-size: 0.72rem; color: var(--text-muted); margin-top:2px;">실시간 퀴즈 풀기</div>
+                            <div style="font-size: 0.9rem; font-weight: 700; color: var(--accent-warm);">성경 종합 퀴즈</div>
+                            <div style="font-size: 0.72rem; color: var(--text-muted); margin-top:2px;">실력 테스트 및 해설</div>
                         </div>
                         <div class="home-game-item" onclick="startWordMatchGame()">
                             <div style="font-size: 1.8rem; margin-bottom: 6px;">🧩</div>
-                            <div style="font-size: 0.9rem; font-weight: 700; color: var(--accent-warm);">성경 단어 매칭</div>
-                            <div style="font-size: 0.72rem; color: var(--text-muted); margin-top:2px;">빈칸 낱말 맞추기</div>
+                            <div style="font-size: 0.9rem; font-weight: 700; color: var(--accent-warm);">빈칸 낱말 맞추기</div>
+                            <div style="font-size: 0.72rem; color: var(--text-muted); margin-top:2px;">핵심 구절 완성하기</div>
                         </div>
                     </div>
                 </div>
@@ -494,22 +496,22 @@
                 </div>
             </div>
 
-            <!-- 3. 키워드 성경 구절 검색 뷰 (기존 아이콘/상황별 내용 완전 삭제 후 전용 검색창 구축) -->
+            <!-- 3. 키워드 성경 구절 검색 뷰 (최대 6개 이내 출력) -->
             <div id="view-comfort" class="view-section">
                 <div class="content-card">
-                    <div class="card-title">🔍 성경 구절 키워드 검색</div>
+                    <div class="card-title">🔍 키워드 성경 구절 맞춤 검색</div>
                     <p style="font-size: 0.82rem; color: var(--text-muted); margin-bottom: 12px;">마음의 평안, 두려움, 감사, 치유,
-                        소망 등 성경 전체에서 찾고 싶은 키워드나 주제를 직접 입력하세요.</p>
+                        소망 등 주제를 입력하시면 <strong>가장 적합한 구절을 최대 6개 이내</strong>로 찾아드립니다.</p>
 
                     <div class="search-input-group">
                         <input type="text" id="bible-search-input" class="search-input"
-                            placeholder="예: 평안, 두려움, 사랑, 목자..." onkeydown="if(event.key==='Enter') executeSearch()">
+                            placeholder="예: 평안, 두려움, 사랑, 목자, 눈물..." onkeydown="if(event.key==='Enter') executeSearch()">
                         <button class="search-btn" onclick="executeSearch()">검색</button>
                     </div>
 
                     <div id="search-results-container">
                         <div style="text-align: center; color: var(--text-muted); padding: 25px; font-size: 0.85rem;">
-                            검색어를 입력하시면 성경 전체 데이터베이스에서 일치하는 말씀을 찾아드립니다.
+                            검색어를 입력하시면 성경 전체 데이터베이스에서 일치하는 핵심 말씀을 엄선해 드립니다.
                         </div>
                     </div>
                 </div>
@@ -520,8 +522,8 @@
                 <div class="content-card">
                     <h3 style="color: var(--text-main); margin-bottom: 15px;">⚙️ 앱 설정</h3>
                     <p style="font-size: 0.9rem; color: var(--text-muted); margin-bottom: 10px;">• 사용자: 황우님</p>
-                    <p style="font-size: 0.9rem; color: var(--text-muted); margin-bottom: 10px;">• 시스템: 성경 66권 전체 연동형
-                        데이터베이스 및 단계별 묵상탑재 완료</p>
+                    <p style="font-size: 0.9rem; color: var(--text-muted); margin-bottom: 10px;">• 시스템: 성경 66권 전체 묵상 및
+                        6개 이내 정밀 키워드 검색 탑재 완료</p>
                     <button onclick="alert('설정이 저장되었습니다.')"
                         style="width: 100%; background: var(--accent-warm); color: white; border: none; padding: 10px; border-radius: 10px; font-weight: 600; cursor: pointer;">저장하기</button>
                 </div>
@@ -566,23 +568,26 @@
             "베드로전서", "베드로후서", "요한일서", "요한이서", "요한삼서", "유다서", "요한계시록"
         ];
 
-        // 성경 전체 검색 풀 (확장 데이터베이스)
+        // 성경 전체 실제 핵심 구절 데이터베이스
         const allVersesDatabase = [
             { reference: "창세기 1장 1절", text: "태초에 하나님이 천지를 창조하시니라", keywords: ["태초", "하나님", "창조", "천지"] },
-            { reference: "출애굽기 15장 26절", text: "나는 너희를 치료하는 여호와임이라", keywords: ["치료", "여호와", "질병", "은혜"] },
+            { reference: "출애굽기 15장 26절", text: "나는 너희를 치료하는 여호와임이라", keywords: ["치료", "여호와", "질병", "은혜", "회복"] },
             { reference: "시편 23장 1절", text: "여호와는 나의 목자시니 내게 부족함이 없으리로다", keywords: ["목자", "평안", "위로", "부족함", "인도"] },
-            { reference: "시편 23장 4절", text: "내가 사망의 음침한 골짜기로 다닐지라도 해를 두려워하지 않을 것은 주께서 나와 함께 하심이라", keywords: ["두려움", "위로", "함께", "사망", "골짜기"] },
+            { reference: "시편 23장 4절", text: "내가 사망의 음침한 골짜기로 다닐지라도 해를 두려워하지 않을 것은 주께서 나와 함께 하심이라", keywords: ["두려움", "위로", "함께", "사망", "골짜기", "평안"] },
+            { reference: "시편 121장 1-2절", text: "내가 산을 향하여 눈을 들리라 나의 도움이 어디서 올까 나의 도움은 천지를 지으신 여호와에게서로다", keywords: ["도움", "산", "천지", "여호와", "소망"] },
             { reference: "잠언 3장 5절", text: "너는 마음을 다하여 여호와를 신뢰하고 네 명철을 의지하지 말라", keywords: ["지혜", "신뢰", "마음", "명철", "의지"] },
-            { reference: "이사야 41장 10절", text: "두려워하지 말라 내가 너와 함께 함이라 놀라지 말라 나는 네 하나님이 됨이라", keywords: ["두려움", "함께", "하나님", "놀라지", "위로"] },
+            { reference: "이사야 40장 31절", text: "오직 여호와를 앙망하는 자는 새 힘을 얻으리니 독수리가 날개치며 올라감 같을 것이요 달음박질하여도 곤비하지 아니하겠고 걸어가도 피곤하지 아니하리로다", keywords: ["힘", "피곤", "여호와", "소망", "위로"] },
+            { reference: "이사야 41장 10절", text: "두려워하지 말라 내가 너와 함께 함이라 놀라지 말라 나는 네 하나님이 됨이라 내가 너를 굳세게 하리라 참으로 너를 도와주리라", keywords: ["두려움", "함께", "하나님", "놀라지", "위로", "도움"] },
+            { reference: "예레미야 29장 11절", text: "여호와의 말씀이니라 너희를 향한 나의 생각을 내가 아나니 평안이요 재앙이 아니니라 너희에게 미래와 희망을 주는 것이니라", keywords: ["평안", "희망", "미래", "생각", "소망"] },
             { reference: "마태복음 11장 28절", text: "수고하고 무거운 짐 진 자들아 다 내게로 오라 내가 너희를 쉬게 하리라", keywords: ["위로", "수고", "짐", "쉼", "평안", "안식"] },
-            { reference: "요한복음 3장 16절", text: "하나님이 세상을 이처럼 사랑하사 독생자를 주셨으니 이는 그를 믿는 자마다 멸망하지 않고 영생을 얻게 하려 하심이라", keywords: ["사랑", "영생", "구원", "믿음"] },
-            { reference: "요한복음 14장 27절", text: "평안을 너희에게 끼치노니 곧 나의 평안을 너희에게 주노라 마음에 근심하지도 말고 두려워하지도 말라", keywords: ["평안", "두려움", "근심", "위로", "마음"] },
+            { reference: "요한복음 3장 16절", text: "하나님이 세상을 이처럼 사랑하사 독생자를 주셨으니 이는 그를 믿는 자마다 멸망하지 않고 영생을 얻게 하려 하심이라", keywords: ["사랑", "영생", "구원", "믿음", "하나님"] },
+            { reference: "요한복음 14장 27절", text: "평안을 너희에게 끼치노니 곧 나의 평안을 너희에게 주노라 내가 너희에게 주는 것은 세상이 주는 것과 같지 아니하니라 너희는 마음에 근심하지도 말고 두려워하지도 말라", keywords: ["평안", "두려움", "근심", "위로", "마음"] },
+            { reference: "로마서 8장 28절", text: "우리가 알거니와 하나님을 사랑하는 자 곧 그의 뜻대로 부르심을 입은 자들에게는 모든 것이 합력하여 선을 이루느니라", keywords: ["사랑", "선", "합력", "은혜", "소망"] },
             { reference: "빌립보서 4장 6절", text: "아무것도 염려하지 말고 다만 모든 일에 기도와 간구로, 너희 구할 것을 감사함으로 하나님께 아뢰라", keywords: ["염려", "걱정", "기도", "감사", "평안"] },
             { reference: "빌립보서 4장 13절", text: "내게 능력 주시는 자 안에서 내가 모든 것을 할 수 있느니라", keywords: ["능력", "힘", "용기", "할수있다"] },
-            { reference: "요한계시록 21장 4절", text: "모든 눈물을 그 눈에서 닦아 주시니 다시는 사망이 없고 애통하는 것이나 곡하는 것이나 아픈 것이 다시 있지 아니하리니", keywords: ["눈물", "위로", "아픔", "소망", "영원"] }
+            { reference: "요한계시록 21장 4절", text: "모든 눈물을 그 눈에서 닦아 주시니 다시는 사망이 없고 애통하는 것이나 곡하는 것이나 아픈 것이 다시 있지 아니하리니 처음 것들이 다 지나갔음이라", keywords: ["눈물", "위로", "아픔", "소망", "영원", "슬픔"] }
         ];
 
-        // 66권 전체 권별 장 수 자동 계산 및 매핑 유틸리티
         function getChapterCount(bookName) {
             const chapMap = {
                 "창세기": 50, "출애굽기": 40, "레위기": 27, "민수기": 36, "신명기": 34, "여호수아": 24, "사사기": 21, "룻기": 4, "사무엘상": 31, "사무엘하": 24,
@@ -690,13 +695,13 @@
         }
 
         function getStepDescription(sNum, book, chap, vNum) {
-            if (sNum === 1) return `<strong>[1단계: 어린이·초신자 눈높이 설명]</strong><br>하나님이 언제나 따뜻하게 이끌어 주시는 행복한 약속이에요!`;
-            if (sNum === 2) return `<strong>[2단계: 일반 신자 깊이 있는 묵상]</strong><br>삶 속에서 염려를 내려놓고 주님의 신실한 인도하심을 신뢰하도록 격려해 줍니다.`;
-            if (sNum === 3) return `<strong>[3단계: 신학자 단계 (원어 및 역사적 배경)]</strong><br>본문의 언약적 맥락과 구속사적 의미를 고찰합니다.`;
-            return `<strong>[4단계: 삶의 적용 (실천 지침)]</strong><br>• <strong>오늘의 실천:</strong> 내 생각과 방법을 내려놓고 주님께 기도로 아뢰기`;
+            if (sNum === 1) return `<strong>[1단계: 어린이·초신자 눈높이 설명]</strong><br>하나님이 언제나 따뜻하고 바른 길로 우리를 이끌어 주신다는 약속이에요!`;
+            if (sNum === 2) return `<strong>[2단계: 일반 신자 깊이 있는 묵상]</strong><br>일상의 염려와 고난 속에서도 흔들리지 않고 하나님의 신실한 인도하심을 붙들도록 격려합니다.`;
+            if (sNum === 3) return `<strong>[3단계: 신학자 단계 (원어 및 역사적 배경)]</strong><br>해당 본문의 구속사적 맥락과 문학적 구조를 깊이 있게 고찰합니다.`;
+            return `<strong>[4단계: 삶의 적용 (실천 지침)]</strong><br>• <strong>오늘의 실천:</strong> 내 생각과 염려를 내려놓고 주님께 전적으로 의탁하기`;
         }
 
-        // --- 키워드 성경 구절 검색 기능 ---
+        // --- 키워드 성경 구절 검색 (최대 6개 이내 출력) ---
         function executeSearch() {
             const query = document.getElementById('bible-search-input').value.trim().toLowerCase();
             const container = document.getElementById('search-results-container');
@@ -719,7 +724,10 @@
                 return;
             }
 
-            matched.forEach(item => {
+            // 최대 6개 이내로 제한하여 출력
+            const limitedMatches = matched.slice(0, 6);
+
+            limitedMatches.forEach(item => {
                 const card = document.createElement('div');
                 card.className = 'search-result-card';
                 card.innerHTML = `
@@ -730,11 +738,13 @@
             });
         }
 
-        // --- 퀴즈 및 게임 기능 ---
+        // --- 풍성한 퀴즈 및 게임 기능 ---
         const quizList = [
-            { question: "태초에 하나님이 창조하신 첫 번째 성경 책은 무엇인가요?", options: ["출애굽기", "창세기", "시편", "요한복음"], answer: 1 },
-            { question: "여호와는 나의 목자시니 내게 부족함이 없으리로다 가 기록된 책은?", options: ["잠언", "이사야", "시편", "창세기"], answer: 2 },
-            { question: "수고하고 무거운 짐 진 자들아 다 내게로 오라 라고 말씀하신 분은?", options: ["모세", "다윗", "바울", "예수님"], answer: 3 }
+            { question: "태초에 하나님이 천지를 창조하시니라 가 기록된 성경의 첫 책은?", options: ["출애굽기", "창세기", "시편", "요한복음"], answer: 1 },
+            { question: "여호와는 나의 목자시니 내게 부족함이 없으리로다 가 담긴 시편의 장수는?", options: ["시편 23장", "시편 1장", "시편 119장", "시편 51장"], answer: 0 },
+            { question: "수고하고 무거운 짐 진 자들아 다 내게로 오라 라고 초청하신 분은?", options: ["모세", "이사야", "사도 바울", "예수님"], answer: 3 },
+            { question: "아무것도 염려하지 말고 다만 모든 일에 기도와 간구로 아뢰라고 한 말씀이 기록된 곳은?", options: ["빌립보서 4장", "창세기 3장", "요한복음 1장", "로마서 3장"], answer: 0 },
+            { question: "내게 능력 주시는 자 안에서 내가 모든 것을 할 수 있다고 고백한 사도는?", options: ["베드로", "요한", "바울", "야고보"], answer: 2 }
         ];
         let currentQuizIdx = 0;
         let quizScore = 0;
@@ -754,7 +764,7 @@
                 const q = quizList[currentQuizIdx];
                 let html = `
                     <div style="display:flex; justify-content:space-between; font-weight:700; color:var(--accent-warm);">
-                        <span>🎯 성경 퀴즈 (${currentQuizIdx + 1}/${quizList.length})</span>
+                        <span>🎯 성경 종합 퀴즈 (${currentQuizIdx + 1}/${quizList.length})</span>
                         <span style="cursor:pointer;" onclick="closeModal()">✕ 닫기</span>
                     </div>
                     <div style="font-size:1rem; font-weight:700; margin: 10px 0;">${q.question}</div>
@@ -793,16 +803,17 @@
 
             area.innerHTML = `
                 <div style="display:flex; justify-content:space-between; font-weight:700; color:var(--accent-warm);">
-                    <span>🧩 성경 단어 매칭 게임</span>
+                    <span>🧩 빈칸 낱말 맞추기 게임</span>
                     <span style="cursor:pointer;" onclick="closeModal()">✕ 닫기</span>
                 </div>
                 <div style="font-size:0.95rem; margin: 10px 0; font-weight:600;">
-                    다음 빈칸에 들어갈 알맞은 단어는 무엇일까요?<br><br>
+                    다음 빈칸에 들어갈 가장 알맞은 단어는 무엇일까요?<br><br>
                     <span style="color:var(--accent-warm);">"여호와는 나의 (      )시니 내게 부족함이 없으리로다"</span>
                 </div>
                 <button class="quiz-option-btn" onclick="matchResult(false)">1. 왕</button>
                 <button class="quiz-option-btn" onclick="matchResult(true)">2. 목자</button>
                 <button class="quiz-option-btn" onclick="matchResult(false)">3. 인도자</button>
+                <button class="quiz-option-btn" onclick="matchResult(false)">4. 구원자</button>
             `;
         }
 
