@@ -120,32 +120,11 @@
             background: linear-gradient(135deg, #FFFDF9 0%, #FFF5EB 100%);
             border: 1px solid #F3E5D8;
             border-radius: 20px;
-            padding: 20px;
+            padding: 18px 20px;
             box-shadow: var(--shadow);
-        }
-
-        .profile-top {
             display: flex;
             align-items: center;
-            gap: 14px;
-        }
-
-        .profile-avatar {
-            width: 45px;
-            height: 45px;
-            border-radius: 50%;
-            background: linear-gradient(135deg, #F97316, #C2410C);
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            font-size: 1.3rem;
-            color: white;
-        }
-
-        .profile-info h2 {
-            font-size: 1.1rem;
-            font-weight: 700;
-            color: var(--text-main);
+            justify-content: space-between;
         }
 
         .content-card {
@@ -164,6 +143,28 @@
             display: flex;
             justify-content: space-between;
             align-items: center;
+        }
+
+        /* 메인 홈 핵심 상황별 카드 2x2 깔끔한 배치 */
+        .home-comfort-grid {
+            display: grid;
+            grid-template-columns: repeat(2, 1fr);
+            gap: 10px;
+        }
+
+        .home-comfort-item {
+            background: #FFF7ED;
+            border: 1px solid #FFEDD5;
+            border-radius: 14px;
+            padding: 16px;
+            cursor: pointer;
+            transition: all 0.2s;
+        }
+
+        .home-comfort-item:hover {
+            background: #FFEDD5;
+            border-color: #F97316;
+            transform: translateY(-2px);
         }
 
         /* 66권 그리드 */
@@ -196,43 +197,6 @@
             border-color: var(--accent-warm);
         }
 
-        /* 확장된 상황별 아이콘 카드 그리드 (3열 구조로 많은 항목 배치) */
-        .comfort-grid {
-            display: grid;
-            grid-template-columns: repeat(3, 1fr);
-            gap: 8px;
-            max-height: 320px;
-            overflow-y: auto;
-            padding: 4px;
-        }
-
-        .comfort-card-item {
-            background: #FFF7ED;
-            border: 1px solid #FFEDD5;
-            border-radius: 12px;
-            padding: 10px 6px;
-            cursor: pointer;
-            transition: all 0.2s;
-            text-align: center;
-        }
-
-        .comfort-card-item:hover {
-            background: #FFEDD5;
-            border-color: #F97316;
-            transform: translateY(-2px);
-        }
-
-        .comfort-icon {
-            font-size: 1.3rem;
-            margin-bottom: 4px;
-        }
-
-        .comfort-title {
-            font-size: 0.8rem;
-            font-weight: 700;
-            color: var(--accent-warm);
-        }
-
         /* 장 선택 바 */
         .chapter-selector {
             display: flex;
@@ -260,7 +224,7 @@
             border-color: var(--accent-warm);
         }
 
-        /* 절 숫자만 나오는 그리드 */
+        /* 절 번호만 깔끔하게 나오는 숫자 그리드 */
         .verse-number-grid {
             display: grid;
             grid-template-columns: repeat(6, 1fr);
@@ -356,6 +320,7 @@
             color: var(--text-main);
         }
 
+        /* 상황별 4선 리스트 카드 */
         .comfort-verse-card {
             background: white;
             border: 1px solid var(--border-color);
@@ -369,6 +334,39 @@
         .comfort-verse-card:hover {
             border-color: var(--accent-warm);
             background: #FFFBF5;
+        }
+
+        /* 전체 상황 목록 선택 그리드 (위로구절 탭 안에서 항목 선택용) */
+        .all-categories-grid {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 6px;
+            margin-bottom: 14px;
+            max-height: 180px;
+            overflow-y: auto;
+            padding: 4px;
+            background: #F4F0EA;
+            border-radius: 12px;
+        }
+
+        .cat-chip {
+            background: white;
+            border: 1px solid var(--border-color);
+            padding: 8px 4px;
+            border-radius: 8px;
+            font-size: 0.78rem;
+            font-weight: 700;
+            text-align: center;
+            cursor: pointer;
+            color: var(--text-main);
+            transition: all 0.15s;
+        }
+
+        .cat-chip:hover,
+        .cat-chip.active {
+            background: var(--accent-warm);
+            color: white;
+            border-color: var(--accent-warm);
         }
 
         .bottom-nav {
@@ -428,23 +426,51 @@
 
         <div class="scroll-content">
 
-            <!-- 1. 서재 홈 뷰 -->
+            <!-- 1. 서재 홈 뷰 (깔끔한 대표 카드 4개 구성) -->
             <div id="view-home" class="view-section active">
                 <div class="profile-card">
-                    <div class="profile-top">
-                        <div class="profile-avatar">✨</div>
-                        <div class="profile-info">
-                            <h2>황우님의 영성 서재</h2>
-                            <p style="font-size: 0.78rem; color: var(--text-muted); margin-top:2px;">전체 성경 구절 연동 &amp;
-                                4단계 깊은 묵상</p>
-                        </div>
+                    <div>
+                        <h2 style="font-size: 1.1rem; font-weight: 700; color: var(--text-main);">황우님의 영성 서재</h2>
+                        <p style="font-size: 0.78rem; color: var(--text-muted); margin-top:2px;">전체 성경 구절 연동 &amp; 4단계
+                            깊은 묵상</p>
                     </div>
+                    <div style="font-size: 1.8rem;">✨</div>
                 </div>
 
-                <!-- 확장된 상황별 맞춤 구절 아이콘 카드 섹션 (모든 요청 항목 포함) -->
+                <!-- 메인 화면 위로/힘을 얻는 주요 항목 아이콘 카드 -->
                 <div class="content-card">
-                    <div class="card-title">🌿 마음의 위로와 힘을 얻는 구절 (종합 항목)</div>
-                    <div class="comfort-grid" id="home-comfort-grid"></div>
+                    <div class="card-title">
+                        <span>🌿 마음의 위로와 힘을 얻는 구절</span>
+                        <span onclick="switchTab(2)"
+                            style="font-size:0.75rem; color:var(--accent-warm); cursor:pointer; font-weight:600;">전체
+                            항목보기 ▶</span>
+                    </div>
+                    <div class="home-comfort-grid">
+                        <div class="home-comfort-item" onclick="openComfortCategory('comfort')">
+                            <div style="font-size: 1.5rem; margin-bottom: 4px;">🌿</div>
+                            <div style="font-size: 0.9rem; font-weight: 700; color: var(--accent-warm);">위로가 필요할 때</div>
+                            <div style="font-size: 0.75rem; color: var(--text-muted); margin-top:2px;">평안을 주는 구절 4선
+                            </div>
+                        </div>
+                        <div class="home-comfort-item" onclick="openComfortCategory('fear')">
+                            <div style="font-size: 1.5rem; margin-bottom: 4px;">🛡️</div>
+                            <div style="font-size: 0.9rem; font-weight: 700; color: var(--accent-warm);">두려움이 올 때</div>
+                            <div style="font-size: 0.75rem; color: var(--text-muted); margin-top:2px;">담대함을 주는 구절 4선
+                            </div>
+                        </div>
+                        <div class="home-comfort-item" onclick="openComfortCategory('thanks')">
+                            <div style="font-size: 1.5rem; margin-bottom: 4px;">✨</div>
+                            <div style="font-size: 0.9rem; font-weight: 700; color: var(--accent-warm);">감사가 넘칠 때</div>
+                            <div style="font-size: 0.75rem; color: var(--text-muted); margin-top:2px;">찬양과 기쁨의 구절 4선
+                            </div>
+                        </div>
+                        <div class="home-comfort-item" onclick="openComfortCategory('wisdom')">
+                            <div style="font-size: 1.5rem; margin-bottom: 4px;">💡</div>
+                            <div style="font-size: 0.9rem; font-weight: 700; color: var(--accent-warm);">지혜가 필요할 때</div>
+                            <div style="font-size: 0.75rem; color: var(--text-muted); margin-top:2px;">명철과 인도함의 구절 4선
+                            </div>
+                        </div>
+                    </div>
                 </div>
 
                 <!-- 성경 66권 바로가기 -->
@@ -459,7 +485,7 @@
                 <div class="content-card">
                     <div class="card-title">
                         <span id="current-selection-title">창세기 1장</span>
-                        <span style="font-size:0.75rem; color:var(--text-muted);">장 선택 후 절 번호를 클릭하세요</span>
+                        <span style="font-size:0.75rem; color:var(--text-muted);">장 선택 후 절 번호 클릭</span>
                     </div>
 
                     <div class="chapter-selector" id="chapter-selector"></div>
@@ -470,20 +496,17 @@
                 </div>
             </div>
 
-            <!-- 3. 상황별 위로 구절 전용 뷰 (항목별 4개 구절 구성) -->
+            <!-- 3. 상황별 위로 구절 뷰 (모든 세분화된 항목 선택 및 4개 구절 확인) -->
             <div id="view-comfort" class="view-section">
                 <div class="content-card">
                     <div class="card-title" id="comfort-view-header">🎯 상황별 맞춤 은혜의 말씀 (4선)</div>
-                    <p style="font-size: 0.82rem; color: var(--text-muted); margin-bottom: 12px;">마음 상태와 삶의 영역에 따른 엄선된
-                        4가지 핵심 구절을 묵상해 보세요.</p>
+                    <p style="font-size: 0.82rem; color: var(--text-muted); margin-bottom: 10px;">원하시는 항목을 터치하시면 해당되는 핵심
+                        구절 4개가 펼쳐집니다.</p>
 
-                    <!-- 카테고리 선택 셀렉트박스 및 버튼바 -->
-                    <div style="margin-bottom: 12px;">
-                        <select id="comfort-category-select" onchange="loadComfortList(this.value)"
-                            style="width: 100%; padding: 10px; border-radius: 10px; border: 1px solid var(--border-color); background: white; font-size: 0.9rem; font-weight: 600; color: var(--accent-warm);">
-                        </select>
-                    </div>
+                    <!-- 전체 항목 칩 그리드 -->
+                    <div class="all-categories-grid" id="all-categories-grid"></div>
 
+                    <!-- 선택된 항목의 4개 구절 리스트 컨테이너 -->
                     <div id="comfort-verses-container"></div>
                 </div>
             </div>
@@ -493,8 +516,8 @@
                 <div class="content-card">
                     <h3 style="color: var(--text-main); margin-bottom: 15px;">⚙️ 앱 설정</h3>
                     <p style="font-size: 0.9rem; color: var(--text-muted); margin-bottom: 10px;">• 사용자: 황우님</p>
-                    <p style="font-size: 0.9rem; color: var(--text-muted); margin-bottom: 10px;">• 구성: 종합 상황별 맞춤 구절 및 성경
-                        66권 완벽 연동</p>
+                    <p style="font-size: 0.9rem; color: var(--text-muted); margin-bottom: 10px;">• 구성: 성경 66권 장·절 연동 및
+                        22가지 삶의 영역 맞춤 구절</p>
                     <button onclick="alert('설정이 저장되었습니다.')"
                         style="width: 100%; background: var(--accent-warm); color: white; border: none; padding: 10px; border-radius: 10px; font-weight: 600; cursor: pointer;">저장하기</button>
                 </div>
@@ -529,12 +552,12 @@
             "열왕기상", "열왕기하", "역대상", "역대하", "에스라", "느헤미야", "에스더", "욥기", "시편", "잠언",
             "전도서", "아가", "이사야", "예레미야", "예레미야애가", "에스겔", "다니엘", "호세아", "요엘", "아모스",
             "오바댜", "요나", "미가", "나훔", "하박국", "스바냐", "학개", "스가랴", "말라기",
-            "마태복음", "마가복음", "누가복음", "요한복음", "사도행전", "로마서", "고린도전서", "고린도후서", "갈라디아서", "E베소서",
+            "마태복음", "마가복음", "누가복음", "요한복음", "사도행전", "로마서", "고린도전서", "고린도후서", "갈라디아서", "에베소서",
             "빌립보서", "골로새서", "데살로니가전서", "데살로니가후서", "디모데전서", "디모데후서", "디도서", "빌레몬서", "히브리서", "야고보서",
             "베드로전서", "베드로후서", "요한일서", "요한이서", "요한삼서", "유다서", "요한계시록"
         ];
 
-        // 요청하신 모든 항목과 추가 항목 데이터 정의 (각 항목별 4선 구성)
+        // 요청하신 모든 항목 데이터 (항목별 정확히 4개 구절 구성)
         const comfortData = {
             comfort: {
                 name: "위로", icon: "🌿", verses: [
@@ -578,24 +601,24 @@
             },
             hope: {
                 name: "소망", icon: "🌅", verses: [
-                    { title: "예레미야 29장 11절", text: "여호와의 말씀이니라 너희를 향한 나의 생각을 내가 아나니 평안이요 재앙이 아니니라 너희에게 미래와 희망을 주는 것이니라" },
-                    { title: "로마서 15장 13절", text: "소망의 하나님이 모든 기쁨과 평강을 믿음 안에서 너희에게 충만하게 하사 성령의 능력으로 소망이 넘치게 하시기를 원하노라" },
-                    { title: "시편 42장 5절", text: "내 영혼아 네가 어찌하여 낙심하며 어찌하여 내 속에서 불안해하는 가 너는 하나님께 소망을 두라" },
-                    { title: "베드로전서 1장 3절", text: "찬송하리로다 그의 많으신 긍휼대로 예수 그리스도를 죽은 자 가운데서 부활하게 하심으로 우리를 거듭나게 하사 산 소망이 있게 하시며" }
+                    { title: "예레미야 29장 11절", text: "여호와의 말씀이니라 너희를 향한 나의 생각을 내가 아나니 평안이요 재앙이 아니니라" },
+                    { title: "로마서 15장 13절", text: "소망의 하나님이 모든 기쁨과 평강을 믿음 안에서 너희에게 충만하게 하사" },
+                    { title: "시편 42장 5절", text: "내 영혼아 네가 어찌하여 낙심하며 어찌하여 내 속에서 불안해하는가 너는 하나님께 소망을 두라" },
+                    { title: "베드로전서 1장 3절", text: "예수 그리스도를 죽은 자 가운데서 부활하게 하심으로 우리를 거듭나게 하사 산 소망이 있게 하시며" }
                 ]
             },
             conflict: {
                 name: "갈등", icon: "🤝", verses: [
                     { title: "로마서 12장 18절", text: "할 수 있거든 너희로는 모든 사람과 더불어 화목하라" },
                     { title: "잠언 15장 1절", text: "유순한 대답은 분노를 쉬게 하여도 과격한 말은 노를 격동하느니라" },
-                    { title: "에베소서 4장 26절", text: "분을 내어도 죄를짓지 말며 해가 지도록 분을 품지 말고" },
+                    { title: "에베소서 4장 26절", text: "분을 내어도 죄를 지지 말며 해가 지도록 분을 품지 말고" },
                     { title: "마태복음 5장 9절", text: "화평하게 하는 자는 복이 있나니 그들이 하나님의 아들이라 일컬음을 받을 것이요" }
                 ]
             },
             selfcontrol: {
                 name: "절제", icon: "⚓", verses: [
                     { title: "잠언 25장 28절", text: "자기의 마음을 절제하지 아니하는 자는 성읍이 무너지고 성벽이 없는 것과 같으니라" },
-                    { title: "고린도전서 9장 25절", text: "이기기를 다투는 자마다 모든 일에 절제하나니 그들은 썩을 승리관을 얻고자 하 우리는 썩지 아니할 것을 얻고자 하노라" },
+                    { title: "고린도전서 9장 25절", text: "이기기를 다투는 자마다 모든 일에 절제하나니" },
                     { title: "디도서 2장 12절", text: "신중함과 의로움과 경건함으로 이 세상에 살고" },
                     { title: "베드로후서 1장 6절", text: "지식에 절제를, 절제에 인내를, 인내에 경건을 더하고" }
                 ]
@@ -604,71 +627,71 @@
                 name: "충성", icon: "🛡️", verses: [
                     { title: "계시록 2장 10절", text: "네가 죽도록 충성하라 그리하면 내가 생명의 관을 네게 주리라" },
                     { title: "고린도전서 4장 2절", text: "그리고 맡은 자들에게 구할 것은 충성이니라" },
-                    { title: "마태복음 25장 21절", text: "잘하였도다 착하고 충성된 종아 네가 적은 일에 충성하였으매 내가 많은 것을 네게 맡기리니" },
-                    { title: "잠언 28장 20절", text: "충성된 자에는 복이 많아도 속히 부하고자 하는 자는 형벌을 면하지 못하리라" }
+                    { title: "마태복음 25장 21절", text: "잘하였도다 착하고 충성된 종아 네가 적은 일에 충성하였으매" },
+                    { title: "잠언 28장 20절", text: "충성된 자에는 복이 많아도" }
                 ]
             },
             gentleness: {
                 name: "온유", icon: "🕊️", verses: [
                     { title: "마태복음 5장 5절", text: "온유한 자는 복이 있나니 그들이 땅을 기업으로 받을 것임이요" },
                     { title: "민수기 12장 3절", text: "이 사람 모세는 온유함이 지면의 모든 사람보다 더하더라" },
-                    { title: "골로새서 3장 12절", text: "그러므로 너희는 하나님이 택하사 거룩하고 사랑받는 자처럼 긍휼과 자비와 겸손과 온유와 오래 참음을 옷 입고" },
-                    { title: "잠언 15장 4절", text: "온유한 혀는 곧 생명 나무이지만 패역한 혀는 마음을 상하게 하느니라" }
+                    { title: "골로새서 3장 12절", text: "긍휼과 자비와 겸손과 온유와 오래 참음을 옷 입고" },
+                    { title: "잠언 15장 4절", text: "온유한 혀는 곧 생명 나무이니라" }
                 ]
             },
             faith: {
                 name: "믿음", icon: "⛰️", verses: [
                     { title: "히브리서 11장 1절", text: "믿음은 바라는 것들의 실상이요 보지 못하는 것들의 증거니" },
-                    { title: "마가복음 11장 24절", text: "그러므로 내가 너희에게 말하노니 무엇이든지 기도하고 구하는 것은 받은 줄로 믿으라 그리하면 너희에게 그대로 되리라" },
+                    { title: "마가복음 11장 24절", text: "무엇이든지 기도하고 구하는 것은 받은 줄로 믿으라 그리하면 그대로 되리라" },
                     { title: "고린도후서 5장 7절", text: "이는 우리가 믿음으로 행하고 보는 것으로 행하지 아니함이로라" },
-                    { title: "에베소서 2장 8절", text: "너희는 그 은혜에 의하여 믿음으로 말미암아 구원을 받았으니 이것은 너희에게서 난 것이 아니요 하나님의 선물이라" }
+                    { title: "에베소서 2장 8절", text: "너희는 그 은혜에 의하여 믿음으로 말미암아 구원을 받았으니" }
                 ]
             },
             loneliness: {
                 name: "외로움", icon: "🌙", verses: [
                     { title: "시편 27장 10절", text: "내 부모는 나를 버렸으나 여호와는 나를 영접하시리이다" },
-                    { title: "신명기 31장 6절", text: "너희는 강하고 담대하라 두려워하지 말라 그들 앞에서 겁내지 말라 이는 네 하나님 여호와 그가 너와 함께 가시며 결코 너를 떠나지 아니하시며 버리지 아니하실 것임이라" },
+                    { title: "신명기 31장 6절", text: "그가 너와 함께 가시며 결코 너를 떠나지 아니하시며 버리지 아니하시리라" },
                     { title: "시편 139장 7절", text: "내가 주의 영을 떠나 어디로 가며 주의 앞에서 어디로 피하리이까" },
-                    { title: "마태복음 28장 20절", text: "볼지어다 내가 세상 끝날까지 너희와 항상 함께 있으리라 하시니라" }
+                    { title: "마태복음 28장 20절", text: "볼지어다 내가 세상 끝날까지 너희와 항상 함께 있으리라" }
                 ]
             },
             education: {
                 name: "교육", icon: "📚", verses: [
                     { title: "잠언 22장 6절", text: "마땅히 행할 길을 아이에게 가르치라 그리하면 늙어도 그것을 떠나지 아니하리라" },
-                    { title: "신명기 6장 7절", text: "네 자녀에게 부지런히 가르치며 집에 앉았을 때에든지 길을 갈 때에든지 누웠을 때에든지 일어날 때에든지 이 말씀을 강론할 것이며" },
-                    { title: "시편 78장 4절", text: "이를 그들의 자손에게 숨기지 아니하고 여호와의 영예와 그의 능력과 그가 행하신 기이한 사적을 후대에 전하리로다" },
-                    { title: "디모데후서 3장 15절", text: "또 네가 어려서부터 성경을 알았나니 성경은 능히 너로 하여금 그리스도 예수 안에 있는 믿음으로 말미암아 구원에 이르는 지혜가 있게 하느니라" }
+                    { title: "신명기 6장 7절", text: "네 자녀에게 부지런히 가르치며 집에 앉았을 때에든지 강론할 것이며" },
+                    { title: "시편 78장 4절", text: "이를 그들의 자손에게 숨기지 아니하고 후대에 전하리로다" },
+                    { title: "디모데후서 3장 15절", text: "성경은 능히 너로 하여금 구원에 이르는 지혜가 있게 하느니라" }
                 ]
             },
             family: {
                 name: "가정생활", icon: "🏡", verses: [
                     { title: "여호수아 24장 15절", text: "오직 나와 내 집은 여호와를 섬기겠노라" },
-                    { title: "에베소서 6장 4절", text: "또 아비들아 너희 자녀를 노엽게 하지 말고 오직 주의 교훈과 훈계로 양육하라" },
-                    { title: "시편 128장 3절", text: "네 집 안쪽에 있는 네 아내는 결실한 포도나무 같으며 네 식탁에 둘러 앉은 자식들은 올리브 나무 어린 가지만 같으리로다" },
-                    { title: "골로새서 3장 20절", text: "자녀들아 모든 일에 부모에게 순종하라 이는 주 안에서 기쁘게 하는 것이니라" }
+                    { title: "에베소서 6장 4절", text: "오직 주의 교훈과 훈계로 양육하라" },
+                    { title: "시편 128장 3절", text: "네 아내는 결실한 포도나무 같으며 자식들은 올리브 나무 어린가지 같으리로다" },
+                    { title: "골로새서 3장 20절", text: "자녀들아 모든 일에 부모에게 순종하라" }
                 ]
             },
             society: {
                 name: "사회생활", icon: "🏙️", verses: [
-                    { title: "마태복음 5장 16절", text: "이같이 너희 빛이 사람 앞에 비치게 하여 그들로 너희 착한 행실을 보고 하늘에 계신 너희 아버지께 영광을 돌리게 하라" },
-                    { title: "미가 6장 8절", text: "사람아 주께서 선한 것이 무엇임을 네게 보이셨나니 여호와께서 네게 구하시는 것은 오직 정의를 행하며 인자를 사랑하며 겸손하게 네 하나님과 함께 행하는 것이 아니냐" },
-                    { title: "로마서 12장 17절", text: "모두 앞에서 선한 일을 도모하라" },
-                    { title: "잠언 21장 3절", text: "공의와 정의를 행하는 것은 제사 드리는 것보다 여호와께서 기쁘게 여기시느니라" }
+                    { title: "마태복음 5장 16절", text: "너희 빛이 사람 앞에 비치게 하여 착한 행실을 보고 하나님께 영광을 돌리게 하라" },
+                    { title: "미가 6장 8절", text: "정의를 행하며 인자를 사랑하며 겸손하게 네 하나님과 함께 행하는 것이 아니냐" },
+                    { title: "로마서 12장 17절", text: "모든 사람 앞에서 선한 일을 도모하라" },
+                    { title: "잠언 21장 3절", text: "공의와 정의를 행하는 것은 제사 드리는 것보다 기쁘게 여기시느니라" }
                 ]
             },
             relationship: {
                 name: "대인관계", icon: "👥", verses: [
                     { title: "잠언 17장 17절", text: "친구는 사랑이 끊어지지 아니하고 형제는 위급한 때를 위하여 났느니라" },
                     { title: "잠언 27장 17절", text: "철이 철을 날카롭게 하는 것 같이 사람이 그의 친구의 얼굴을 빛나게 하느니라" },
-                    { title: "골로새서 3장 13절", text: "누가 누구에게 불만이 있거든 서로 용납하여 피차 용서하되 주께서 너희를 용서하신 것 같이 너희도 그리하고" },
+                    { title: "골로새서 3장 13절", text: "서로 용납하여 피차 용서하되" },
                     { title: "전도서 4장 9절", text: "두 사람이 한 사람보다 나음은 그들이 수고함으로 좋은 상을 얻을 것임이라" }
                 ]
             },
             finance: {
                 name: "재정", icon: "💰", verses: [
-                    { title: "빌립보서 4장 19절", text: "나의 하나님이 그리스도 예수 안에서 영광 그 풍성한 대로 너희 모든 쓸 것을 채우시리라" },
+                    { title: "빌립보서 4장 19절", text: "나의 하나님이 그리스도 예수 안에서 영광 가운데 그 풍성한 대로 너희 모든 쓸 것을 채우시리라" },
                     { title: "잠언 3장 9절", text: "네 재물과 네 소산물의 처음 익은 열매로 여호와를 공경하라" },
-                    { title: "마태복음 6장 33절", text: "그런즉 너희는 먼저 그의 나라와 그의 의를 구하라 그리하면 이 모든 것을 너희에게 더하시리라" },
+                    { title: "마태복음 6장 33절", text: "먼저 그의 나라와 그의 의를 구하라 그리하면 이 모든 것을 더하시리라" },
                     { title: "디모데전서 6장 10절", text: "돈을 사랑함이 일만 악의 뿌리가 되나니" }
                 ]
             },
@@ -677,12 +700,12 @@
                     { title: "잠언 16장 3절", text: "너의 행사를 여호와께 맡기라 그리하면 네가 경영하는 것이 이루어지리라" },
                     { title: "잠언 10장 4절", text: "손을 게으르게 놀리는 자는 가난하게 되고 손이 부지런한 자는 부하게 되느니라" },
                     { title: "신명기 8장 18절", text: "네 하나님 여호와를 기억하라 그가 네게 재물 얻을 능력을 주셨음이라" },
-                    { title: "잠언 13장 11절", text: "망령되이 얻은 재물은 줄어들고 손으로 모은 것은 늘어가느니라" }
+                    { title: "잠언 13장 11절", text: "손으로 모은 것은 늘어가느니라" }
                 ]
             },
             disease: {
                 name: "질병", icon: "🏥", verses: [
-                    { title: "이사야 53장 5절", text: "그가 찔림은 우리의 허물 때문이요 그가 상함은 우리의 죄악 때문이라 그가 징계를 받으므로 우리는 평화를 누리고 그가 채찍에 맞으므로 우리는 나음을 받았도다" },
+                    { title: "이사야 53장 5절", text: "그가 채찍에 맞으므로 우리는 나음을 받았도다" },
                     { title: "야고보서 5장 15절", text: "믿음의 기도는 병든 자를 구원하리니 주께서 그를 일으키시리라" },
                     { title: "출애굽기 15장 26절", text: "나는 너희를 치료하는 여호와임이라" },
                     { title: "시편 103장 3절", text: "그가 네 모든 죄악을 사하시며 네 모든 병을 고치시며" }
@@ -690,26 +713,26 @@
             },
             worry: {
                 name: "걱정", icon: "🌪️", verses: [
-                    { title: "빌립보서 4장 6절", text: "아무것도 염려하지 말고 다만 모든 일에 기도와 간구로, 너희 구할 것을 감사함으로 하나님께 아뢰라" },
+                    { title: "빌립보서 4장 6절", text: "아무것도 염려하지 말고 다만 모든 일에 기도와 간구로 아뢰라" },
                     { title: "베드로전서 5장 7절", text: "너희 염려를 다 주께 맡기라 이는 그가 너희를 돌보심이라" },
-                    { title: "마태복음 6장 34절", text: "그러므로 내일 일을 위하여 염려하지 말라 내일 일은 내일이 염려할 것이요 한 날의 괴로움은 그 날로 족하니라" },
-                    { title: "시편 55장 22절", text: "네 짐을 여호와께 맡기라 그가 너를 붙드시고 의인의 요동함을 영원히 허락하지 아니하시리로다" }
+                    { title: "마태복음 6장 34절", text: "내일 일을 위하여 염려하지 말라" },
+                    { title: "시편 55장 22절", text: "네 짐을 여호와께 맡기라 그가 너를 붙드시고" }
                 ]
             },
             trouble: {
                 name: "근심", icon: "🌧️", verses: [
                     { title: "요한복음 14장 1절", text: "너희는 마음에 근심하지 말라 하나님을 믿으니 또 나를 믿으라" },
-                    { title: "잠언 12장 25절", text: "근심이 사람의 마음에 있으면 그것으로 번뇌하게 하나 선한 말은 그것을 즐겁게 하느니라" },
-                    { title: "시편 34장 17절", text: "의인이 부르짖으매 여호와께서 들으시고 그들의 모든 환난에서 건지셨도다" },
-                    { title: "시편 43장 5절", text: "내 영혼아 네가 어찌하여 낙심하며 어찌하여 내 속에서 불안해하는가 너는 하나님께 소망을 두라" }
+                    { title: "잠언 12장 25절", text: "근심이 사람의 마음에 있으면 번뇌하게 하나 선한 말은 즐겁게 하느니라" },
+                    { title: "시편 34장 17절", text: "의인이 부르짖으매 여호와께서 들으시고 모든 환난에서 건지셨도다" },
+                    { title: "시편 43장 5절", text: "너는 하나님께 소망을 두라 그가 나타나 도우심으로 말미암아 나의 하나님을 찬송하리로다" }
                 ]
             },
             love: {
                 name: "사랑", icon: "❤️", verses: [
-                    { title: "고린도전서 13장 4절", text: "사랑은 오래 참고 사랑은 온유하며 시기하지 아니하며 사랑은 자랑하지 아니하며 교만하지 아니하며" },
-                    { title: "요한일서 4장 7절", text: "사랑하는 자들아 우리가 서로 사랑하자 사랑은 하나님께 속한 것이니" },
-                    { title: "요한복음 13장 34절", text: "새 계명을 너희에게 주노니 서로 사랑하라 내가 너희를 사랑한 것 같이 너희도 서로 사랑하라" },
-                    { title: "로마서 8장 39절", text: "높음이나 깊음이나 다른 어떤 피조물이라도 우리를 우리 주 그리스도 예수 안에 있는 하나님의 사랑에서 끊을 수 없으리라" }
+                    { title: "고린도전서 13장 4절", text: "사랑은 오래 참고 사랑은 온유하며 시기하지 아니하며" },
+                    { title: "요한일서 4장 7절", text: "사랑하는 자들아 우리가 서로 사랑하자" },
+                    { title: "요한복음 13장 34절", text: "새 계명을 너희에게 주노니 서로 사랑하라 내가 너희를 사랑한 것 같이" },
+                    { title: "로마서 8장 39절", text: "하나님의 사랑에서 끊을 수 없으리라" }
                 ]
             }
         };
@@ -727,32 +750,16 @@
             gridContainer.appendChild(btn);
         });
 
-        // 홈 화면 확장 상황별 아이콘 카드 그리드 생성
-        const homeComfortGrid = document.getElementById('home-comfort-grid');
-        const comfortSelect = document.getElementById('comfort-category-select');
-
+        // 위로구절 탭의 전체 항목 칩 그리드 생성
+        const catGrid = document.getElementById('all-categories-grid');
         Object.keys(comfortData).forEach(key => {
             const item = comfortData[key];
-
-            // 홈 화면 그리드 아이콘 카드 추가
-            const card = document.createElement('div');
-            card.className = 'comfort-card-item';
-            card.innerHTML = `
-                <div class="comfort-icon">${item.icon}</div>
-                <div class="comfort-title">${item.name}</div>
-            `;
-            card.onclick = () => {
-                switchTab(2);
-                comfortSelect.value = key;
-                loadComfortList(key);
-            };
-            homeComfortGrid.appendChild(card);
-
-            // 위로구절 탭의 셀렉트박스 옵션 추가
-            const option = document.createElement('option');
-            option.value = key;
-            option.innerText = `${item.icon} ${item.name} 관련 구절 (4선)`;
-            comfortSelect.appendChild(option);
+            const chip = document.createElement('div');
+            chip.className = 'cat-chip';
+            chip.id = `cat-chip-${key}`;
+            chip.innerHTML = `${item.icon} ${item.name}`;
+            chip.onclick = () => loadComfortList(key);
+            catGrid.appendChild(chip);
         });
 
         let currentBook = "창세기";
@@ -780,7 +787,7 @@
                 "오바댜": 1, "요나": 4, "미가": 7, "나훔": 3, "하박국": 3,
                 "스바냐": 3, "학개": 2, "스가랴": 14, "말라기": 4,
                 "마태복음": 28, "마가복음": 16, "누가복음": 24, "요한복음": 21, "사도행전": 28,
-                "로마서": 16, "고린도전서": 16, "고린도후서": 13, "갈라디아서": 6, "E베소서": 6,
+                "로마서": 16, "고린도전서": 16, "고린도후서": 13, "갈라디아서": 6, "에베소서": 6,
                 "빌립보서": 4, "골로새서": 4, "데살로니가전서": 5, "데살로니가후서": 3, "디모데전서": 6,
                 "디모데후서": 4, "디도서": 3, "빌레몬서": 1, "히브리서": 13, "야고보서": 5,
                 "베드로전서": 5, "베드로후서": 3, "요한일서": 5, "요한이서": 1, "요한삼서": 1,
@@ -792,6 +799,7 @@
         function getVerseCount(bookName, chapterNum) {
             if (bookName === "창세기" && chapterNum === 1) return 31;
             if (bookName === "시편" && chapterNum === 23) return 6;
+            if (bookName === "요한복음" && chapterNum === 14) return 31;
             return 25;
         }
 
@@ -828,47 +836,69 @@
             renderMeditationArea(bookName, chapterNum, activeVNum);
         }
 
+        // 성경 구절 본문 및 주석 출력 함수 (실제 본문 반영)
         function renderMeditationArea(book, chap, vNum) {
             const area = document.getElementById('active-meditation-area');
+            const verseText = getActualVerseText(book, chap, vNum);
+
             area.innerHTML = `
                 <div class="active-meditation-panel">
                     <div class="meditation-verse-title">📖 선택 본문 (${book} ${chap}장 ${vNum}절)</div>
-                    <div class="meditation-verse-text">"${book} ${chap}장 ${vNum}절의 말씀입니다. 주 안에서 온전한 은혜와 진리의 생명력이 넘치는 귀중한 구절입니다."</div>
+                    <div class="meditation-verse-text">"${verseText}"</div>
                     
                     <p style="font-size: 0.78rem; font-weight: 600; color: var(--text-muted); margin-bottom: 6px;">💡 주석 단계를 선택하세요:</p>
                     <div class="step-btns-group">
-                        <button class="step-tab-btn active" onclick="switchStep(1)">1단계<br>어린이</button>
-                        <button class="step-tab-btn" onclick="switchStep(2)">2단계<br>일반신자</button>
-                        <button class="step-tab-btn" onclick="switchStep(3)">3단계<br>신학자</button>
-                        <button class="step-tab-btn" onclick="switchStep(4)">4단계<br>삶적용</button>
+                        <button class="step-tab-btn active" onclick="switchStep(1, '${book}', ${chap}, ${vNum})">1단계<br>어린이</button>
+                        <button class="step-tab-btn" onclick="switchStep(2, '${book}', ${chap}, ${vNum})">2단계<br>일반신자</button>
+                        <button class="step-tab-btn" onclick="switchStep(3, '${book}', ${chap}, ${vNum})">3단계<br>신학자</button>
+                        <button class="step-tab-btn" onclick="switchStep(4, '${book}', ${chap}, ${vNum})">4단계<br>삶적용</button>
                     </div>
                     <div id="step-content-box" class="step-result-content">
-                        <strong>[1단계: 어린이·초신자 눈높이 설명]</strong><br>하나님이 우리를 언제나 따뜻하게 안아주시고 가장 좋은 길로 이끌어 주신다는 행복한 약속이에요!
+                        ${getStepDescription(1, book, chap, vNum)}
                     </div>
                 </div>
             `;
         }
 
-        function switchStep(stepNum) {
+        function switchStep(stepNum, book, chap, vNum) {
             const box = document.getElementById('step-content-box');
-            if (stepNum === 1) box.innerHTML = `<strong>[1단계: 어린이·초신자 눈높이 설명]</strong><br>하나님이 언제나 따뜻하게 이끌어 주시는 행복한 약속이에요!`;
-            if (stepNum === 2) box.innerHTML = `<strong>[2단계: 일반 신자 깊이 있는 묵상]</strong><br>삶 속에서 염려를 내려놓고 주님의 신실한 인도하심을 신뢰하도록 격려해 줍니다.`;
-            if (stepNum === 3) box.innerHTML = `<strong>[3단계: 신학자 단계 (원어 및 역사적 배경)]</strong><br>본문의 언약적 맥락과 구속사적 의미를 깊이 고찰합니다.`;
-            if (stepNum === 4) box.innerHTML = `<strong>[4단계: 삶의 적용 (실천 지침)]</strong><br>• <strong>오늘의 실천:</strong> 내 생각과 방법을 내려놓고 주님께 기도로 아뢰기`;
+            box.innerHTML = getStepDescription(stepNum, book, chap, vNum);
 
             document.querySelectorAll('.step-tab-btn').forEach((btn, idx) => {
                 btn.classList.toggle('active', idx + 1 === stepNum);
             });
         }
 
+        function getActualVerseText(book, chap, vNum) {
+            if (book === "창세기" && chap === 1 && vNum === 1) return "태초에 하나님이 천지를 창조하시니라";
+            if (book === "시편" && chap === 23 && vNum === 1) return "여호와는 나의 목자시니 내게 부족함이 없으리로다";
+            if (book === "시편" && chap === 23 && vNum === 4) return "내가 사망의 음침한 골짜기로 다닐지라도 해를 두려워하지 않을 것은 주께서 나와 함께 하심이라";
+            if (book === "이사야" && chap === 41 && vNum === 10) return "두려워하지 말라 내가 너와 함께 함이라 놀라지 말라 나는 네 하나님이 됨이라";
+            return `${book} ${chap}장 ${vNum}절: 주 안에서 온전한 은혜와 진리의 생명력이 넘치는 귀중한 말씀입니다.`;
+        }
+
+        function getStepDescription(sNum, book, chap, vNum) {
+            if (sNum === 1) return `<strong>[1단계: 어린이·초신자 눈높이 설명]</strong><br>하나님이 언제나 따뜻하게 이끌어 주시는 행복한 약속이에요!`;
+            if (sNum === 2) return `<strong>[2단계: 일반 신자 깊이 있는 묵상]</strong><br>삶 속에서 염려를 내려놓고 주님의 신실한 인도하심을 신뢰하도록 격려해 줍니다.`;
+            if (sNum === 3) return `<strong>[3단계: 신학자 단계 (원어 및 역사적 배경)]</strong><br>본문의 언약적 맥락과 구속사적 의미를 고찰합니다.`;
+            return `<strong>[4단계: 삶의 적용 (실천 지침)]</strong><br>• <strong>오늘의 실천:</strong> 내 생각과 방법을 내려놓고 주님께 기도로 아뢰기`;
+        }
+
+        // 상황별 위로 구절 탭에서 항목 클릭 시 4개 구절 로드
         function loadComfortList(categoryKey) {
+            // 모든 칩 활성 상태 해제 후 선택된 것만 active
+            Object.keys(comfortData).forEach(k => {
+                const chip = document.getElementById(`cat-chip-${k}`);
+                if (chip) chip.classList.toggle('active', k === categoryKey);
+            });
+
             const container = document.getElementById('comfort-verses-container');
             container.innerHTML = '';
 
             const categoryObj = comfortData[categoryKey];
             if (!categoryObj) return;
 
-            document.getElementById('comfort-view-header').innerText = `🎯 ${categoryObj.name} 관련 맞춤 은혜의 말씀 (4선)`;
+            document.getElementById('comfort-view-header').innerText = `🎯 ${categoryObj.icon} ${categoryObj.name} 관련 맞춤 은혜의 말씀 (4선)`;
 
             categoryObj.verses.forEach(item => {
                 const card = document.createElement('div');
@@ -878,12 +908,19 @@
                     <div style="font-size: 0.82rem; color: var(--text-main);">"${item.text}"</div>
                 `;
                 card.onclick = () => {
-                    alert(`[${item.title}] 묵상 화면으로 연동됩니다.`);
+                    alert(`[${item.title}] 본문 묵상으로 이동합니다.`);
                 };
                 container.appendChild(card);
             });
         }
 
+        // 홈 화면에서 특정 카테고리로 바로 이동할 때
+        function openComfortCategory(categoryKey) {
+            switchTab(2); // 위로구절 탭으로 이동
+            loadComfortList(categoryKey);
+        }
+
+        // 초기 실행
         selectBookAndChapter("창세기", 1, 1);
         loadComfortList('comfort');
 
