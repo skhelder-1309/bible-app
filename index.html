@@ -26,7 +26,6 @@
             <span class="text-2xl">📖</span>
             <h1 class="font-bold text-lg tracking-tight text-white">바른 성경 주석</h1>
         </div>
-        <!-- 책/장 선택 버튼 -->
         <button onclick="openBookModal()"
             class="bg-blue-600/20 hover:bg-blue-600/30 active:scale-95 transition px-4 py-2 rounded-xl text-sm font-bold text-blue-400 border border-blue-500/30 flex items-center space-x-1.5 shadow-sm">
             <span id="current-location-btn">요한복음 3장</span>
@@ -48,21 +47,19 @@
         </div>
     </div>
 
-    <!-- 메인 성경 본문 뷰 (시원한 큰 글씨) -->
+    <!-- 메인 성경 본문 뷰 -->
     <main class="flex-1 max-w-md w-full mx-auto p-5 space-y-4 pb-32">
         <div class="bg-slate-800/40 border border-slate-800/80 rounded-2xl p-5 shadow-xl">
             <p class="text-xs text-blue-400 font-bold mb-4 flex items-center">
-                <span class="mr-1.5">💡</span> 구절을 터치하시면 정통 주석 카드가 나타납니다.
+                <span class="mr-1.5">💡</span> 구절을 터치하시면 정통 주석과 삶의 적용이 나타납니다.
             </p>
-            <div id="verses-list" class="space-y-4 font-serif leading-loose text-slate-100 text-base">
-                <!-- 동적으로 본문 리스트가 생성됩니다 -->
-            </div>
+            <div id="verses-list" class="space-y-4 font-serif leading-loose text-slate-100 text-base"></div>
         </div>
     </main>
 
-    <!-- 선택된 절 주석 표시 패널 (하단 슬라이드업 카드) -->
+    <!-- 선택된 절 주석 및 삶의 적용 표시 패널 -->
     <div id="commentary-panel"
-        class="fixed bottom-0 left-0 right-0 bg-slate-950 border-t border-slate-800 p-6 z-40 transform translate-y-full transition-transform duration-300 shadow-2xl max-h-[70vh] overflow-y-auto rounded-t-3xl">
+        class="fixed bottom-0 left-0 right-0 bg-slate-950 border-t border-slate-800 p-6 z-40 transform translate-y-full transition-transform duration-300 shadow-2xl max-h-[75vh] overflow-y-auto rounded-t-3xl">
         <div class="max-w-md mx-auto space-y-4">
             <div class="flex justify-between items-center border-b border-slate-800 pb-3">
                 <span id="panel-title" class="text-base font-bold text-blue-400">주석 내용</span>
@@ -73,10 +70,20 @@
             <p id="panel-verse-text"
                 class="text-sm text-slate-300 italic font-serif leading-relaxed bg-slate-900/60 p-3.5 rounded-xl border border-slate-800/60">
             </p>
-            <div class="bg-slate-900 border border-slate-800 p-4 rounded-2xl shadow-inner">
+
+            <!-- 주석 본문 영역 -->
+            <div class="bg-slate-900 border border-slate-800 p-4 rounded-2xl shadow-inner space-y-2">
                 <span id="panel-level-label"
-                    class="text-xs font-bold text-blue-400 uppercase tracking-wider block mb-2">주석</span>
-                <p id="panel-commentary-text" class="text-slate-100 text-base leading-relaxed font-sans"></p>
+                    class="text-xs font-bold text-blue-400 uppercase tracking-wider block">주석</span>
+                <p id="panel-commentary-text" class="text-slate-100 text-sm leading-relaxed font-sans"></p>
+            </div>
+
+            <!-- 🌟 삶의 적용 영역 (이 부분이 추가되어야 합니다) -->
+            <div class="bg-blue-950/30 border border-blue-900/50 p-4 rounded-2xl space-y-2">
+                <span class="text-xs font-bold text-emerald-400 uppercase tracking-wider block flex items-center">
+                    <span class="mr-1.5">🌱</span> 삶의 구체적 적용
+                </span>
+                <p id="panel-application-text" class="text-slate-200 text-sm leading-relaxed font-sans"></p>
             </div>
         </div>
     </div>
@@ -84,15 +91,11 @@
     <!-- 성경 66권 전체화면 프리미엄 모달 -->
     <div id="book-modal"
         class="fixed inset-0 bg-slate-950/90 backdrop-blur-md z-50 hidden flex flex-col transition-opacity">
-        <!-- 모달 상단 헤더 -->
         <div class="px-5 py-4 border-b border-slate-800 flex justify-between items-center bg-slate-900">
-            <h3 class="font-bold text-lg text-white flex items-center">
-                <span class="mr-2">📚</span> 성경 선택
-            </h3>
+            <h3 class="font-bold text-lg text-white flex items-center"><span class="mr-2">📚</span> 성경 선택</h3>
             <button onclick="closeBookModal()"
                 class="text-slate-400 hover:text-white text-sm font-bold bg-slate-800 px-3.5 py-1.5 rounded-xl border border-slate-700">닫기</button>
         </div>
-        <!-- 구약/신약 탭 메뉴 -->
         <div class="flex border-b border-slate-800 bg-slate-900/50 px-5 pt-2">
             <button onclick="switchTestament('ot')" id="tab-ot"
                 class="flex-1 pb-3 text-sm font-bold text-slate-400 border-b-2 border-transparent transition">구약
@@ -101,13 +104,9 @@
                 class="flex-1 pb-3 text-sm font-bold text-blue-400 border-b-2 border-blue-500 transition">신약
                 (27권)</button>
         </div>
-        <!-- 성경 목록 및 장 선택 영역 -->
-        <div id="book-grid-container" class="flex-1 overflow-y-auto p-5 space-y-6">
-            <!-- 자바스크립트로 그럴듯하게 렌더링 됩니다 -->
-        </div>
+        <div id="book-grid-container" class="flex-1 overflow-y-auto p-5 space-y-6"></div>
     </div>
 
-    <!-- 하단 네비게이션 바 -->
     <footer
         class="bg-slate-950 border-t border-slate-800 py-3 text-center text-xs text-slate-500 fixed bottom-0 left-0 right-0 z-20">
         개역개정 정통 보수주의 주석 시스템
@@ -119,7 +118,6 @@
         let activeVerseIndex = null;
         let currentTestament = 'nt';
 
-        // 66권 전체 메타데이터 (구조화)
         const bibleDataMap = {
             ot: [
                 { name: "창세기", code: "gen", chapters: 50 },
@@ -146,7 +144,7 @@
                 document.getElementById('verses-list').innerHTML = `
                     <div class="text-center py-16 text-slate-400 space-y-3">
                         <p class="text-lg font-bold">🚧 주석 데이터 준비 중</p>
-                        <p class="text-sm text-slate-500">선택하신 성경 본문 및 주석 데이터는 업로드 준비 중입니다.<br>(현재 요한복음 3장이 샘플로 완비되어 있습니다)</p>
+                        <p class="text-sm text-slate-500">현재 요한복음 3장이 샘플로 완비되어 있습니다</p>
                     </div>`;
             }
         }
@@ -154,18 +152,14 @@
         function render() {
             if (!currentData) return;
             document.getElementById('current-location-btn').innerText = `${currentData.book} ${currentData.chapter}장`;
-
             let listContainer = document.getElementById('verses-list');
             listContainer.innerHTML = "";
-
             currentData.verses.forEach((item, index) => {
-                let html = `
+                listContainer.innerHTML += `
                     <div onclick="selectVerse(${index})" class="p-3.5 rounded-2xl transition cursor-pointer hover:bg-slate-800/80 border border-transparent hover:border-slate-700 flex items-start space-x-3 active:scale-[0.99]">
                         <span class="bg-blue-600/20 text-blue-400 font-bold px-2.5 py-1 rounded-xl text-sm mt-0.5 shrink-0">${item.verse}절</span>
                         <p class="text-slate-100 flex-1">${item.text}</p>
-                    </div>
-                `;
-                listContainer.innerHTML += html;
+                    </div>`;
             });
         }
 
@@ -173,12 +167,14 @@
             activeVerseIndex = index;
             const item = currentData.verses[index];
             let commentaryText = currentLevel === 1 ? item.commentary.level1 : currentLevel === 2 ? item.commentary.level2 : item.commentary.level3;
+            let applicationText = currentLevel === 1 ? item.application.level1 : currentLevel === 2 ? item.application.level2 : item.application.level3;
             let levelName = currentLevel === 1 ? '초신자용 주석' : currentLevel === 2 ? '일반 성도용 주석' : '리더·교사용 주해';
 
             document.getElementById('panel-title').innerText = `${currentData.book} ${currentData.chapter}장 ${item.verse}절`;
             document.getElementById('panel-verse-text').innerText = `"${item.text}"`;
             document.getElementById('panel-level-label').innerText = `💡 ${levelName}`;
             document.getElementById('panel-commentary-text').innerText = commentaryText;
+            document.getElementById('panel-application-text').innerText = applicationText;
 
             document.getElementById('commentary-panel').classList.remove('translate-y-full');
         }
@@ -191,68 +187,40 @@
         function changeLevel(level) {
             currentLevel = level;
             for (let i = 1; i <= 3; i++) {
-                const btn = document.getElementById(`btn-${i}`);
-                if (i === level) {
-                    btn.className = "py-2 text-xs font-bold rounded-xl bg-blue-600 text-white transition shadow";
-                } else {
-                    btn.className = "py-2 text-xs font-bold rounded-xl text-slate-400 hover:text-white transition";
-                }
+                document.getElementById(`btn-${i}`).className = (i === level)
+                    ? "py-2 text-xs font-bold rounded-xl bg-blue-600 text-white transition shadow"
+                    : "py-2 text-xs font-bold rounded-xl text-slate-400 hover:text-white transition";
             }
-            if (activeVerseIndex !== null) {
-                selectVerse(activeVerseIndex);
-            }
+            if (activeVerseIndex !== null) selectVerse(activeVerseIndex);
         }
 
-        function openBookModal() {
-            document.getElementById('book-modal').classList.remove('hidden');
-            renderBookGrid();
-        }
-
-        function closeBookModal() {
-            document.getElementById('book-modal').classList.add('hidden');
-        }
+        function openBookModal() { document.getElementById('book-modal').classList.remove('hidden'); renderBookGrid(); }
+        function closeBookModal() { document.getElementById('book-modal').classList.add('hidden'); }
 
         function switchTestament(testament) {
             currentTestament = testament;
-            const otTab = document.getElementById('tab-ot');
-            const ntTab = document.getElementById('tab-nt');
-            if (testament === 'ot') {
-                otTab.className = "flex-1 pb-3 text-sm font-bold text-blue-400 border-b-2 border-blue-500 transition";
-                ntTab.className = "flex-1 pb-3 text-sm font-bold text-slate-400 border-b-2 border-transparent transition";
-            } else {
-                ntTab.className = "flex-1 pb-3 text-sm font-bold text-blue-400 border-b-2 border-blue-500 transition";
-                otTab.className = "flex-1 pb-3 text-sm font-bold text-slate-400 border-b-2 border-transparent transition";
-            }
+            document.getElementById('tab-ot').className = testament === 'ot' ? "flex-1 pb-3 text-sm font-bold text-blue-400 border-b-2 border-blue-500 transition" : "flex-1 pb-3 text-sm font-bold text-slate-400 border-b-2 border-transparent transition";
+            document.getElementById('tab-nt').className = testament === 'nt' ? "flex-1 pb-3 text-sm font-bold text-blue-400 border-b-2 border-blue-500 transition" : "flex-1 pb-3 text-sm font-bold text-slate-400 border-b-2 border-transparent transition";
             renderBookGrid();
         }
 
         function renderBookGrid() {
             const container = document.getElementById('book-grid-container');
             const books = bibleDataMap[currentTestament];
-
             let html = '<div class="grid grid-cols-1 gap-3 max-w-md mx-auto">';
             books.forEach(b => {
-                html += `
-                    <div class="bg-slate-900 border border-slate-800 rounded-2xl p-4 space-y-3 shadow-sm">
-                        <div class="flex justify-between items-center">
-                            <span class="font-bold text-base text-white">${b.name}</span>
-                            <span class="text-xs text-slate-400 bg-slate-800 px-2.5 py-1 rounded-lg">총 ${b.chapters}장</span>
-                        </div>
-                        <div class="flex flex-wrap gap-1.5">
-                `;
-                // 샘플로 요한복음 3장만 활성화, 나머지는 선택 시 안내
+                html += `<div class="bg-slate-900 border border-slate-800 rounded-2xl p-4 space-y-3 shadow-sm">
+                    <div class="flex justify-between items-center"><span class="font-bold text-base text-white">${b.name}</span><span class="text-xs text-slate-400 bg-slate-800 px-2.5 py-1 rounded-lg">총 ${b.chapters}장</span></div>
+                    <div class="flex flex-wrap gap-1.5">`;
                 for (let c = 1; c <= Math.min(b.chapters, 5); c++) {
                     let isSample = (b.code === 'jhn' && c === 3);
                     let activeClass = isSample ? 'bg-blue-600 text-white font-bold shadow' : 'bg-slate-800/80 text-slate-300 hover:bg-slate-700';
                     html += `<button onclick="selectBookAndChapter('${b.code}', ${c}, ${isSample})" class="w-10 h-10 rounded-xl text-xs font-semibold ${activeClass} transition flex items-center justify-center">${c}</button>`;
                 }
-                if (b.chapters > 5) {
-                    html += `<span class="text-xs text-slate-500 self-center px-2">외 ${b.chapters - 5}개 장 준비 중</span>`;
-                }
+                if (b.chapters > 5) html += `<span class="text-xs text-slate-500 self-center px-2">외 ${b.chapters - 5}개 장 준비 중</span>`;
                 html += `</div></div>`;
             });
-            html += '</div>';
-            container.innerHTML = html;
+            container.innerHTML = html + '</div>';
         }
 
         function selectBookAndChapter(code, chapter, isReady) {
@@ -261,12 +229,8 @@
             if (isReady) {
                 loadBookData(code);
             } else {
-                document.getElementById('verses-list').innerHTML = `
-                    <div class="text-center py-16 text-slate-400 space-y-3">
-                        <p class="text-base font-bold">🚧 ${code.toUpperCase()} ${chapter}장 데이터 준비 중</p>
-                        <p class="text-sm text-slate-500">선택하신 본문의 정통 주석 데이터는 순차적으로 업데이트됩니다.<br>현재는 <b>요한복음 3장</b> 샘플을 이용해 주세요!</p>
-                    </div>`;
-                document.getElementById('current-location-btn').innerText = `${code === 'jhn' ? '요한복음' : code} ${chapter}장`;
+                document.getElementById('verses-list').innerHTML = `<div class="text-center py-16 text-slate-400 space-y-3"><p class="text-base font-bold">🚧 ${code.toUpperCase()} ${chapter}장 데이터 준비 중</p><p class="text-sm text-slate-500">요한복음 3장 샘플을 이용해 주세요!</p></div>`;
+                document.getElementById('current-location-btn').innerText = `${code} ${chapter}장`;
             }
         }
 
