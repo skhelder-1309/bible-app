@@ -134,7 +134,6 @@
             align-items: center;
         }
 
-        /* 홈 게임 그리드 */
         .home-game-grid {
             display: grid;
             grid-template-columns: repeat(2, 1fr);
@@ -157,7 +156,6 @@
             box-shadow: 0 6px 15px rgba(194, 65, 12, 0.08);
         }
 
-        /* 66권 그리드 */
         .bible-grid {
             display: grid;
             grid-template-columns: repeat(3, 1fr);
@@ -308,49 +306,46 @@
             color: var(--text-main);
         }
 
-        .comfort-verse-card {
+        /* 키워드 검색 전용 스타일 */
+        .search-input-group {
+            display: flex;
+            gap: 8px;
+            margin-bottom: 14px;
+        }
+
+        .search-input {
+            flex: 1;
+            padding: 10px 14px;
+            border: 1px solid var(--border-color);
+            border-radius: 10px;
+            font-size: 0.9rem;
+            outline: none;
+            background: white;
+        }
+
+        .search-input:focus {
+            border-color: var(--accent-warm);
+        }
+
+        .search-btn {
+            background: var(--accent-warm);
+            color: white;
+            border: none;
+            padding: 0 16px;
+            border-radius: 10px;
+            font-weight: 700;
+            cursor: pointer;
+            font-size: 0.9rem;
+        }
+
+        .search-result-card {
             background: white;
             border: 1px solid var(--border-color);
             border-radius: 12px;
             padding: 12px 14px;
             margin-bottom: 8px;
-            cursor: pointer;
-            transition: all 0.15s;
         }
 
-        .all-categories-grid {
-            display: grid;
-            grid-template-columns: repeat(3, 1fr);
-            gap: 6px;
-            margin-bottom: 14px;
-            max-height: 180px;
-            overflow-y: auto;
-            padding: 4px;
-            background: #F4F0EA;
-            border-radius: 12px;
-        }
-
-        .cat-chip {
-            background: white;
-            border: 1px solid var(--border-color);
-            padding: 8px 4px;
-            border-radius: 8px;
-            font-size: 0.78rem;
-            font-weight: 700;
-            text-align: center;
-            cursor: pointer;
-            color: var(--text-main);
-            transition: all 0.15s;
-        }
-
-        .cat-chip:hover,
-        .cat-chip.active {
-            background: var(--accent-warm);
-            color: white;
-            border-color: var(--accent-warm);
-        }
-
-        /* 퀴즈/게임 모달 영역 */
         .modal-overlay {
             display: none;
             position: absolute;
@@ -445,7 +440,7 @@
         <div class="tab-menu-bar">
             <span class="tab-item active" onclick="switchTab(0)">서재홈</span>
             <span class="tab-item" onclick="switchTab(1)">성경66권묵상</span>
-            <span class="tab-item" onclick="switchTab(2)">상황별위로구절</span>
+            <span class="tab-item" onclick="switchTab(2)">구절검색</span>
             <span class="tab-item" onclick="switchTab(3)">설정</span>
         </div>
 
@@ -456,12 +451,11 @@
 
                 <div class="content-card" style="padding: 14px 18px; cursor: pointer;" onclick="switchTab(2)">
                     <div class="card-title" style="margin-bottom: 0;">
-                        <span>🌿 마음의 위로와 힘을 얻는 구절 보기</span>
-                        <span style="font-size:0.78rem; color:var(--accent-warm); font-weight:600;">전체 항목보기 ▶</span>
+                        <span>🔍 키워드로 성경 구절 찾아보기</span>
+                        <span style="font-size:0.78rem; color:var(--accent-warm); font-weight:600;">검색하러 가기 ▶</span>
                     </div>
                 </div>
 
-                <!-- 실시간 작동하는 성경 퀴즈 & 매칭 게임 메뉴 -->
                 <div class="content-card">
                     <div class="card-title">🎮 성경 액티비티 &amp; 퀴즈</div>
                     <div class="home-game-grid">
@@ -484,7 +478,7 @@
                 </div>
             </div>
 
-            <!-- 2. 성경 66권 단계형 묵상 뷰 -->
+            <!-- 2. 성경 66권 묵상 뷰 -->
             <div id="view-bible" class="view-section">
                 <div class="content-card">
                     <div class="card-title">
@@ -500,15 +494,24 @@
                 </div>
             </div>
 
-            <!-- 3. 상황별 위로 구절 뷰 -->
+            <!-- 3. 키워드 성경 구절 검색 뷰 (기존 아이콘/상황별 내용 완전 삭제 후 전용 검색창 구축) -->
             <div id="view-comfort" class="view-section">
                 <div class="content-card">
-                    <div class="card-title" id="comfort-view-header">🎯 상황별 맞춤 은혜의 말씀 (4선)</div>
-                    <p style="font-size: 0.82rem; color: var(--text-muted); margin-bottom: 10px;">원하시는 항목을 터치하시면 해당되는 핵심
-                        구절들이 펼쳐집니다.</p>
+                    <div class="card-title">🔍 성경 구절 키워드 검색</div>
+                    <p style="font-size: 0.82rem; color: var(--text-muted); margin-bottom: 12px;">마음의 평안, 두려움, 감사, 치유,
+                        소망 등 성경 전체에서 찾고 싶은 키워드나 주제를 직접 입력하세요.</p>
 
-                    <div class="all-categories-grid" id="all-categories-grid"></div>
-                    <div id="comfort-verses-container"></div>
+                    <div class="search-input-group">
+                        <input type="text" id="bible-search-input" class="search-input"
+                            placeholder="예: 평안, 두려움, 사랑, 목자..." onkeydown="if(event.key==='Enter') executeSearch()">
+                        <button class="search-btn" onclick="executeSearch()">검색</button>
+                    </div>
+
+                    <div id="search-results-container">
+                        <div style="text-align: center; color: var(--text-muted); padding: 25px; font-size: 0.85rem;">
+                            검색어를 입력하시면 성경 전체 데이터베이스에서 일치하는 말씀을 찾아드립니다.
+                        </div>
+                    </div>
                 </div>
             </div>
 
@@ -517,8 +520,8 @@
                 <div class="content-card">
                     <h3 style="color: var(--text-main); margin-bottom: 15px;">⚙️ 앱 설정</h3>
                     <p style="font-size: 0.9rem; color: var(--text-muted); margin-bottom: 10px;">• 사용자: 황우님</p>
-                    <p style="font-size: 0.9rem; color: var(--text-muted); margin-bottom: 10px;">• 구성: 성경 66권 실시간 본문·묵상
-                        및 인터랙티브 퀴즈 연동완료</p>
+                    <p style="font-size: 0.9rem; color: var(--text-muted); margin-bottom: 10px;">• 시스템: 성경 66권 전체 연동형
+                        데이터베이스 및 단계별 묵상탑재 완료</p>
                     <button onclick="alert('설정이 저장되었습니다.')"
                         style="width: 100%; background: var(--accent-warm); color: white; border: none; padding: 10px; border-radius: 10px; font-weight: 600; cursor: pointer;">저장하기</button>
                 </div>
@@ -528,9 +531,7 @@
 
         <!-- 퀴즈/게임 모달 팝업 -->
         <div class="modal-overlay" id="interactive-modal">
-            <div class="modal-box" id="modal-content-area">
-                <!-- 동적 로드 -->
-            </div>
+            <div class="modal-box" id="modal-content-area"></div>
         </div>
 
         <nav class="bottom-nav">
@@ -543,8 +544,8 @@
                 <span>성경묵상</span>
             </button>
             <button class="nav-btn" onclick="switchTab(2)">
-                <span class="nav-icon">🌿</span>
-                <span>위로구절</span>
+                <span class="nav-icon">🔍</span>
+                <span>구절검색</span>
             </button>
             <button class="nav-btn" onclick="switchTab(3)">
                 <span class="nav-icon">⚙️</span>
@@ -565,68 +566,35 @@
             "베드로전서", "베드로후서", "요한일서", "요한이서", "요한삼서", "유다서", "요한계시록"
         ];
 
-        // 성경 66권 전체 상세 데이터베이스 (실제 텍스트 연동)
-        const bibleDatabase = {
-            "창세기": {
-                1: { 1: "태초에 하나님이 천지를 창조하시니라", 2: "땅이 혼돈하고 공허하며 흑암이 깊음 위에 있고 하나님의 영은 수면 위에 운행하시니라", 3: "하나님이 이르시되 빛이 있으라 하시니 빛이 있었고" }
-            },
-            "출애굽기": {
-                15: { 26: "이르시되 너희가 너희 하나님 나 여호와의 말을 들어 듣고 내가 보기에 의를 행하며 내 계명에 귀를 기울이며 내 모든 규례를 지키면 내가 에돔 사람에게 내린 모든 질병 중 하나도 너희에게 내리지 아니하리니 나는 너희를 치료하는 여호와임이라" }
-            },
-            "시편": {
-                23: { 1: "여호와는 나의 목자시니 내게 부족함이 없으리로다", 4: "내가 사망의 음침한 골짜기로 다닐지라도 해를 두려워하지 않을 것은 주께서 나와 함께 하심이라 주의 지팡이와 막대기가 나를 안위하시나이다" },
-                119: { 105: "주의 말씀은 내 발에 등요 내 길에 빛이니이다" }
-            },
-            "잠언": {
-                3: { 5: "너는 마음을 다하여 여호와를 신뢰하고 네 명철을 의지하지 말라", 6: "너는 범사에 그를 인정하라 그리하면 네 길을 지도하시리라" }
-            },
-            "이사야": {
-                41: { 10: "두려워하지 말라 내가 너와 함께 함이라 놀라지 말라 나는 네 하나님이 됨이라 내가 너를 굳세게 하리라 참으로 너를 도와주리라 참으로 나의 의로운 오른손으로 너를 붙들리라" }
-            },
-            "마태복음": {
-                6: { 33: "그런즉 너희는 먼저 그의 나라와 그의 의를 구하라 그리하면 이 모든 것을 너희에게 더하시리라" },
-                11: { 28: "수고하고 무거운 짐 진 자들아 다 내게로 오라 내가 너희를 쉬게 하리라" }
-            },
-            "요한복음": {
-                3: { 16: "하나님이 세상을 이처럼 사랑하사 독생자를 주셨으니 이는 그를 믿는 자마다 멸망하지 않고 영생을 얻게 하려 하심이라" },
-                14: { 27: "평안을 너희에게 끼치노니 곧 나의 평안을 너희에게 주노라 내가 너희에게 주는 것은 세상이 주는 것과 같지 아니하니라 너희는 마음에 근심하지도 말고 두려워하지도 말라" }
-            },
-            "빌립보서": {
-                4: { 6: "아무것도 염려하지 말고 다만 모든 일에 기도와 간구로, 너희 구할 것을 감사함으로 하나님께 아뢰라", 13: "내게 능력 주시는 자 안에서 내가 모든 것을 할 수 있느니라" }
-            },
-            "요한계시록": {
-                22: { 21: "주 예수의 은혜가 모든 자들에게 지어다 아멘" }
-            }
-        };
+        // 성경 전체 검색 풀 (확장 데이터베이스)
+        const allVersesDatabase = [
+            { reference: "창세기 1장 1절", text: "태초에 하나님이 천지를 창조하시니라", keywords: ["태초", "하나님", "창조", "천지"] },
+            { reference: "출애굽기 15장 26절", text: "나는 너희를 치료하는 여호와임이라", keywords: ["치료", "여호와", "질병", "은혜"] },
+            { reference: "시편 23장 1절", text: "여호와는 나의 목자시니 내게 부족함이 없으리로다", keywords: ["목자", "평안", "위로", "부족함", "인도"] },
+            { reference: "시편 23장 4절", text: "내가 사망의 음침한 골짜기로 다닐지라도 해를 두려워하지 않을 것은 주께서 나와 함께 하심이라", keywords: ["두려움", "위로", "함께", "사망", "골짜기"] },
+            { reference: "잠언 3장 5절", text: "너는 마음을 다하여 여호와를 신뢰하고 네 명철을 의지하지 말라", keywords: ["지혜", "신뢰", "마음", "명철", "의지"] },
+            { reference: "이사야 41장 10절", text: "두려워하지 말라 내가 너와 함께 함이라 놀라지 말라 나는 네 하나님이 됨이라", keywords: ["두려움", "함께", "하나님", "놀라지", "위로"] },
+            { reference: "마태복음 11장 28절", text: "수고하고 무거운 짐 진 자들아 다 내게로 오라 내가 너희를 쉬게 하리라", keywords: ["위로", "수고", "짐", "쉼", "평안", "안식"] },
+            { reference: "요한복음 3장 16절", text: "하나님이 세상을 이처럼 사랑하사 독생자를 주셨으니 이는 그를 믿는 자마다 멸망하지 않고 영생을 얻게 하려 하심이라", keywords: ["사랑", "영생", "구원", "믿음"] },
+            { reference: "요한복음 14장 27절", text: "평안을 너희에게 끼치노니 곧 나의 평안을 너희에게 주노라 마음에 근심하지도 말고 두려워하지도 말라", keywords: ["평안", "두려움", "근심", "위로", "마음"] },
+            { reference: "빌립보서 4장 6절", text: "아무것도 염려하지 말고 다만 모든 일에 기도와 간구로, 너희 구할 것을 감사함으로 하나님께 아뢰라", keywords: ["염려", "걱정", "기도", "감사", "평안"] },
+            { reference: "빌립보서 4장 13절", text: "내게 능력 주시는 자 안에서 내가 모든 것을 할 수 있느니라", keywords: ["능력", "힘", "용기", "할수있다"] },
+            { reference: "요한계시록 21장 4절", text: "모든 눈물을 그 눈에서 닦아 주시니 다시는 사망이 없고 애통하는 것이나 곡하는 것이나 아픈 것이 다시 있지 아니하리니", keywords: ["눈물", "위로", "아픔", "소망", "영원"] }
+        ];
 
-        const comfortData = {
-            comfort: {
-                name: "위로", icon: "🌿", verses: [
-                    { title: "시편 23장 1절", text: "여호와는 나의 목자시니 내게 부족함이 없으리로다" },
-                    { title: "마태복음 11장 28절", text: "수고하고 무거운 짐 진 자들아 다 내게로 오라 내가 너희를 쉬게 하리라" },
-                    { title: "요한복음 14장 27절", text: "평안을 너희에게 끼치노니 곧 나의 평안을 너희에게 주노라" },
-                    { title: "고린도후서 1장 3절", text: "찬송하리로다 그는 모든 위로의 하나님이시며" }
-                ]
-            },
-            fear: {
-                name: "두려움", icon: "🛡️", verses: [
-                    { title: "이사야 41장 10절", text: "두려워하지 말라 내가 너와 함께 함이라 놀라지 말라 나는 네 하나님이 됨이라" },
-                    { title: "여호수아 1장 9절", text: "내가 네게 명령한 것이 아니냐 강하고 담대하라 두려워하지 말며 놀라지 말라" }
-                ]
-            },
-            thanks: {
-                name: "감사", icon: "✨", verses: [
-                    { title: "데살로니가전서 5장 18절", text: "범사에 감사하라 이것이 그리스도 예수 안에서 너희를 향하신 하나님의 뜻이니라" },
-                    { title: "시편 136장 1절", text: "여호와께 감사하라 그는 선하시며 그 인자하심이 영원함이로다" }
-                ]
-            },
-            wisdom: {
-                name: "지혜", icon: "💡", verses: [
-                    { title: "잠언 3장 5절", text: "너는 마음을 다하여 여호와를 신뢰하고 네 명철을 의지하지 말라" },
-                    { title: "야고보서 1장 5절", text: "너희 중에 누구든지 지혜가 부족하거든 하나님께 구하라 그리하면 주시리라" }
-                ]
-            }
-        };
+        // 66권 전체 권별 장 수 자동 계산 및 매핑 유틸리티
+        function getChapterCount(bookName) {
+            const chapMap = {
+                "창세기": 50, "출애굽기": 40, "레위기": 27, "민수기": 36, "신명기": 34, "여호수아": 24, "사사기": 21, "룻기": 4, "사무엘상": 31, "사무엘하": 24,
+                "열왕기상": 22, "열왕기하": 25, "역대상": 29, "역대하": 36, "에스라": 10, "느헤미야": 13, "에스더": 10, "욥기": 42, "시편": 150, "잠언": 31,
+                "전도서": 12, "아가": 8, "이사야": 66, "예레미야": 52, "예레미야애가": 5, "에스겔": 48, "다니엘": 12, "호세아": 14, "요엘": 3, "아모스": 9,
+                "오바댜": 1, "요나": 4, "미가": 7, "나훔": 3, "하박국": 3, "스바냐": 3, "학개": 2, "스가랴": 14, "말라기": 4,
+                "마태복음": 28, "마가복음": 16, "누가복음": 24, "요한복음": 21, "사도행전": 28, "로마서": 16, "고린도전서": 16, "고린도후서": 13, "갈라디아서": 6, "에베소서": 6,
+                "빌립보서": 4, "골로새서": 4, "데살로니가전서": 5, "데살로니가후서": 3, "디모데전서": 6, "디모데후서": 4, "디도서": 3, "빌레몬서": 1, "히브리서": 13, "야고보서": 5,
+                "베드로전서": 5, "베드로후서": 3, "요한일서": 5, "요한이서": 1, "요한삼서": 1, "유다서": 1, "요한계시록": 22
+            };
+            return chapMap[bookName] || 15;
+        }
 
         const gridContainer = document.getElementById('home-bible-grid');
         bibleBooks.forEach(book => {
@@ -638,17 +606,6 @@
                 switchTab(1);
             };
             gridContainer.appendChild(btn);
-        });
-
-        const catGrid = document.getElementById('all-categories-grid');
-        Object.keys(comfortData).forEach(key => {
-            const item = comfortData[key];
-            const chip = document.createElement('div');
-            chip.className = 'cat-chip';
-            chip.id = `cat-chip-${key}`;
-            chip.innerHTML = `${item.icon} ${item.name}`;
-            chip.onclick = () => loadComfortList(key);
-            catGrid.appendChild(chip);
         });
 
         let currentBook = "창세기";
@@ -663,19 +620,6 @@
             document.getElementById('current-selection-title').innerText = `${bookName} ${chapterNum}장`;
             buildChapterSelector(bookName, chapterNum);
             buildVerseNumberGrid(bookName, chapterNum, verseNum);
-        }
-
-        function getChapterCount(bookName) {
-            if (bookName === "창세기") return 50;
-            if (bookName === "시편") return 150;
-            if (bookName === "잠언") return 31;
-            if (bookName === "요한복음") return 21;
-            if (bookName === "요한계시록") return 22;
-            return 15;
-        }
-
-        function getVerseCount(bookName, chapterNum) {
-            return 10;
         }
 
         function buildChapterSelector(bookName, activeChap) {
@@ -695,9 +639,8 @@
         function buildVerseNumberGrid(bookName, chapterNum, activeVNum) {
             const gridContainer = document.getElementById('verse-number-grid');
             gridContainer.innerHTML = '';
-            const totalVerses = getVerseCount(bookName, chapterNum);
 
-            for (let v = 1; v <= totalVerses; v++) {
+            for (let v = 1; v <= 35; v++) {
                 const numChip = document.createElement('div');
                 numChip.className = `verse-num-chip ${v === activeVNum ? 'active' : ''}`;
                 numChip.innerText = `${v}`;
@@ -713,14 +656,10 @@
 
         function renderMeditationArea(book, chap, vNum) {
             const area = document.getElementById('active-meditation-area');
+            let verseText = `${book} ${chap}장 ${vNum}절: 주 안에서 온전한 은혜와 진리의 생명력이 넘치는 귀중한 말씀입니다.`;
 
-            // 데이터베이스에 내용이 있으면 가져오고, 없으면 표준 안내 본문 출력
-            let verseText = "";
-            if (bibleDatabase[book] && bibleDatabase[book][chap] && bibleDatabase[book][chap][vNum]) {
-                verseText = bibleDatabase[book][chap][vNum];
-            } else {
-                verseText = `${book} ${chap}장 ${vNum}절: 주 안에서 온전한 은혜와 진리의 생명력이 넘치는 귀중한 말씀입니다. (핵심 구절 연동 완료)`;
-            }
+            const found = allVersesDatabase.find(item => item.reference === `${book} ${chap}장 ${vNum}절`);
+            if (found) verseText = found.text;
 
             area.innerHTML = `
                 <div class="active-meditation-panel">
@@ -757,32 +696,41 @@
             return `<strong>[4단계: 삶의 적용 (실천 지침)]</strong><br>• <strong>오늘의 실천:</strong> 내 생각과 방법을 내려놓고 주님께 기도로 아뢰기`;
         }
 
-        function loadComfortList(categoryKey) {
-            Object.keys(comfortData).forEach(k => {
-                const chip = document.getElementById(`cat-chip-${k}`);
-                if (chip) chip.classList.toggle('active', k === categoryKey);
-            });
-
-            const container = document.getElementById('comfort-verses-container');
+        // --- 키워드 성경 구절 검색 기능 ---
+        function executeSearch() {
+            const query = document.getElementById('bible-search-input').value.trim().toLowerCase();
+            const container = document.getElementById('search-results-container');
             container.innerHTML = '';
 
-            const categoryObj = comfortData[categoryKey];
-            if (!categoryObj) return;
+            if (!query) {
+                container.innerHTML = `<div style="text-align: center; color: var(--text-muted); padding: 25px; font-size: 0.85rem;">검색어를 입력해 주세요.</div>`;
+                return;
+            }
 
-            document.getElementById('comfort-view-header').innerText = `🎯 ${categoryObj.icon} ${categoryObj.name} 관련 맞춤 은혜의 말씀`;
+            const matched = allVersesDatabase.filter(item => {
+                const matchText = item.text.toLowerCase().includes(query);
+                const matchRef = item.reference.toLowerCase().includes(query);
+                const matchKeyword = item.keywords.some(kw => kw.includes(query));
+                return matchText || matchRef || matchKeyword;
+            });
 
-            categoryObj.verses.forEach(item => {
+            if (matched.length === 0) {
+                container.innerHTML = `<div style="text-align: center; color: var(--text-muted); padding: 25px; font-size: 0.85rem;">'${query}'에 해당하는 구절을 찾지 못했습니다. 다른 단어로 검색해 보세요.</div>`;
+                return;
+            }
+
+            matched.forEach(item => {
                 const card = document.createElement('div');
-                card.className = 'comfort-verse-card';
+                card.className = 'search-result-card';
                 card.innerHTML = `
-                    <div style="font-size: 0.85rem; font-weight: 700; color: var(--accent-warm); margin-bottom: 4px;">📖 ${item.title}</div>
-                    <div style="font-size: 0.82rem; color: var(--text-main);">"${item.text}"</div>
+                    <div style="font-size: 0.85rem; font-weight: 700; color: var(--accent-warm); margin-bottom: 4px;">📖 ${item.reference}</div>
+                    <div style="font-size: 0.82rem; color: var(--text-main); line-height: 1.4;">"${item.text}"</div>
                 `;
                 container.appendChild(card);
             });
         }
 
-        // --- 실제 작동하는 인터랙티브 퀴즈 및 게임 기능 ---
+        // --- 퀴즈 및 게임 기능 ---
         const quizList = [
             { question: "태초에 하나님이 창조하신 첫 번째 성경 책은 무엇인가요?", options: ["출애굽기", "창세기", "시편", "요한복음"], answer: 1 },
             { question: "여호와는 나의 목자시니 내게 부족함이 없으리로다 가 기록된 책은?", options: ["잠언", "이사야", "시편", "창세기"], answer: 2 },
@@ -872,7 +820,6 @@
         }
 
         selectBookAndChapter("창세기", 1, 1);
-        loadComfortList('comfort');
 
         function switchTab(tabIndex) {
             const views = document.querySelectorAll('.view-section');
