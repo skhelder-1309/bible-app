@@ -4,7 +4,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>황우의 지혜의 서재 - 바이블 애플</title>
+    <title>황우의 지혜의 서재 - 최종 완성본</title>
     <style>
         :root {
             --bg-color: #EDE7DD;
@@ -76,9 +76,9 @@
         .back-btn-header {
             background: none;
             border: 1px solid var(--border-color);
-            padding: 4px 10px;
+            padding: 6px 12px;
             border-radius: 8px;
-            font-size: 0.8rem;
+            font-size: 0.82rem;
             font-weight: 600;
             cursor: pointer;
             color: var(--text-main);
@@ -477,13 +477,13 @@
                 </div>
 
                 <div class="content-card">
-                    <div class="card-title">🎮 성경 액티비티 &amp; 대규모 퀴즈 뱅크</div>
+                    <div class="card-title">🎮 성경 액티비티 &amp; 퀴즈 뱅크</div>
                     <div class="home-game-grid">
                         <div class="home-game-item" onclick="startBibleQuiz()">
                             <div style="font-size: 1.8rem; margin-bottom: 6px;">🎯</div>
                             <div style="font-size: 0.9rem; font-weight: 700; color: var(--accent-warm);">성경 종합 퀴즈 (10문항)
                             </div>
-                            <div style="font-size: 0.72rem; color: var(--text-muted); margin-top:2px;">심층 실력 테스트 및 해설
+                            <div style="font-size: 0.72rem; color: var(--text-muted); margin-top:2px;">실력 테스트 및 정답 확인
                             </div>
                         </div>
                         <div class="home-game-item" onclick="startWordMatchGame()">
@@ -518,12 +518,12 @@
                 </div>
             </div>
 
-            <!-- 3. 키워드 성경 구절 검색 뷰 (최대 6개 이내 출력) -->
+            <!-- 3. 키워드 성경 구절 검색 뷰 -->
             <div id="view-comfort" class="view-section">
                 <div class="content-card">
                     <div class="card-title">🔍 키워드 성경 구절 맞춤 검색</div>
-                    <p style="font-size: 0.82rem; color: var(--text-muted); margin-bottom: 12px;">마음의 평안, 두려움, 감사, 치유,
-                        소망 등 주제를 입력하시면 <strong>가장 적합한 구절을 최대 6개 이내</strong>로 추려 보여드립니다.</p>
+                    <p style="font-size: 0.82rem; color: var(--text-muted); margin-bottom: 12px;">주제를 입력하시면 <strong>가장
+                            적합한 구절을 최대 6개 이내</strong>로 추려 보여드립니다.</p>
 
                     <div class="search-input-group">
                         <input type="text" id="bible-search-input" class="search-input"
@@ -533,7 +533,7 @@
 
                     <div id="search-results-container">
                         <div style="text-align: center; color: var(--text-muted); padding: 25px; font-size: 0.85rem;">
-                            검색어를 입력하시면 성경 전체 데이터베이스에서 일치하는 핵심 말씀을 엄선해 드립니다.
+                            검색어를 입력하시면 성경 데이터베이스에서 일치하는 핵심 말씀을 엄선해 드립니다.
                         </div>
                     </div>
                 </div>
@@ -590,7 +590,6 @@
             "베드로전서", "베드로후서", "요한일서", "요한이서", "요한삼서", "유다서", "요한계시록"
         ];
 
-        // 대폭 강화된 방대한 성경 실제 구절 데이터베이스
         const allVersesDatabase = [
             { reference: "창세기 1장 1절", text: "태초에 하나님이 천지를 창조하시니라", keywords: ["태초", "하나님", "창조", "천지"] },
             { reference: "창세기 1장 3절", text: "하나님이 이르시되 빛이 있으라 하시니 빛이 있었고", keywords: ["빛", "하나님", "창조"] },
@@ -600,7 +599,7 @@
             { reference: "시편 121장 1절", text: "내가 산을 향하여 눈을 들리라 나의 도움 어디서 올까 나의 도움은 천지를 지으신 여호와에게서로다", keywords: ["도움", "산", "천지", "여호와", "소망"] },
             { reference: "잠언 3장 5절", text: "너는 마음을 다하여 여호와를 신뢰하고 네 명철을 의지하지 말라", keywords: ["지혜", "신뢰", "마음", "명철", "의지"] },
             { reference: "이사야 40장 31절", text: "오직 여호와를 앙망하는 자는 새 힘을 얻으리니 독수리가 날개치며 올라감 같을 것이요 달음박질하여도 곤비하지 아니하겠고 걸어가도 피곤하지 아니하리로다", keywords: ["힘", "피곤", "여호와", "소망", "위로", "독수리"] },
-            { reference: "이사야 41장 10절", text: "두려워하지 말라 내가 너와 함께 함이라 놀라지 말라 나는 네 하나님이 됨이라 내가 너를 쎈세게 하리라 참으로 너를 도와주리라 참으로 나의 의로운 오른손으로 너를 붙들리라", keywords: ["두려움", "함께", "하나님", "놀라지", "위로", "도움"] },
+            { reference: "이사야 41장 10절", text: "두려워하지 말라 내가 너와 함께 함이라 놀라지 말라 나는 네 하나님이 됨이라 내가 너를 굳세게 하리라 참으로 너를 도와주리라 참으로 나의 의로운 오른손으로 너를 붙들리라", keywords: ["두려움", "함께", "하나님", "놀라지", "위로", "도움"] },
             { reference: "예레미야 29장 11절", text: "여호와의 말씀이니라 너희를 향한 나의 생각을 내가 아나니 평안이요 재앙이 아니니라 너희에게 미래와 희망을 주는 것이니라", keywords: ["평안", "희망", "미래", "생각", "소망"] },
             { reference: "마태복음 11장 28절", text: "수고하고 무거운 짐 진 자들아 다 내게로 오라 내가 너희를 쉬게 하리라", keywords: ["위로", "수고", "짐", "쉼", "평안", "안식"] },
             { reference: "요한복음 3장 16절", text: "하나님이 세상을 이처럼 사랑하사 독생자를 주셨으니 이는 그를 믿는 자마다 멸망하지 않고 영생을 얻게 하려 하심이라", keywords: ["사랑", "영생", "구원", "믿음", "하나님"] },
@@ -725,7 +724,6 @@
             return `<strong>[4단계: 삶의 적용 (실천 지침)]</strong><br>• <strong>오늘의 실천:</strong> 내 생각과 염려를 내려놓고 주님께 전적으로 의탁하기`;
         }
 
-        // --- 키워드 성경 구절 검색 (최대 6개 이내 출력) ---
         function executeSearch() {
             const query = document.getElementById('bible-search-input').value.trim().toLowerCase();
             const container = document.getElementById('search-results-container');
@@ -761,7 +759,6 @@
             });
         }
 
-        // --- 대규모 퀴즈 및 게임 기능 ---
         const quizList = [
             { question: "태초에 하나님이 천지를 창조하시니라 가 기록된 성경의 첫 책은?", options: ["출애굽기", "창세기", "시편", "요한복음"], answer: 1 },
             { question: "여호와는 나의 목자시니 내게 부족함이 없으리로다 가 담긴 시편의 장수는?", options: ["시편 23장", "시편 1장", "시편 119장", "시편 51장"], answer: 0 },
@@ -878,7 +875,7 @@
 
         function goBackHistory() {
             if (historyStack.length > 1) {
-                historyStack.pop(); // 현재 페이지 제거
+                historyStack.pop();
                 const prevTab = historyStack[historyStack.length - 1];
                 switchTab(prevTab, false);
             } else {
