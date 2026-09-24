@@ -132,6 +132,16 @@
             padding-bottom: 80px;
         }
 
+        .view-section {
+            display: none;
+            flex-direction: column;
+            gap: 16px;
+        }
+
+        .view-section.active {
+            display: flex;
+        }
+
         .profile-card {
             background: linear-gradient(135deg, #FFFDF9 0%, #FFF5EB 100%);
             border: 1px solid #F3E5D8;
@@ -210,30 +220,34 @@
             color: var(--accent-warm);
         }
 
-        .filter-buttons {
-            display: flex;
+        /* 66권 그리드 선택창 */
+        .bible-grid {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
             gap: 8px;
-            overflow-x: auto;
-            padding-bottom: 4px;
+            max-height: 220px;
+            overflow-y: auto;
+            padding: 4px;
         }
 
-        .filter-btn {
+        .bible-book-btn {
             background: white;
             border: 1px solid var(--border-color);
-            padding: 8px 14px;
-            border-radius: 14px;
-            font-size: 0.85rem;
+            padding: 10px 6px;
+            border-radius: 10px;
+            font-size: 0.8rem;
             font-weight: 600;
             cursor: pointer;
-            white-space: nowrap;
-            color: var(--text-muted);
+            text-align: center;
+            color: var(--text-main);
+            transition: all 0.15s;
         }
 
-        .filter-btn.active {
+        .bible-book-btn:hover,
+        .bible-book-btn.active {
             background: var(--accent-warm);
             color: white;
             border-color: var(--accent-warm);
-            box-shadow: 0 2px 8px rgba(194, 65, 12, 0.3);
         }
 
         .content-card {
@@ -260,13 +274,6 @@
             border-radius: 12px;
             background: #FAFAFA;
             border: 1px solid #EFECE6;
-            cursor: pointer;
-            transition: all 0.2s;
-        }
-
-        .verse-line:hover {
-            background-color: #FFF7ED;
-            border-color: #FDBA74;
         }
 
         .verse-header-row {
@@ -288,18 +295,18 @@
             color: var(--accent-warm);
         }
 
-        /* 단계별 아이콘 버튼 그룹 */
+        /* 4단계 버튼 그룹 (문맥, 신학, 해석, 적용) */
         .step-btns {
             display: flex;
-            gap: 6px;
+            gap: 4px;
         }
 
         .step-icon-btn {
             background: white;
             border: 1px solid #D6C7B2;
-            padding: 4px 8px;
-            border-radius: 8px;
-            font-size: 0.75rem;
+            padding: 4px 6px;
+            border-radius: 6px;
+            font-size: 0.7rem;
             font-weight: 600;
             color: var(--text-muted);
             cursor: pointer;
@@ -313,7 +320,6 @@
             border-color: var(--accent-warm);
         }
 
-        /* 단계별 내용 출력 박스 */
         .step-detail-box {
             margin-top: 10px;
             background: #FDFBF7;
@@ -385,123 +391,113 @@
     <div class="app-container">
 
         <header class="top-header">
-            <div class="logo-area" onclick="location.reload()">
+            <div class="logo-area" onclick="switchTab(0)">
                 <span>📖</span> <strong>황우의 지혜의 서재</strong>
             </div>
             <div class="header-actions">
-                <button class="btn-register">+ 말씀 등록</button>
-                <button class="icon-btn">🔍</button>
+                <button class="btn-register" onclick="alert('말씀 등록 기능입니다.')">+ 말씀 등록</button>
+                <button class="icon-btn" onclick="alert('검색 기능입니다.')">🔍</button>
             </div>
         </header>
 
         <div class="tab-menu-bar">
-            <span class="tab-item active">서재홈</span>
-            <span class="tab-item">성경본문</span>
-            <span class="tab-item">단계주석</span>
-            <span class="tab-item">설정</span>
+            <span class="tab-item active" onclick="switchTab(0)">서재홈</span>
+            <span class="tab-item" onclick="switchTab(1)">성경66권</span>
+            <span class="tab-item" onclick="switchTab(2)">4단계묵상</span>
+            <span class="tab-item" onclick="switchTab(3)">설정</span>
         </div>
 
         <div class="scroll-content">
 
-            <div class="profile-card">
-                <div class="profile-top">
-                    <div class="profile-avatar">✨</div>
-                    <div class="profile-info">
-                        <span class="badge">Lv.3 깊은묵상 단계</span>
-                        <h2>황우님의 영성 서재</h2>
+            <!-- 1. 홈 뷰 -->
+            <div id="view-home" class="view-section active">
+                <div class="profile-card">
+                    <div class="profile-top">
+                        <div class="profile-avatar">✨</div>
+                        <div class="profile-info">
+                            <span class="badge">Lv.3 깊은묵상 단계</span>
+                            <h2>황우님의 영성 서재</h2>
+                        </div>
+                    </div>
+                    <div class="profile-desc">
+                        "성경 66권 전체와 함께하는 4단계 깊은 묵상 서재 ✨"
+                    </div>
+                    <div class="stats-row">
+                        <div class="stat-box">
+                            <div class="label">누적 묵상</div>
+                            <div class="value">39권 완독</div>
+                        </div>
+                        <div class="stat-box">
+                            <div class="label">은혜 포인트</div>
+                            <div class="value">1,250 P</div>
+                        </div>
                     </div>
                 </div>
-                <div class="profile-desc">
-                    "매일 한 장의 말씀 속에서 삶의 지혜와 깊은 주석을 발견하자 ✨"
-                </div>
-                <div class="stats-row">
-                    <div class="stat-box">
-                        <div class="label">누적 묵상</div>
-                        <div class="value">39권 완독</div>
-                    </div>
-                    <div class="stat-box">
-                        <div class="label">은혜 포인트</div>
-                        <div class="value">1,250 P</div>
+
+                <div class="content-card">
+                    <div class="card-title">📚 성경 66권 빠른 선택</div>
+                    <div class="bible-grid" id="home-bible-grid">
+                        <!-- 자바스크립트로 66권 동적 생성 -->
                     </div>
                 </div>
             </div>
 
-            <div class="filter-buttons">
-                <button class="filter-btn active">📖 창세기 1장</button>
-                <button class="filter-btn">출애굽기 1장</button>
-                <button class="filter-btn">요한복음 1장</button>
-                <button class="filter-btn">로마서 8장</button>
+            <!-- 2. 성경 66권 본문 및 4단계 묵상 뷰 -->
+            <div id="view-bible" class="view-section">
+                <div class="content-card">
+                    <div class="card-title">
+                        <span id="current-book-title">창세기 1장 본문</span>
+                        <span style="font-size:0.75rem; color:var(--text-muted);">4단계 정밀 주석 연동</span>
+                    </div>
+                    <div id="verses-container"></div>
+                </div>
             </div>
 
-            <div class="content-card">
-                <div class="card-title">
-                    <span>창세기 1장 (구절별 단계 주석 & 해석)</span>
+            <!-- 3. 4단계 묵상 가이드 뷰 -->
+            <div id="view-commentary" class="view-section">
+                <div class="content-card">
+                    <h3 style="color: var(--accent-warm); margin-bottom: 10px;">💡 4단계 정밀 묵상법 안내</h3>
+                    <p style="font-size: 0.9rem; color: var(--text-muted); line-height: 1.7;">
+                        • **1단계(문맥):** 본문의 역사적·지리적 배경을 파악합니다.<br>
+                        • **2단계(신학):** 하나님의 속성과 구속사적 의미를 규명합니다.<br>
+                        • **3단계(해석):** 원어와 전후 문맥을 바탕으로 진리를 명확히 해석합니다.<br>
+                        • **4단계(적용):** 일상 속에서 구체적으로 실천할 삶의 방향을 설정합니다.
+                    </p>
+                    <button onclick="switchTab(1)"
+                        style="margin-top: 15px; width: 100%; background: var(--accent-warm); color: white; border: none; padding: 10px; border-radius: 10px; font-weight: 600; cursor: pointer;">본문
+                        묵상하러 가기</button>
                 </div>
+            </div>
 
-                <!-- 1절 -->
-                <div class="verse-line">
-                    <div class="verse-header-row">
-                        <span class="verse-num">1절</span>
-                        <div class="step-btns">
-                            <button class="step-icon-btn" onclick="showStep(1, 1)">1단계(문맥)</button>
-                            <button class="step-icon-btn" onclick="showStep(1, 2)">2단계(신학)</button>
-                            <button class="step-icon-btn" onclick="showStep(1, 3)">3단계(적용)</button>
-                        </div>
-                    </div>
-                    <div class="verse-text-content">태초에 하나님이 천지를 창조하시니라</div>
-                    <div id="detail-1" class="step-detail-box">버튼을 누르면 해당 단계의 주석과 해석이 여기에 나타납니다.</div>
+            <!-- 4. 설정 뷰 -->
+            <div id="view-settings" class="view-section">
+                <div class="content-card">
+                    <h3 style="color: var(--text-main); margin-bottom: 15px;">⚙️ 앱 설정</h3>
+                    <p style="font-size: 0.9rem; color: var(--text-muted); margin-bottom: 10px;">• 사용자: 황우님</p>
+                    <p style="font-size: 0.9rem; color: var(--text-muted); margin-bottom: 10px;">• 구성: 구약 39권 + 신약 27권
+                        전체 연동</p>
+                    <p style="font-size: 0.9rem; color: var(--text-muted); margin-bottom: 20px;">• 테마: 웜 크림 베이지</p>
+                    <button onclick="alert('설정이 저장되었습니다.')"
+                        style="width: 100%; background: var(--accent-warm); color: white; border: none; padding: 10px; border-radius: 10px; font-weight: 600; cursor: pointer;">저장하기</button>
                 </div>
-
-                <!-- 2절 -->
-                <div class="verse-line">
-                    <div class="verse-header-row">
-                        <span class="verse-num">2절</span>
-                        <div class="step-btns">
-                            <button class="step-icon-btn" onclick="showStep(2, 1)">1단계(문맥)</button>
-                            <button class="step-icon-btn" onclick="showStep(2, 2)">2단계(신학)</button>
-                            <button class="step-icon-btn" onclick="showStep(2, 3)">3단계(적용)</button>
-                        </div>
-                    </div>
-                    <div class="verse-text-content">땅이 혼돈하고 공허하며 흑암이 깊음 위에 있고 하나님의 영은 수면 위에 운행하시니라</div>
-                    <div id="detail-2" class="step-detail-box">버튼을 누르면 해당 단계의 주석과 해석이 여기에 나타납니다.</div>
-                </div>
-
-                <!-- 3절 -->
-                <div class="verse-line">
-                    <div class="verse-header-row">
-                        <span class="verse-num">3절</span>
-                        <div class="step-btns">
-                            <button class="step-icon-btn" onclick="showStep(3, 1)">1단계(문맥)</button>
-                            <button class="step-icon-btn" onclick="showStep(3, 2)">2단계(신학)</button>
-                            <button class="step-icon-btn" onclick="showStep(3, 3)">3단계(적용)</button>
-                        </div>
-                    </div>
-                    <div class="verse-text-content">하나님이 이르시되 빛이 있으라 하시니 빛이 있었고</div>
-                    <div id="detail-3" class="step-detail-box">버튼을 누르면 해당 단계의 주석과 해석이 여기에 나타납니다.</div>
-                </div>
-
             </div>
 
         </div>
 
         <nav class="bottom-nav">
-            <button class="nav-btn active">
+            <button class="nav-btn active" onclick="switchTab(0)">
                 <span class="nav-icon">🏠</span>
                 <span>서재홈</span>
             </button>
-            <button class="nav-btn">
+            <button class="nav-btn" onclick="switchTab(1)">
                 <span class="nav-icon">📖</span>
-                <span>성경본문</span>
+                <span>성경66권</span>
             </button>
-            <button class="nav-btn">
+            <button class="nav-btn" onclick="switchTab(2)">
                 <span class="nav-icon">💡</span>
-                <span>단계주석</span>
+                <span>4단계묵상</span>
             </button>
-            <button class="nav-btn">
-                <span class="nav-icon">🌱</span>
-                <span>삶적용</span>
-            </button>
-            <button class="nav-btn">
+            <button class="nav-btn" onclick="switchTab(3)">
                 <span class="nav-icon">⚙️</span>
                 <span>설정</span>
             </button>
@@ -510,46 +506,106 @@
     </div>
 
     <script>
-        // 각 절별 단계별 데이터 정의
-        const commentaryData = {
-            1: {
-                1: "<strong>[1단계: 문맥 이해]</strong> 태초(브레시트)는 시간의 기원을 뜻하며, 히브리 사상에서 온 우주와 역사가 무작정 시작된 것이 아니라 하나님의 의도적인 설계로 시작되었음을 선포하는 서문입니다.",
-                2: "<strong>[2단계: 신학적 의미]</strong> '창조(바라)'라는 단어는 오직 하나님만이 주체로 사용됩니다. 이는 무(無)에서 유(有)를 창조하신 전능성과 만물 위에 군림하시는 절대 주권을 확증합니다.",
-                3: "<strong>[3단계: 삶의 적용]</strong> 내 삶의 모든 주권과 시작이 내 능력이나 우연이 아니라 하나님께 있음을 고백하며, 오늘 하루의 모든 계획을 주님께 온전히 의탁합시다."
-            },
-            2: {
-                1: "<strong>[1단계: 문맥 이해]</strong> '혼돈(토후)'과 '공허(보후)'는 형태가 없고 비어 있는 황폐한 상태를 말합니다. 질서가 잡히기 이전의 원시적 지구의 모습을 생생하게 묘사합니다.",
-                2: "<strong>[2단계: 신학적 의미]</strong> 아무리 절망스럽고 흑암이 깊은 혼돈의 현장일지라도, 하나님의 영(루아흐)은 그 수면 위에서 결코 떠나지 않으시고 새 역사를 운행하고 계십니다.",
-                3: "<strong>[3단계: 삶의 적용]</strong> 내 삶에 뜻밖의 혼돈과 어두운 막막함이 찾아올 때, 낙심하거나 포기하지 않고 내 위에서 일하고 계시는 성령님의 세밀한 손길을 신뢰합시다."
-            },
-            3: {
-                1: "<strong>[1단계: 문맥 이해]</strong> 하나님의 말씀 선포(이르시되)와 동시에 물리적인 법칙을 초월하여 즉각적인 반응으로 빛이 존재하게 되는 창조의 역동성을 보여줍니다.",
-                2: "<strong>[2단계: 신학적 의미]</strong> 빛은 생명과 진리의 근원입니다. 어둠이 지배하는 세상 속에서 하나님의 말씀 한마디는 어떤 깊은 어둠이라도 단번에 역전시킬 수 있는 능력이 됩니다.",
-                3: "<strong>[3단계: 삶의 적용]</strong> 내 마음에 두려움이나 영적 어두움이 엄습할 때, 가만히 있지 말고 하나님의 생명의 말씀을 입술로 선포하며 빛의 인도하심을 구합시다."
-            }
-        };
+        // 성경 66권 목록 데이터
+        const bibleBooks = [
+            "창세기", "출애굽기", "레위기", "민수기", "신명기", "여호수아", "사사기", "룻기", "사무엘상", "사무엘하",
+            "열왕기상", "열왕기하", "역대상", "역대하", "에스라", "느헤미야", "에스더", "욥기", "시편", "잠언",
+            "전도서", "아가", "이사야", "예레미야", "예레미야애가", "에스겔", "다니엘", "호세아", "요엘", "아모스",
+            "오바댜", "요나", "미가", "나훔", "하박국", "스바냐", "학개", "스가랴", "말라기",
+            "마태복음", "마가복음", "누가복음", "요한복음", "사도행전", "로마서", "고린도전서", "고린도후서", "갈라디아서", "에베소서",
+            "빌립보서", "골로새서", "데살로니가전서", "데살로니가후서", "디모데전서", "디모데후서", "디도서", "빌레몬서", "히브리서", "야고보서",
+            "베드로전서", "베드로후서", "요한일서", "요한이서", "요한삼서", "유다서", "요한계시록"
+        ];
 
+        // 홈 화면에 66권 그리드 동적 생성
+        const gridContainer = document.getElementById('home-bible-grid');
+        bibleBooks.forEach(book => {
+            const btn = document.createElement('button');
+            btn.className = 'bible-book-btn';
+            btn.innerText = book;
+            btn.onclick = () => selectBook(book);
+            gridContainer.appendChild(btn);
+        });
+
+        function selectBook(bookName) {
+            document.getElementById('current-book-title').innerText = `${bookName} 1장 본문`;
+            loadVerses(bookName);
+            switchTab(1);
+        }
+
+        // 본문 구절 로드 (샘플 데이터 생성기)
+        function loadVerses(bookName) {
+            const container = document.getElementById('verses-container');
+            container.innerHTML = '';
+
+            // 시연을 위해 각 책마다 3개의 핵심 절을 생성
+            for (let i = 1; i <= 3; i++) {
+                const verseHTML = `
+                    <div class="verse-line">
+                        <div class="verse-header-row">
+                            <span class="verse-num">${i}절</span>
+                            <div class="step-btns">
+                                <button class="step-icon-btn" onclick="showStep(${i}, 1)">1단계</button>
+                                <button class="step-icon-btn" onclick="showStep(${i}, 2)">2단계</button>
+                                <button class="step-icon-btn" onclick="showStep(${i}, 3)">3단계</button>
+                                <button class="step-icon-btn" onclick="showStep(${i}, 4)">4단계</button>
+                            </div>
+                        </div>
+                        <div class="verse-text-content">[${bookName} 1장 ${i}절] 하나님의 거룩한 뜻과 은혜가 충만히 임하는 말씀입니다.</div>
+                        <div id="detail-${i}" class="step-detail-box"></div>
+                    </div>
+                `;
+                container.innerHTML += verseHTML;
+            }
+        }
+
+        // 초기 실행 시 창세기 1장 로드
+        loadVerses("창세기");
+
+        // 4단계 주석 처리 함수
         function showStep(verseId, stepNum) {
             const detailBox = document.getElementById(`detail-${verseId}`);
             const parentCard = detailBox.parentElement;
             const buttons = parentCard.querySelectorAll('.step-icon-btn');
 
-            // 버튼 활성화 스타일 토글
             buttons.forEach((btn, idx) => {
                 if (idx + 1 === stepNum) {
                     if (btn.classList.contains('active') && detailBox.classList.contains('show')) {
-                        // 이미 열려 있는 걸 또 누르면 닫기
                         btn.classList.remove('active');
                         detailBox.classList.remove('show');
                     } else {
                         btn.classList.add('active');
-                        detailBox.innerHTML = commentaryData[verseId][stepNum];
+                        detailBox.innerHTML = get4StepContent(stepNum);
                         detailBox.classList.add('show');
                     }
                 } else {
                     btn.classList.remove('active');
                 }
             });
+        }
+
+        function get4StepContent(sNum) {
+            if (sNum === 1) return "<strong>[1단계: 문맥 이해]</strong> 본 절이 기록된 당시의 역사적 배경과 전후 흐름을 입체적으로 고찰합니다.";
+            if (sNum === 2) return "<strong>[2단계: 신학적 의미]</strong> 본문이 증거하는 하나님의 절대 주권과 구속사적 진리를 발견합니다.";
+            if (sNum === 3) return "<strong>[3단계: 본문 해석]</strong> 원어적 의미와 핵심 단어 분석을 통해 본문의 참된 가르침을 명확히 해석합니다.";
+            return "<strong>[4단계: 삶의 적용]</strong> 오늘 하루 나의 일상과 결단 속에서 구체적으로 실천할 은혜의 실천 지침을 세웁니다.";
+        }
+
+        function switchTab(tabIndex) {
+            const views = document.querySelectorAll('.view-section');
+            const tabItems = document.querySelectorAll('.tab-menu-bar .tab-item');
+            const navBtns = document.querySelectorAll('.bottom-nav .nav-btn');
+
+            views.forEach((view, idx) => {
+                view.classList.toggle('active', idx === tabIndex);
+            });
+            tabItems.forEach((tab, idx) => {
+                tab.classList.toggle('active', idx === tabIndex);
+            });
+            navBtns.forEach((nav, idx) => {
+                nav.classList.toggle('active', idx === tabIndex);
+            });
+            document.querySelector('.scroll-content').scrollTop = 0;
         }
     </script>
 </body>
