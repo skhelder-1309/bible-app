@@ -4,7 +4,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
-    <title>바른 성경 주석 & 맞춤 묵상</title>
+    <title>황우님의 지혜의 서재</title>
     <script src="https://cdn.tailwindcss.com"></script>
     <meta name="apple-mobile-web-app-capable" content="yes">
     <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
@@ -13,46 +13,88 @@
 
         body {
             font-family: 'Pretendard', sans-serif;
+            background-color: #F7F5F0;
+            color: #2C2621;
+        }
+
+        .serif-title {
+            font-family: 'Georgia', 'Apple SD Gothic Neo', serif;
+        }
+
+        /* 고급스러운 은은한 그림자 */
+        .luxury-shadow {
+            box-shadow: 0 10px 30px -5px rgba(139, 115, 85, 0.08), 0 4px 12px -2px rgba(0, 0, 0, 0.03);
+        }
+
+        .luxury-card {
+            background: #FFFFFF;
+            border: 1px solid rgba(217, 208, 195, 0.6);
         }
     </style>
 </head>
 
-<body class="bg-slate-900 text-slate-100 min-h-screen flex flex-col select-none">
+<body class="min-h-screen flex flex-col select-none">
 
-    <!-- 상단 고정 네비게이션 앱바 -->
+    <!-- 상단 럭셔리 네비게이션 앱바 -->
     <header
-        class="bg-slate-950/90 backdrop-blur-md sticky top-0 z-30 border-b border-slate-800 px-5 py-3.5 flex items-center justify-between shadow-md">
-        <div class="flex items-center space-x-2.5">
-            <span class="text-2xl">📖</span>
-            <h1 class="font-bold text-lg tracking-tight text-white">바른 성경 주석</h1>
+        class="bg-[#F7F5F0]/90 backdrop-blur-md sticky top-0 z-30 border-b border-[#E6E1D6] px-6 py-4 flex items-center justify-between">
+        <div class="flex items-center space-x-3">
+            <div
+                class="w-9 h-9 rounded-full bg-[#2C2621] text-[#EFECE6] flex items-center justify-center text-sm font-bold shadow-sm">
+                황</div>
+            <div>
+                <h1 class="font-bold text-sm tracking-tight text-[#2C2621]">황우님의 서재</h1>
+                <p class="text-[10px] text-[#8C8275]">오늘도 마음이 깊어지는 시간</p>
+            </div>
         </div>
-        <div class="flex space-x-2">
+        <div class="flex space-x-2 bg-[#EFECE6] p-1 rounded-2xl border border-[#E6E1D6]">
             <button onclick="switchMainTab('bible')" id="nav-tab-bible"
-                class="bg-blue-600 text-white px-3.5 py-1.5 rounded-xl text-xs font-bold transition shadow">성경
-                본문</button>
+                class="bg-[#2C2621] text-[#F7F5F0] px-3.5 py-1.5 rounded-xl text-xs font-semibold transition shadow-sm">성경
+                주석</button>
             <button onclick="switchMainTab('topics')" id="nav-tab-topics"
-                class="bg-slate-800 text-slate-400 px-3.5 py-1.5 rounded-xl text-xs font-bold transition">상황별
-                묵상</button>
+                class="text-[#6B6258] hover:text-[#2C2621] px-3.5 py-1.5 rounded-xl text-xs font-semibold transition">상황별
+                위로</button>
         </div>
     </header>
 
-    <!-- 난이도 선택 플로팅 바 (성경 본문 모드일 때만 표시) -->
-    <div id="level-bar"
-        class="bg-slate-900/95 backdrop-blur border-b border-slate-800 px-4 py-3 sticky top-[61px] z-20">
-        <div class="max-w-md mx-auto flex items-center justify-between">
-            <div class="grid grid-cols-3 gap-1.5 bg-slate-950 p-1 rounded-2xl border border-slate-800 flex-1 mr-2">
+    <!-- 환영 및 동기부여 배너 (포근함과 힘을 주는 영역) -->
+    <section class="px-6 pt-6 pb-2 max-w-md w-full mx-auto">
+        <div
+            class="luxury-card rounded-3xl p-6 luxury-shadow relative overflow-hidden bg-gradient-to-br from-white via-[#FAF8F5] to-[#F3EFEA]">
+            <!-- 배경 데코 요소 -->
+            <div class="absolute -right-6 -bottom-6 w-24 h-24 bg-[#D4AF37]/10 rounded-full blur-xl"></div>
+            <div class="relative z-10 space-y-3">
+                <div
+                    class="inline-flex items-center space-x-1.5 bg-[#FAF3E0] text-[#9A7B22] px-3 py-1 rounded-full text-[11px] font-bold border border-[#F4E4BC]">
+                    <span>✨ 오늘의 영적 충전</span>
+                </div>
+                <p class="serif-title text-[#2C2621] text-base leading-relaxed font-medium">
+                    "지친 마음을 내려놓고, 온전한 평안 안에서 다시 일어설 힘을 얻으세요."
+                </p>
+                <div class="flex items-center justify-between pt-2 border-t border-[#EFECE6] text-xs text-[#6B6258]">
+                    <span>🌿 오늘의 동행 말씀 대기 중</span>
+                    <span class="font-semibold text-[#9A7B22]">Lv.3 깊은 묵상</span>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- 난이도 선택 바 (성경 본문 모드일 때만 표시) -->
+    <div id="level-bar" class="px-6 py-3 sticky top-[73px] z-20 bg-[#F7F5F0]/95 backdrop-blur">
+        <div class="max-w-md mx-auto flex items-center justify-between gap-2">
+            <div class="grid grid-cols-3 gap-1 bg-[#EFECE6] p-1 rounded-2xl border border-[#E6E1D6] flex-1">
                 <button onclick="changeLevel(1)" id="btn-1"
-                    class="py-1.5 text-xs font-bold rounded-xl bg-blue-600 text-white transition shadow">초신자용</button>
+                    class="py-1.5 text-xs font-bold rounded-xl bg-[#2C2621] text-[#F7F5F0] transition shadow-sm">초신자용</button>
                 <button onclick="changeLevel(2)" id="btn-2"
-                    class="py-1.5 text-xs font-bold rounded-xl text-slate-400 hover:text-white transition">일반
+                    class="py-1.5 text-xs font-bold rounded-xl text-[#6B6258] hover:text-[#2C2621] transition">일반
                     성도</button>
                 <button onclick="changeLevel(3)" id="btn-3"
-                    class="py-1.5 text-xs font-bold rounded-xl text-slate-400 hover:text-white transition">리더·교사</button>
+                    class="py-1.5 text-xs font-bold rounded-xl text-[#6B6258] hover:text-[#2C2621] transition">리더·교사</button>
             </div>
             <button onclick="openBookModal()"
-                class="bg-slate-800 hover:bg-slate-700 active:scale-95 transition px-3.5 py-2 rounded-xl text-xs font-bold text-blue-400 border border-slate-700 flex items-center space-x-1 shrink-0">
+                class="luxury-card hover:bg-[#FAF8F5] active:scale-95 transition px-4 py-2.5 rounded-2xl text-xs font-bold text-[#2C2621] flex items-center space-x-1.5 shrink-0 shadow-sm">
                 <span id="current-location-btn">요한복음 3장</span>
-                <svg class="w-3.5 h-3.5 ml-0.5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <svg class="w-3.5 h-3.5 text-[#8C8275]" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                     <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2.5" d="M19 9l-7 7-7-7"></path>
                 </svg>
             </button>
@@ -60,101 +102,103 @@
     </div>
 
     <!-- 메인 콘텐츠 뷰 (성경 본문) -->
-    <main id="view-bible" class="flex-1 max-w-md w-full mx-auto p-5 space-y-4 pb-32">
-        <div class="bg-slate-800/40 border border-slate-800/80 rounded-2xl p-5 shadow-xl">
-            <p class="text-xs text-blue-400 font-bold mb-4 flex items-center">
-                <span class="mr-1.5">💡</span> 구절을 터치하시면 정통 주석과 삶의 적용이 나타납니다.
+    <main id="view-bible" class="flex-1 max-w-md w-full mx-auto px-6 py-2 space-y-4 pb-32">
+        <div class="luxury-card rounded-3xl p-6 luxury-shadow space-y-4">
+            <p
+                class="text-xs text-[#9A7B22] font-bold flex items-center bg-[#FAF3E0] px-3.5 py-2 rounded-xl border border-[#F4E4BC]">
+                <span class="mr-1.5">💡</span> 구절을 터치하시면 깊이 있는 주석과 삶의 적용이 펼쳐집니다.
             </p>
-            <div id="verses-list" class="space-y-4 font-serif leading-loose text-slate-100 text-base"></div>
+            <div id="verses-list" class="space-y-3 font-serif leading-loose text-[#2C2621] text-base pt-2"></div>
         </div>
     </main>
 
-    <!-- 메인 콘텐츠 뷰 (상황별 묵상) -->
-    <main id="view-topics" class="flex-1 max-w-md w-full mx-auto p-5 space-y-4 pb-32 hidden">
-        <div class="bg-slate-800/40 border border-slate-800/80 rounded-2xl p-5 shadow-xl space-y-4">
+    <!-- 메인 콘텐츠 뷰 (상황별 위로) -->
+    <main id="view-topics" class="flex-1 max-w-md w-full mx-auto px-6 py-2 space-y-4 pb-32 hidden">
+        <div class="luxury-card rounded-3xl p-6 luxury-shadow space-y-4">
             <div>
-                <h2 class="text-base font-bold text-white flex items-center"><span class="mr-2">🧭</span> 인생 상황별 맞춤 묵상
-                </h2>
-                <p class="text-xs text-slate-400 mt-1">마음이 향하는 상황이나 주제를 선택해 위로와 지혜를 얻으세요.</p>
+                <h2 class="text-base font-bold text-[#2C2621] flex items-center serif-title"><span
+                        class="mr-2">🧭</span> 인생 상황별 맞춤 묵상</h2>
+                <p class="text-xs text-[#6B6258] mt-1">지금 마주한 상황을 선택하시면 위로와 새 힘을 얻는 구절을 안내해 드립니다.</p>
             </div>
-            <!-- 주제 태그 클라우드 -->
+            <!-- 주제 태그 클라우드 (럭셔리 스타일) -->
             <div id="topic-tags-container" class="flex flex-wrap gap-2 pt-2"></div>
         </div>
         <!-- 선택된 주제 결과 카드 -->
-        <div id="topic-result-card"
-            class="bg-slate-950 border border-slate-800 rounded-2xl p-5 space-y-4 shadow-2xl hidden">
-            <div class="flex justify-between items-center border-b border-slate-800 pb-3">
-                <span id="topic-result-title" class="text-sm font-bold text-blue-400">주제</span>
+        <div id="topic-result-card" class="luxury-card rounded-3xl p-6 space-y-4 luxury-shadow hidden bg-white">
+            <div class="flex justify-between items-center border-b border-[#EFECE6] pb-3">
+                <span id="topic-result-title"
+                    class="text-xs font-bold text-[#9A7B22] tracking-wider uppercase">주제</span>
                 <button onclick="closeTopicResult()"
-                    class="text-slate-400 hover:text-white text-xs font-bold px-2.5 py-1 bg-slate-900 border border-slate-800 rounded-xl">닫기
+                    class="text-[#6B6258] hover:text-[#2C2621] text-xs font-bold px-3 py-1 bg-[#F7F5F0] border border-[#E6E1D6] rounded-xl">닫기
                     ✕</button>
             </div>
             <p id="topic-result-verse"
-                class="text-sm text-slate-200 italic font-serif leading-relaxed bg-slate-900/60 p-3.5 rounded-xl border border-slate-800/60">
+                class="text-sm text-[#2C2621] italic font-serif leading-relaxed bg-[#F7F5F0] p-4 rounded-2xl border border-[#EFECE6]">
             </p>
-            <div class="bg-slate-900 border border-slate-800 p-4 rounded-2xl space-y-2">
+            <div class="bg-[#FAF8F5] border border-[#EFECE6] p-4 rounded-2xl space-y-2">
                 <span id="topic-result-level-label"
-                    class="text-xs font-bold text-blue-400 uppercase tracking-wider block">주석</span>
-                <p id="topic-result-commentary" class="text-slate-100 text-sm leading-relaxed font-sans"></p>
+                    class="text-[11px] font-bold text-[#9A7B22] uppercase tracking-wider block">주석</span>
+                <p id="topic-result-commentary" class="text-[#2C2621] text-sm leading-relaxed font-sans"></p>
             </div>
-            <div class="bg-blue-950/30 border border-blue-900/50 p-4 rounded-2xl space-y-2">
-                <span class="text-xs font-bold text-emerald-400 uppercase tracking-wider block flex items-center">
+            <div class="bg-[#FAF3E0]/40 border border-[#F4E4BC] p-4 rounded-2xl space-y-2">
+                <span class="text-[11px] font-bold text-[#2E7D32] uppercase tracking-wider block flex items-center">
                     <span class="mr-1.5">🌱</span> 삶의 구체적 적용
                 </span>
-                <p id="topic-result-application" class="text-slate-200 text-sm leading-relaxed font-sans"></p>
+                <p id="topic-result-application" class="text-[#2C2621] text-sm leading-relaxed font-sans"></p>
             </div>
         </div>
     </main>
 
     <!-- 선택된 절 주석 및 삶의 적용 표시 패널 (성경 본문용) -->
     <div id="commentary-panel"
-        class="fixed bottom-0 left-0 right-0 bg-slate-950 border-t border-slate-800 p-6 z-40 transform translate-y-full transition-transform duration-300 shadow-2xl max-h-[75vh] overflow-y-auto rounded-t-3xl">
+        class="fixed bottom-0 left-0 right-0 bg-white border-t border-[#E6E1D6] p-6 z-40 transform translate-y-full transition-transform duration-300 shadow-2xl max-h-[80vh] overflow-y-auto rounded-t-[32px]">
         <div class="max-w-md mx-auto space-y-4">
-            <div class="flex justify-between items-center border-b border-slate-800 pb-3">
-                <span id="panel-title" class="text-base font-bold text-blue-400">주석 내용</span>
+            <div class="flex justify-between items-center border-b border-[#EFECE6] pb-3">
+                <span id="panel-title" class="text-sm font-bold text-[#9A7B22]">주석 내용</span>
                 <button onclick="closePanel()"
-                    class="text-slate-400 hover:text-white text-xs font-bold px-3 py-1.5 bg-slate-900 border border-slate-800 rounded-xl">닫기
+                    class="text-[#6B6258] hover:text-[#2C2621] text-xs font-bold px-3 py-1.5 bg-[#F7F5F0] border border-[#E6E1D6] rounded-xl">닫기
                     ✕</button>
             </div>
             <p id="panel-verse-text"
-                class="text-sm text-slate-300 italic font-serif leading-relaxed bg-slate-900/60 p-3.5 rounded-xl border border-slate-800/60">
+                class="text-sm text-[#2C2621] italic font-serif leading-relaxed bg-[#F7F5F0] p-4 rounded-2xl border border-[#EFECE6]">
             </p>
-            <div class="bg-slate-900 border border-slate-800 p-4 rounded-2xl shadow-inner space-y-2">
+            <div class="bg-[#FAF8F5] border border-[#EFECE6] p-4 rounded-2xl space-y-2">
                 <span id="panel-level-label"
-                    class="text-xs font-bold text-blue-400 uppercase tracking-wider block">주석</span>
-                <p id="panel-commentary-text" class="text-slate-100 text-sm leading-relaxed font-sans"></p>
+                    class="text-[11px] font-bold text-[#9A7B22] uppercase tracking-wider block">주석</span>
+                <p id="panel-commentary-text" class="text-[#2C2621] text-sm leading-relaxed font-sans"></p>
             </div>
-            <div class="bg-blue-950/30 border border-blue-900/50 p-4 rounded-2xl space-y-2">
-                <span class="text-xs font-bold text-emerald-400 uppercase tracking-wider block flex items-center">
+            <div class="bg-[#FAF3E0]/40 border border-[#F4E4BC] p-4 rounded-2xl space-y-2">
+                <span class="text-[11px] font-bold text-[#2E7D32] uppercase tracking-wider block flex items-center">
                     <span class="mr-1.5">🌱</span> 삶의 구체적 적용
                 </span>
-                <p id="panel-application-text" class="text-slate-200 text-sm leading-relaxed font-sans"></p>
+                <p id="panel-application-text" class="text-[#2C2621] text-sm leading-relaxed font-sans"></p>
             </div>
         </div>
     </div>
 
     <!-- 성경 66권 전체화면 프리미엄 모달 -->
     <div id="book-modal"
-        class="fixed inset-0 bg-slate-950/90 backdrop-blur-md z-50 hidden flex flex-col transition-opacity">
-        <div class="px-5 py-4 border-b border-slate-800 flex justify-between items-center bg-slate-900">
-            <h3 class="font-bold text-lg text-white flex items-center"><span class="mr-2">📚</span> 성경 선택</h3>
+        class="fixed inset-0 bg-[#2C2621]/80 backdrop-blur-md z-50 hidden flex flex-col transition-opacity">
+        <div class="px-6 py-5 border-b border-[#3D352E] flex justify-between items-center bg-[#2C2621]">
+            <h3 class="font-bold text-base text-[#F7F5F0] serif-title flex items-center"><span class="mr-2">📚</span> 성경
+                권 선택</h3>
             <button onclick="closeBookModal()"
-                class="text-slate-400 hover:text-white text-sm font-bold bg-slate-800 px-3.5 py-1.5 rounded-xl border border-slate-700">닫기</button>
+                class="text-[#A39B8F] hover:text-white text-xs font-bold bg-[#3D352E] px-4 py-2 rounded-xl border border-[#4D433A]">닫기</button>
         </div>
-        <div class="flex border-b border-slate-800 bg-slate-900/50 px-5 pt-2">
+        <div class="flex border-b border-[#3D352E] bg-[#2C2621]/90 px-6 pt-3">
             <button onclick="switchTestament('ot')" id="tab-ot"
-                class="flex-1 pb-3 text-sm font-bold text-slate-400 border-b-2 border-transparent transition">구약
+                class="flex-1 pb-3 text-xs font-bold text-[#A39B8F] border-b-2 border-transparent transition">구약
                 (39권)</button>
             <button onclick="switchTestament('nt')" id="tab-nt"
-                class="flex-1 pb-3 text-sm font-bold text-blue-400 border-b-2 border-blue-500 transition">신약
+                class="flex-1 pb-3 text-xs font-bold text-[#D4AF37] border-b-2 border-[#D4AF37] transition">신약
                 (27권)</button>
         </div>
-        <div id="book-grid-container" class="flex-1 overflow-y-auto p-5 space-y-6"></div>
+        <div id="book-grid-container" class="flex-1 overflow-y-auto p-6 space-y-4 bg-[#F7F5F0]"></div>
     </div>
 
     <footer
-        class="bg-slate-950 border-t border-slate-800 py-3 text-center text-xs text-slate-500 fixed bottom-0 left-0 right-0 z-20">
-        개역개정 정통 보수주의 주석 시스템
+        class="bg-[#F7F5F0] border-t border-[#E6E1D6] py-4 text-center text-xs text-[#8C8275] fixed bottom-0 left-0 right-0 z-20">
+        황우님의 럭셔리 묵상 서재 • 개역개정 정통 보수주의 주석
     </footer>
 
     <script>
@@ -188,9 +232,9 @@
                 renderBible();
             } catch (error) {
                 document.getElementById('verses-list').innerHTML = `
-                    <div class="text-center py-16 text-slate-400 space-y-3">
-                        <p class="text-lg font-bold">🚧 주석 데이터 준비 중</p>
-                        <p class="text-sm text-slate-500">현재 요한복음 3장 및 상황별 묵상이 준비되어 있습니다</p>
+                    <div class="text-center py-16 text-[#8C8275] space-y-3">
+                        <p class="text-base font-bold">🚧 주석 데이터 준비 중</p>
+                        <p class="text-xs text-[#A39B8F]">현재 요한복음 3장 및 상황별 묵상이 준비되어 있습니다</p>
                     </div>`;
             }
         }
@@ -211,8 +255,8 @@
             document.getElementById('view-topics').classList.toggle('hidden', isBible);
             document.getElementById('level-bar').classList.toggle('hidden', !isBible);
 
-            document.getElementById('nav-tab-bible').className = isBible ? "bg-blue-600 text-white px-3.5 py-1.5 rounded-xl text-xs font-bold transition shadow" : "bg-slate-800 text-slate-400 px-3.5 py-1.5 rounded-xl text-xs font-bold transition";
-            document.getElementById('nav-tab-topics').className = !isBible ? "bg-blue-600 text-white px-3.5 py-1.5 rounded-xl text-xs font-bold transition shadow" : "bg-slate-800 text-slate-400 px-3.5 py-1.5 rounded-xl text-xs font-bold transition";
+            document.getElementById('nav-tab-bible').className = isBible ? "bg-[#2C2621] text-[#F7F5F0] px-3.5 py-1.5 rounded-xl text-xs font-semibold transition shadow-sm" : "text-[#6B6258] hover:text-[#2C2621] px-3.5 py-1.5 rounded-xl text-xs font-semibold transition";
+            document.getElementById('nav-tab-topics').className = !isBible ? "bg-[#2C2621] text-[#F7F5F0] px-3.5 py-1.5 rounded-xl text-xs font-semibold transition shadow-sm" : "text-[#6B6258] hover:text-[#2C2621] px-3.5 py-1.5 rounded-xl text-xs font-semibold transition";
             if (isBible) closePanel();
         }
 
@@ -223,9 +267,9 @@
             listContainer.innerHTML = "";
             currentData.verses.forEach((item, index) => {
                 listContainer.innerHTML += `
-                    <div onclick="selectVerse(${index})" class="p-3.5 rounded-2xl transition cursor-pointer hover:bg-slate-800/80 border border-transparent hover:border-slate-700 flex items-start space-x-3 active:scale-[0.99]">
-                        <span class="bg-blue-600/20 text-blue-400 font-bold px-2.5 py-1 rounded-xl text-sm mt-0.5 shrink-0">${item.verse}절</span>
-                        <p class="text-slate-100 flex-1">${item.text}</p>
+                    <div onclick="selectVerse(${index})" class="p-4 rounded-2xl transition cursor-pointer hover:bg-[#FAF8F5] border border-transparent hover:border-[#E6E1D6] flex items-start space-x-3.5 active:scale-[0.99]">
+                        <span class="bg-[#FAF3E0] text-[#9A7B22] font-bold px-2.5 py-1 rounded-xl text-xs mt-0.5 shrink-0 border border-[#F4E4BC]">${item.verse}절</span>
+                        <p class="text-[#2C2621] flex-1">${item.text}</p>
                     </div>`;
             });
         }
@@ -235,7 +279,7 @@
             container.innerHTML = "";
             Object.keys(topicsData).forEach(topicName => {
                 container.innerHTML += `
-                    <button onclick="selectTopic('${topicName}')" class="bg-slate-900 hover:bg-blue-600/20 text-slate-300 hover:text-blue-400 border border-slate-800 hover:border-blue-500/30 px-3 py-2 rounded-xl text-xs font-semibold transition active:scale-95 shadow-sm">
+                    <button onclick="selectTopic('${topicName}')" class="bg-white hover:bg-[#FAF3E0] text-[#2C2621] hover:text-[#9A7B22] border border-[#E6E1D6] hover:border-[#F4E4BC] px-3.5 py-2 rounded-xl text-xs font-semibold transition active:scale-95 shadow-sm">
                         # ${topicName}
                     </button>`;
             });
@@ -287,8 +331,8 @@
             currentLevel = level;
             for (let i = 1; i <= 3; i++) {
                 document.getElementById(`btn-${i}`).className = (i === level)
-                    ? "py-1.5 text-xs font-bold rounded-xl bg-blue-600 text-white transition shadow"
-                    : "py-1.5 text-xs font-bold rounded-xl text-slate-400 hover:text-white transition";
+                    ? "py-1.5 text-xs font-bold rounded-xl bg-[#2C2621] text-[#F7F5F0] transition shadow-sm"
+                    : "py-1.5 text-xs font-bold rounded-xl text-[#6B6258] hover:text-[#2C2621] transition";
             }
             if (activeVerseIndex !== null) selectVerse(activeVerseIndex);
         }
@@ -298,8 +342,8 @@
 
         function switchTestament(testament) {
             currentTestament = testament;
-            document.getElementById('tab-ot').className = testament === 'ot' ? "flex-1 pb-3 text-sm font-bold text-blue-400 border-b-2 border-blue-500 transition" : "flex-1 pb-3 text-sm font-bold text-slate-400 border-b-2 border-transparent transition";
-            document.getElementById('tab-nt').className = testament === 'nt' ? "flex-1 pb-3 text-sm font-bold text-blue-400 border-b-2 border-blue-500 transition" : "flex-1 pb-3 text-sm font-bold text-slate-400 border-b-2 border-transparent transition";
+            document.getElementById('tab-ot').className = testament === 'ot' ? "flex-1 pb-3 text-xs font-bold text-[#D4AF37] border-b-2 border-[#D4AF37] transition" : "flex-1 pb-3 text-xs font-bold text-[#A39B8F] border-b-2 border-transparent transition";
+            document.getElementById('tab-nt').className = testament === 'nt' ? "flex-1 pb-3 text-xs font-bold text-[#D4AF37] border-b-2 border-[#D4AF37] transition" : "flex-1 pb-3 text-xs font-bold text-[#A39B8F] border-b-2 border-transparent transition";
             renderBookGrid();
         }
 
@@ -308,15 +352,15 @@
             const books = bibleDataMap[currentTestament];
             let html = '<div class="grid grid-cols-1 gap-3 max-w-md mx-auto">';
             books.forEach(b => {
-                html += `<div class="bg-slate-900 border border-slate-800 rounded-2xl p-4 space-y-3 shadow-sm">
-                    <div class="flex justify-between items-center"><span class="font-bold text-base text-white">${b.name}</span><span class="text-xs text-slate-400 bg-slate-800 px-2.5 py-1 rounded-lg">총 ${b.chapters}장</span></div>
+                html += `<div class="bg-white border border-[#E6E1D6] rounded-2xl p-4 space-y-3 shadow-sm">
+                    <div class="flex justify-between items-center"><span class="font-bold text-sm text-[#2C2621]">${b.name}</span><span class="text-xs text-[#8C8275] bg-[#F7F5F0] px-2.5 py-1 rounded-xl">총 ${b.chapters}장</span></div>
                     <div class="flex flex-wrap gap-1.5">`;
                 for (let c = 1; c <= Math.min(b.chapters, 5); c++) {
                     let isSample = (b.code === 'jhn' && c === 3);
-                    let activeClass = isSample ? 'bg-blue-600 text-white font-bold shadow' : 'bg-slate-800/80 text-slate-300 hover:bg-slate-700';
+                    let activeClass = isSample ? 'bg-[#2C2621] text-[#F7F5F0] font-bold shadow-sm' : 'bg-[#F7F5F0] text-[#2C2621] hover:bg-[#EFECE6]';
                     html += `<button onclick="selectBookAndChapter('${b.code}', ${c}, ${isSample})" class="w-10 h-10 rounded-xl text-xs font-semibold ${activeClass} transition flex items-center justify-center">${c}</button>`;
                 }
-                if (b.chapters > 5) html += `<span class="text-xs text-slate-500 self-center px-2">외 ${b.chapters - 5}개 장 준비 중</span>`;
+                if (b.chapters > 5) html += `<span class="text-xs text-[#A39B8F] self-center px-2">외 ${b.chapters - 5}개 장 준비 중</span>`;
                 html += `</div></div>`;
             });
             container.innerHTML = html + '</div>';
@@ -328,7 +372,7 @@
             if (isReady) {
                 loadBookData(code);
             } else {
-                document.getElementById('verses-list').innerHTML = `<div class="text-center py-16 text-slate-400 space-y-3"><p class="text-base font-bold">🚧 ${code.toUpperCase()} ${chapter}장 데이터 준비 중</p><p class="text-sm text-slate-500">요한복음 3장 샘플을 이용해 주세요!</p></div>`;
+                document.getElementById('verses-list').innerHTML = `<div class="text-center py-16 text-[#8C8275] space-y-3"><p class="text-base font-bold">🚧 ${code.toUpperCase()} ${chapter}장 데이터 준비 중</p><p class="text-xs text-[#A39B8F]">요한복음 3장 샘플을 이용해 주세요!</p></div>`;
                 document.getElementById('current-location-btn').innerText = `${code} ${chapter}장`;
             }
         }
