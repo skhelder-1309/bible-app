@@ -239,7 +239,6 @@
             align-items: center;
         }
 
-        /* 성경 66권 선택 그리드 */
         .bible-grid {
             display: grid;
             grid-template-columns: repeat(3, 1fr);
@@ -269,7 +268,6 @@
             border-color: var(--accent-warm);
         }
 
-        /* 상황별 묵상 버튼 리스트 */
         .situation-grid {
             display: grid;
             grid-template-columns: repeat(2, 1fr);
@@ -294,7 +292,6 @@
             background: #FFEDD5;
         }
 
-        /* 장(Chapter) 선택 바 */
         .chapter-selector {
             display: flex;
             gap: 6px;
@@ -321,48 +318,90 @@
             border-color: var(--accent-warm);
         }
 
-        .verse-line {
-            padding: 12px;
-            margin-bottom: 10px;
-            border-radius: 12px;
+        /* 구절 리스트 스타일 (클릭형) */
+        .verse-item {
             background: #FAFAFA;
             border: 1px solid #EFECE6;
+            border-radius: 12px;
+            padding: 12px 14px;
+            margin-bottom: 8px;
+            cursor: pointer;
+            transition: all 0.2s;
         }
 
-        .verse-header-row {
+        .verse-item:hover {
+            background: #FFF5EB;
+            border-color: #F97316;
+        }
+
+        .verse-item-header {
             display: flex;
             justify-content: space-between;
             align-items: center;
-            margin-bottom: 6px;
         }
 
-        .verse-text-content {
-            font-size: 0.95rem;
-            line-height: 1.5;
-            color: var(--text-main);
-            font-weight: 500;
-        }
-
-        .verse-num {
+        .verse-num-badge {
             font-weight: 700;
             color: var(--accent-warm);
+            font-size: 0.85rem;
         }
 
-        /* 4단계 단계별 주석 버튼 그룹 */
-        .step-btns {
+        .verse-preview-text {
+            font-size: 0.9rem;
+            color: var(--text-muted);
+            margin-top: 4px;
+            white-space: nowrap;
+            overflow: hidden;
+            text-overflow: ellipsis;
+        }
+
+        /* 선택된 구절 상세 뷰 패널 */
+        .verse-detail-panel {
+            background: #FFFDF9;
+            border: 2px solid var(--accent-warm);
+            border-radius: 14px;
+            padding: 16px;
+            margin-top: 15px;
+            box-shadow: 0 6px 20px rgba(194, 65, 12, 0.1);
+        }
+
+        .active-verse-title {
+            font-size: 1rem;
+            font-weight: 700;
+            color: var(--accent-warm);
+            margin-bottom: 8px;
             display: flex;
-            gap: 3px;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .active-verse-body {
+            font-size: 1rem;
+            line-height: 1.6;
+            color: var(--text-main);
+            font-weight: 600;
+            margin-bottom: 14px;
+            padding-bottom: 10px;
+            border-bottom: 1px dashed #E7DFD3;
+        }
+
+        .step-btns {
+            display: grid;
+            grid-template-columns: repeat(4, 1fr);
+            gap: 4px;
+            margin-bottom: 12px;
         }
 
         .step-icon-btn {
             background: white;
             border: 1px solid #D6C7B2;
-            padding: 4px 6px;
-            border-radius: 6px;
-            font-size: 0.68rem;
+            padding: 8px 4px;
+            border-radius: 8px;
+            font-size: 0.75rem;
             font-weight: 600;
             color: var(--text-muted);
             cursor: pointer;
+            text-align: center;
             transition: all 0.15s;
         }
 
@@ -373,33 +412,14 @@
             border-color: var(--accent-warm);
         }
 
-        .step-detail-box {
-            margin-top: 10px;
-            background: #FDFBF7;
-            border: 1px dashed #D6C7B2;
+        .step-content-box {
+            background: #FDF4ED;
+            border: 1px solid #FED7AA;
             border-radius: 10px;
             padding: 12px;
             font-size: 0.85rem;
             line-height: 1.6;
             color: var(--text-main);
-            display: none;
-        }
-
-        .step-detail-box.show {
-            display: block;
-            animation: fadeIn 0.25s ease-in-out;
-        }
-
-        @keyframes fadeIn {
-            from {
-                opacity: 0;
-                transform: translateY(-3px);
-            }
-
-            to {
-                opacity: 1;
-                transform: translateY(0);
-            }
         }
 
         .bottom-nav {
@@ -474,7 +494,7 @@
                         </div>
                     </div>
                     <div class="profile-desc">
-                        "66권 전체 장·절 완전 연동 및 4단계 맞춤 주석 서재 ✨"
+                        "구절별 클릭형 맞춤 주석과 실시간 성경 탐색 서재 ✨"
                     </div>
                     <div class="stats-row">
                         <div class="stat-box">
@@ -490,9 +510,7 @@
 
                 <div class="content-card">
                     <div class="card-title">📚 성경 66권 전체 선택</div>
-                    <div class="bible-grid" id="home-bible-grid">
-                        <!-- 66권 버튼 동적 생성 -->
-                    </div>
+                    <div class="bible-grid" id="home-bible-grid"></div>
                 </div>
 
                 <div class="content-card">
@@ -506,17 +524,20 @@
                 </div>
             </div>
 
-            <!-- 2. 성경 66권 및 전체 절 본문 뷰 -->
+            <!-- 2. 성경 66권 및 절 선택 뷰 -->
             <div id="view-bible" class="view-section">
                 <div class="content-card">
                     <div class="card-title">
                         <span id="current-book-title">창세기 1장 본문</span>
-                        <span style="font-size:0.72rem; color:var(--text-muted);">전체 절 연동</span>
+                        <span style="font-size:0.72rem; color:var(--text-muted);">원하시는 절을 클릭하세요</span>
                     </div>
-                    <!-- 장 선택 버튼 바 -->
                     <div class="chapter-selector" id="chapter-selector"></div>
-                    <!-- 해당 장의 모든 절이 출력되는 컨테이너 -->
-                    <div id="verses-container"></div>
+
+                    <!-- 선택된 구절 상세 보기 영역 (상단 고정 노출) -->
+                    <div id="selected-verse-detail-area"></div>
+
+                    <!-- 절 목록 리스트 -->
+                    <div id="verses-list-container" style="margin-top: 10px;"></div>
                 </div>
             </div>
 
@@ -524,17 +545,16 @@
             <div id="view-situation" class="view-section">
                 <div class="content-card">
                     <div class="card-title">🎯 상황에 따른 성경 구절 선택</div>
-                    <p style="font-size: 0.85rem; color: var(--text-muted); margin-bottom: 12px;">현재 마주한 상황에 맞는 말씀을 선택하여
-                        깊이 있는 묵상을 시작해보세요.</p>
+                    <p style="font-size: 0.85rem; color: var(--text-muted); margin-bottom: 12px;">마주한 상황을 선택하면 곧바로 은혜의
+                        말씀으로 이동합니다.</p>
                     <div class="situation-grid" style="grid-template-columns: 1fr;">
-                        <button class="situation-btn" onclick="selectSituation('위로가 필요할 때')">🌿 위로가 필요할 때 (시편 23편, 고린도후서
-                            1장)</button>
-                        <button class="situation-btn" onclick="selectSituation('두려울 때')">🛡️ 두려울 때 (이사야 41장, 여호수아
-                            1장)</button>
-                        <button class="situation-btn" onclick="selectSituation('감사가 넘칠 때')">✨ 감사가 넘칠 때 (시편 100편, 데살로니가전서
-                            5장)</button>
-                        <button class="situation-btn" onclick="selectSituation('지혜가 필요할 때')">💡 지혜가 필요할 때 (잠언 3장, 야고보서
-                            1장)</button>
+                        <button class="situation-btn" onclick="selectSituation('위로가 필요할 때')">🌿 위로가 필요할 때 (시편
+                            23편)</button>
+                        <button class="situation-btn" onclick="selectSituation('두려울 때')">🛡️ 두려울 때 (이사야 41장)</button>
+                        <button class="situation-btn" onclick="selectSituation('감사가 넘칠 때')">✨ 감사가 넘칠 때 (시편
+                            100편)</button>
+                        <button class="situation-btn" onclick="selectSituation('지혜가 필요할 때')">💡 지혜가 필요할 때 (잠언
+                            3장)</button>
                     </div>
                 </div>
             </div>
@@ -561,7 +581,7 @@
                     <h3 style="color: var(--text-main); margin-bottom: 15px;">⚙️ 앱 설정</h3>
                     <p style="font-size: 0.9rem; color: var(--text-muted); margin-bottom: 10px;">• 사용자: 황우님</p>
                     <p style="font-size: 0.9rem; color: var(--text-muted); margin-bottom: 10px;">• 구성: 구약 39권 + 신약 27권
-                        전체 장·절 연동 완료</p>
+                        구절별 클릭 연동</p>
                     <p style="font-size: 0.9rem; color: var(--text-muted); margin-bottom: 20px;">• 테마: 웜 크림 베이지</p>
                     <button onclick="alert('설정이 저장되었습니다.')"
                         style="width: 100%; background: var(--accent-warm); color: white; border: none; padding: 10px; border-radius: 10px; font-weight: 600; cursor: pointer;">저장하기</button>
@@ -596,62 +616,83 @@
     </div>
 
     <script>
-        // 성경 66권 전체 목록
         const bibleBooks = [
             "창세기", "출애굽기", "레위기", "민수기", "신명기", "여호수아", "사사기", "룻기", "사무엘상", "사무엘하",
             "열왕기상", "열왕기하", "역대상", "역대하", "에스라", "느헤미야", "에스더", "욥기", "시편", "잠언",
-            "전도서", "아가", "이사야", "예레미야", "예레미야애가", "E스겔", "다니엘", "호세아", "요엘", "아모스",
+            "전도서", "아가", "이사야", "예레미야", "예레미야애가", "에스겔", "다니엘", "호세아", "요엘", "아모스",
             "오바댜", "요나", "미가", "나훔", "하박국", "스바냐", "학개", "스가랴", "말라기",
             "마태복음", "마가복음", "누가복음", "요한복음", "사도행전", "로마서", "고린도전서", "고린도후서", "갈라디아서", "에베소서",
             "빌립보서", "골로새서", "데살로니가전서", "데살로니가후서", "디모데전서", "디모데후서", "디도서", "빌레몬서", "히브리서", "야고보서",
             "베드로전서", "베드로후서", "요한일서", "요한이서", "요한삼서", "유다서", "요한계시록"
         ];
 
-        // 각 권별 실제 장(Chapter) 수 상세 정의 (풍부한 탐색 제공)
-        function getChapterCount(bookName) {
-            const chapMap = {
-                "창세기": 50, "출애굽기": 40, "레위기": 27, "민수기": 36, "신명기": 34,
-                "여호수아": 24, "사사기": 21, "룻기": 4, "사무엘상": 31, "사무엘하": 24,
-                "열왕기상": 22, "열왕기하": 25, "역대상": 29, "역대하": 36, "에스라": 10,
-                "느헤미야": 13, "에스더": 10, "욥기": 42, "시편": 150, "잠언": 31,
-                "전도서": 12, "아가": 8, "이사야": 66, "예레미야": 52, "예레미야애가": 5,
-                "E스겔": 48, "다니엘": 12, "호세아": 14, "요엘": 3, "아모스": 9,
-                "오바댜": 1, "요나": 4, "미가": 7, "나훔": 3, "하박국": 3,
-                "스바냐": 3, "학개": 2, "스가랴": 14, "말라기": 4,
-                "마태복음": 28, "마가복음": 16, "누가복음": 24, "요한복음": 21, "사도행전": 28,
-                "로마서": 16, "고린도전서": 16, "고린도후서": 13, "갈라디아서": 6, "에베소서": 6,
-                "빌립보서": 4, "골로새서": 4, "데살로니가전서": 5, "데살로니가후서": 3, "디모데전서": 6,
-                "디모데후서": 4, "디도서": 3, "빌레몬서": 1, "히브리서": 13, "야고보서": 5,
-                "베드로전서": 5, "베드로후서": 3, "요한일서": 5, "요한이서": 1, "요한삼서": 1,
-                "유다서": 1, "요한계시록": 22
-            };
-            return chapMap[bookName] || 20; // 기본값
-        }
+        // 실제 유효한 성경 본문 샘플 데이터베이스 (필요 시 확장 가능)
+        const realBibleData = {
+            "창세기": {
+                1: {
+                    1: "태초에 하나님이 천지를 창조하시니라",
+                    2: "땅이 혼돈하고 공허하며 흑암이 깊음 위에 있고 하나님의 영은 수면 위에 운행하시니라",
+                    3: "하나님이 이르시되 빛이 있으라 하시니 빛이 있었고",
+                    4: "빛이 하나님이 보시기에 좋았더라 하나님이 빛과 어둠을 나누사",
+                    5: "하나님이 빛을 낮이라 부르시고 어둠을 밤이라 부르시니라 저녁이 되고 아침이 되니 이는 첫째 날이니라"
+                }
+            },
+            "요한복음": {
+                1: {
+                    1: "태초에 말씀이 계시니라 이 말씀이 하나님과 함께 계셨으니 이 말씀은 곧 하나님이시니라",
+                    2: "그가 태초에 하나님과 함께 계셨고",
+                    3: "만물이 그로 말미암아 지은 바 되었으니 지은 것이 하나도 그가 없이는 된 것이 없느니라",
+                    4: "그 안에 생명이 있었으니 이 생명은 사람들의 빛이라"
+                },
+                3: {
+                    16: "하나님이 세상을 이처럼 사랑하사 독생자를 주셨으니 이는 그를 믿는 자마다 멸망하지 않고 영생을 얻게 하려 하심이라",
+                    17: "하나님이 그 아들을 세상에 보내신 것은 세상을 심판하려 하심이 아니요 그로 말미암아 세상이 구원을 받게 하려 하심이라"
+                }
+            },
+            "시편": {
+                23: {
+                    1: "여호와는 나의 목자시니 내게 부족함이 없으리로다",
+                    2: "그가 나를 푸른 풀밭에 누이시며 쉴 만한 물 가로 인도하시는도다",
+                    3: "내 영혼을 소생시키시고 자기 이름을 위하여 의의 길로 인도하시는도다",
+                    4: "내가 사망의 음침한 골짜기로 다닐지라도 해를 두려워하지 않을 것은 주께서 나와 함께 하심이라 주의 지팡이와 막대기가 나를 안위하시나이다"
+                },
+                100: {
+                    1: "온 땅이여 여호와께 즐거운 찬송을 부를지어다",
+                    2: "기쁨으로 여호와를 섬기며 노래하면서 그의 앞에 나아갈지어다",
+                    3: "여호와가 우리 하나님이신 줄 너희는 알지어다 그는 우리를 지으신 이요 우리는 그의 것이니 그의 백성이요 그의 기르시는 양이로다"
+                }
+            }
+        };
 
-        // 각 권/장별 실제 마지막 절(Verse) 개수를 동적으로 산출 (3절 제한 완전 해제)
-        function getVerseCount(bookName, chapterNum) {
-            // 시편 등 대표적인 장의 구체적인 절 수 반영, 그 외 기본 30~35절의 풍부한 본문 제공
-            if (bookName === "시편" && chapterNum === 23) return 6;
-            if (bookName === "창세기" && chapterNum === 1) return 31;
-            if (bookName === "요한복음" && chapterNum === 3) return 36;
-            return 30; // 기본적으로 각 장마다 30절 이상의 전체 구절이 끊김 없이 연동됨
-        }
+        let currentBook = "창세기";
+        let currentChapter = 1;
+        let activeVerseNum = 1; // 기본선택된 절
 
-        // 홈 화면에 66권 버튼 전체 생성
+        // 홈 화면 66권 버튼 생성
         const gridContainer = document.getElementById('home-bible-grid');
         bibleBooks.forEach(book => {
             const btn = document.createElement('button');
             btn.className = 'bible-book-btn';
             btn.innerText = book;
-            btn.onclick = () => selectBook(book, 1);
+            btn.onclick = () => selectBook(book, 1, 1);
             gridContainer.appendChild(btn);
         });
 
-        function selectBook(bookName, chapterNum) {
-            document.getElementById('current-book-title').innerText = `${bookName} ${chapterNum}장 본문`;
+        function getChapterCount(bookName) {
+            const map = { "창세기": 50, "출애굽기": 40, "시편": 150, "잠언": 31, "이사야": 66, "마태복음": 28, "요한복음": 21, "로마서": 16 };
+            return map[bookName] || 10;
+        }
+
+        function selectBook(bookName, chapterNum, verseNum = 1) {
+            currentBook = bookName;
+            currentChapter = chapterNum;
+            activeVerseNum = verseNum;
+
+            document.getElementById('current-book-title').innerText = `${bookName} ${chapterNum}장`;
             buildChapterSelector(bookName, chapterNum);
-            loadVerses(bookName, chapterNum);
-            switchTab(1); // 성경66권 탭으로 이동
+            loadVersesList(bookName, chapterNum);
+
+            switchTab(1);
         }
 
         function buildChapterSelector(bookName, activeChap) {
@@ -659,87 +700,122 @@
             selectorContainer.innerHTML = '';
             const totalChap = getChapterCount(bookName);
 
-            for (let c = 1; c <= totalChap; c++) {
+            for (let c = 1; c <= Math.min(totalChap, 15); c++) { // UI 깔끔하게 최대 15장까지 표시
                 const cBtn = document.createElement('button');
                 cBtn.className = `chapter-btn ${c === activeChap ? 'active' : ''}`;
                 cBtn.innerText = `${c}장`;
-                cBtn.onclick = () => selectBook(bookName, c);
+                cBtn.onclick = () => selectBook(bookName, c, 1);
                 selectorContainer.appendChild(cBtn);
             }
         }
 
-        // **전체 절(Verse)이 온전하게 다 출력되도록 수정된 로직**
-        function loadVerses(bookName, chapterNum) {
-            const container = document.getElementById('verses-container');
-            container.innerHTML = '';
+        // 특정 장의 절 리스트 로드 및 클릭 이벤트 바인딩
+        function loadVersesList(bookName, chapterNum) {
+            const listContainer = document.getElementById('verses-list-container');
+            listContainer.innerHTML = '';
 
-            const maxVerses = getVerseCount(bookName, chapterNum);
+            // 데이터가 없으면 기본 샘플 생성
+            let verses = (realBibleData[bookName] && realBibleData[bookName][chapterNum]) || {
+                1: `${bookName} ${chapterNum}장 1절의 말씀입니다. (본문 업데이트 예정)`,
+                2: `${bookName} ${chapterNum}장 2절의 말씀입니다. 주의 은혜를 구합니다.`,
+                3: `${bookName} ${chapterNum}장 3절의 말씀입니다. 늘 동행하여 주소서.`,
+                4: `${bookName} ${chapterNum}장 4절의 말씀입니다. 순종의 삶을 살게 하소서.`,
+                5: `${bookName} ${chapterNum}장 5절의 말씀입니다. 평안을 누리라.`
+            };
 
-            for (let verseNum = 1; verseNum <= maxVerses; verseNum++) {
-                const verseHTML = `
-                    <div class="verse-line">
-                        <div class="verse-header-row">
-                            <span class="verse-num">${verseNum}절</span>
-                            <div class="step-btns">
-                                <button class="step-icon-btn" onclick="showStep(${verseNum}, 1, '${bookName}', ${chapterNum})">1.어린이</button>
-                                <button class="step-icon-btn" onclick="showStep(${verseNum}, 2, '${bookName}', ${chapterNum})">2.신자</button>
-                                <button class="step-icon-btn" onclick="showStep(${verseNum}, 3, '${bookName}', ${chapterNum})">3.신학자</button>
-                                <button class="step-icon-btn" onclick="showStep(${verseNum}, 4, '${bookName}', ${chapterNum})">4.적용</button>
-                            </div>
-                        </div>
-                        <div class="verse-text-content">[${bookName} ${chapterNum}장 ${verseNum}절] 주 안에서 온전한 은혜와 진리의 말씀이 선포되며, 우리의 영혼을 새롭게 채우는 생명의 메시지입니다.</div>
-                        <div id="detail-${verseNum}" class="step-detail-box"></div>
+            // 만약 현재 activeVerse가 해당 장에 없으면 첫 번째 절 선택
+            if (!verses[activeVerseNum]) {
+                activeVerseNum = Object.keys(verses)[0];
+            }
+
+            // 상단에 선택된 절의 상세 묵상 박스 렌더링
+            renderSelectedVerseDetail(bookName, chapterNum, activeVerseNum, verses[activeVerseNum]);
+
+            // 하단에 각 절 목록 렌더링 (클릭하면 바로 위 상세 박스가 변경됨)
+            for (let [vNum, vText] of Object.entries(verses)) {
+                const item = document.createElement('div');
+                item.className = 'verse-item';
+                if (Number(vNum) === Number(activeVerseNum)) {
+                    item.style.borderColor = 'var(--accent-warm)';
+                    item.style.background = '#FFF5EB';
+                }
+                item.onclick = () => {
+                    activeVerseNum = Number(vNum);
+                    loadVersesList(bookName, chapterNum); // 재렌더링으로 활성화 상태 갱신
+                };
+                item.innerHTML = `
+                    <div class="verse-item-header">
+                        <span class="verse-num-badge">${vNum}절</span>
+                        <span style="font-size: 0.75rem; color: var(--accent-warm); font-weight: 600;">묵상하기 &gt;</span>
                     </div>
+                    <div class="verse-preview-text">${vText}</div>
                 `;
-                container.innerHTML += verseHTML;
+                listContainer.appendChild(item);
             }
         }
 
-        // 상황별 구절 선택 핸들러
-        function selectSituation(situationName) {
-            alert(`[${situationName}]에 맞는 맞춤형 성경 구절과 묵상 리스트를 불러옵니다.`);
-            selectBook("시편", 23);
+        // 선택된 절의 본문과 4단계 주석 렌더링
+        function renderSelectedVerseDetail(book, chap, vNum, text) {
+            const area = document.getElementById('selected-verse-detail-area');
+            area.innerHTML = `
+                <div class="verse-detail-panel">
+                    <div class="active-verse-title">
+                        <span>📖 ${book} ${chap}장 ${vNum}절</span>
+                        <span style="font-size:0.75rem; color:var(--text-muted);">클릭됨</span>
+                    </div>
+                    <div class="active-verse-body">"${text}"</div>
+                    <div class="step-btns">
+                        <button class="step-icon-btn active" onclick="switchStepContent(1, '${book}', ${chap}, ${vNum})">1단계<br>어린이</button>
+                        <button class="step-icon-btn" onclick="switchStepContent(2, '${book}', ${chap}, ${vNum})">2단계<br>일반신자</button>
+                        <button class="step-icon-btn" onclick="switchStepContent(3, '${book}', ${chap}, ${vNum})">3단계<br>신학자</button>
+                        <button class="step-icon-btn" onclick="switchStepContent(4, '${book}', ${chap}, ${vNum})">4단계<br>삶적용</button>
+                    </div>
+                    <div id="active-step-content" class="step-content-box">
+                        ${getStepText(1, book, chap, vNum)}
+                    </div>
+                </div>
+            `;
         }
 
-        // 초기 실행 시 창세기 1장 로드
-        selectBook("창세기", 1);
+        function switchStepContent(stepNum, book, chap, vNum) {
+            const box = document.getElementById('active-step-content');
+            box.innerHTML = getStepText(stepNum, book, chap, vNum);
 
-        // 4단계 단계별 주석 내용 생성
-        function showStep(verseId, stepNum, bookName, chapterNum) {
-            const detailBox = document.getElementById(`detail-${verseId}`);
-            const parentCard = detailBox.parentElement;
-            const buttons = parentCard.querySelectorAll('.step-icon-btn');
-
+            const buttons = document.querySelectorAll('.verse-detail-panel .step-icon-btn');
             buttons.forEach((btn, idx) => {
-                if (idx + 1 === stepNum) {
-                    if (btn.classList.contains('active') && detailBox.classList.contains('show')) {
-                        btn.classList.remove('active');
-                        detailBox.classList.remove('show');
-                    } else {
-                        btn.classList.add('active');
-                        detailBox.innerHTML = getLevelContent(stepNum, bookName, chapterNum, verseId);
-                        detailBox.classList.add('show');
-                    }
-                } else {
-                    btn.classList.remove('active');
-                }
+                btn.classList.toggle('active', idx + 1 === stepNum);
             });
         }
 
-        function getLevelContent(sNum, book, chap, vNum) {
+        function getStepText(sNum, book, chap, vNum) {
             if (sNum === 1) {
-                return `<strong>[1단계: 어린이·초신자 눈높이 설명]</strong><br>${book} ${chap}장 ${vNum}절은 하나님이 우리를 아주 많이 사랑하시고 언제나 곁에서 지켜주신다는 따뜻한 말씀이에요!`;
+                return `<strong>[1단계: 어린이·초신자 눈높이 설명]</strong><br>${book} ${chap}장 ${vNum}절은 하나님이 우리를 아주 많이 사랑하셔서 안전하게 지켜주신다는 따뜻한 이야기예요!`;
             }
             if (sNum === 2) {
-                return `<strong>[2단계: 일반 신자 깊이 있는 묵상]</strong><br>이 구절은 우리의 일상 속에서 하나님의 인도하심을 신뢰하고, 매 순간 믿음의 순종을 드려야 함을 깊이 일깨워 줍니다.`;
+                return `<strong>[2단계: 일반 신자 깊이 있는 묵상]</strong><br>이 구절은 우리의 일상 속에서 하나님의 신실하심을 의지하고, 주 안에서 담대함을 얻도록 이끌어 줍니다.`;
             }
             if (sNum === 3) {
-                return `<strong>[3단계: 신학자 단계 (원어 및 배경 분석)]</strong><br>본문의 역사·문학적 구조와 원어적 뉘앙스를 고찰할 때, 하나님의 구속사적 경륜과 언약적 신실하심이 선명하게 드러나는 구절입니다.`;
+                return `<strong>[3단계: 신학자 단계 (원어 및 배경 분석)]</strong><br>본문의 원어적 의미와 역사적 문맥을 살펴볼 때, 하나님의 주권적인 은혜와 구속사적 언약이 강력하게 선포되는 구절입니다.`;
             }
-            return `<strong>[4단계: 삶의 적용]</strong><br>오늘 하루 ${book} ${chap}장의 이 말씀을 붙들고, 내 삶의 자리에서 이웃을 사랑하며 거룩한 실천을 이루어 나갑시다.`;
+            return `<strong>[4단계: 삶의 적용]</strong><br>오늘 하루 ${book} ${chap}장 ${vNum}절의 말씀을 마음에 품고, 내 삶의 자리에서 사랑과 순종을 구체적으로 실천해 봅시다.`;
         }
 
-        // 탭 전환 함수
+        // 상황별 구절 연결
+        function selectSituation(situationName) {
+            if (situationName.includes('위로')) {
+                selectBook("시편", 23, 1);
+            } else if (situationName.includes('두려움') || situationName.includes('두려울')) {
+                selectBook("시편", 23, 4);
+            } else if (situationName.includes('감사')) {
+                selectBook("시편", 100, 1);
+            } else {
+                selectBook("요한복음", 3, 16);
+            }
+        }
+
+        // 초기 실행
+        selectBook("창세기", 1, 1);
+
         function switchTab(tabIndex) {
             const views = document.querySelectorAll('.view-section');
             const tabItems = document.querySelectorAll('.tab-menu-bar .tab-item');
